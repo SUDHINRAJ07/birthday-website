@@ -49,6 +49,20 @@
 
         <!-- TAB 1: CONTENT -->
         <div class="tab-pane active" id="tab-content">
+          <!-- Birthday Template Style Switcher -->
+          <div class="form-group" style="background: #fff0f5; border: 1.5px dashed #f472b6; padding: 16px; border-radius: 18px; margin-bottom: 24px;">
+            <label class="form-label" style="margin-bottom: 8px;">Select Interactive Experience Style ✨</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <button type="button" class="btn btn-sm btn-template-toggle {% if not template or template != 'penguin-scrapbook' %}btn-primary{% else %}btn-outline{% endif %}" data-tpl="classic-birthday">
+                <span>🔒 6-Stage Journey</span>
+              </button>
+              <button type="button" class="btn btn-sm btn-template-toggle {% if template == 'penguin-scrapbook' %}btn-primary{% else %}btn-outline{% endif %}" data-tpl="penguin-scrapbook">
+                <span>🐧 Penguin Scrapbook</span>
+              </button>
+            </div>
+            <input type="hidden" name="template" id="selected_template_slug" value="{{ surprise.template_slug if surprise and surprise.template_slug else template or 'classic-birthday' }}">
+          </div>
+
           <div class="form-group">
             <label class="form-label" for="recipient_name">Whose Birthday / Celebration is it? <span class="req">*</span></label>
             <input type="text" id="recipient_name" name="recipient_name" class="form-input" placeholder="e.g. Priya, Akka, Bestie, Rahul..." value="{{ surprise.recipient_name if surprise else '' }}" required>

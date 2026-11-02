@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ surprise.headline }} – For {{ surprise.recipient_name }} ♡</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Gaegu:wght@700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Sniglet:wght@800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/penguin.css') }}">
+</head>
+<body class="penguin-page">
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Sound Toggle Pill -->
+  <div class="penguin-sound-pill" id="sound-pill" title="Toggle Music">
+    <span>🎵</span>
+  </div>
+
+  <div class="penguin-stage-wrapper">
+
+    <!-- ==========================================
+         SCREEN 1: "PLS ACCEPT THE GIFT"
+         ========================================== -->
+    <div class="penguin-screen active" id="screen-accept">
+      <div class="paper-dialog-card">
+        <h1 class="penguin-title">PLS ACCEPT THE GIFT</h1>
+
+        <div class="penguin-avatar-box" id="avatar-happy">
+          <!-- Animated Chubby Penguin -->
+          <svg viewBox="0 0 160 180" width="150" height="170" class="chubby-penguin-svg">
+            <!-- Body -->
+            <ellipse cx="80" cy="105" rx="55" ry="65" fill="#2d3748"/>
+            <ellipse cx="80" cy="115" rx="42" ry="50" fill="#ffffff"/>
+            <!-- Cute Blush Cheeks -->
+            <circle cx="56" cy="95" r="9" fill="#fecdd3"/>
+            <circle cx="104" cy="95" r="9" fill="#fecdd3"/>
+            <!-- Happy Eyes -->
+            <path d="M 50 82 Q 58 74 66 82" stroke="#1a202c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <path d="M 94 82 Q 102 74 110 82" stroke="#1a202c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <!-- Beak -->
+            <polygon points="80,82 72,92 88,92" fill="#f59e0b"/>
+            <!-- Little Flippers touching in excitement -->
+            <ellipse cx="44" cy="115" rx="14" ry="24" fill="#2d3748" transform="rotate(25 44 115)"/>
+            <ellipse cx="116" cy="115" rx="14" ry="24" fill="#2d3748" transform="rotate(-25 116 115)"/>
+            <!-- Feet -->
+            <ellipse cx="64" cy="168" rx="14" ry="8" fill="#f59e0b"/>
+            <ellipse cx="96" cy="168" rx="14" ry="8" fill="#f59e0b"/>
+          </svg>
+        </div>
+
+        <div class="penguin-choice-btns">
+          <button type="button" class="btn-choice-yes" id="btn-accept-yes">YES ♡</button>
+          <button type="button" class="btn-choice-no" id="btn-accept-no">NO</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SCREEN 1.5: "WHY DID YOU CLICK NO!"
+         ========================================== -->
+    <div class="penguin-screen" id="screen-crying">
+      <div class="paper-dialog-card">
+        <h1 class="penguin-title" style="color: #e11d48;">WHY DID YOU CLICK NO! 😭</h1>
+
+        <div class="penguin-avatar-box" style="margin: 20px 0;">
+          <!-- Crying Penguin Lying Down -->
+          <svg viewBox="0 0 200 140" width="180" height="130">
+            <!-- Puddle of tears -->
+            <ellipse cx="100" cy="120" rx="75" ry="14" fill="#bae6fd"/>
+            <!-- Penguin Fallen Body -->
+            <ellipse cx="100" cy="85" rx="60" ry="38" fill="#2d3748"/>
+            <ellipse cx="100" cy="92" rx="46" ry="26" fill="#ffffff"/>
+            <!-- Crying stream tears -->
+            <path d="M 60 76 Q 40 95 35 118" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M 140 76 Q 160 95 165 118" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <!-- Closed Crying Eyes -->
+            <path d="M 70 76 Q 78 84 86 76" stroke="#1a202c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <path d="M 114 76 Q 122 84 130 76" stroke="#1a202c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <!-- Beak -->
+            <polygon points="100,76 93,85 107,85" fill="#f59e0b"/>
+          </svg>
+        </div>
+
+        <button type="button" class="btn-try-again" id="btn-try-again">
+          <span>TRY AGAIN ❤️</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SCREEN 2: "CHOOSE A PENGUIN"
+         ========================================== -->
+    <div class="penguin-screen" id="screen-choose">
+      <div class="paper-dialog-card" style="max-width: 520px;">
+        <h2 class="penguin-select-title">Choose a penguin 🐧</h2>
+        <p class="penguin-select-subtitle">Each one has something special to say ♡</p>
+
+        <div class="three-penguins-row">
+          <!-- Penguin 1 -->
+          <div class="selectable-penguin-box" id="pick-penguin-1" title="Tap to open gift 1!">
+            <div class="penguin-with-gift-icon">🐧🎁</div>
+            <span class="penguin-box-tag">Photo & Letter</span>
+          </div>
+
+          <!-- Penguin 2 -->
+          <div class="selectable-penguin-box" id="pick-penguin-2" title="Tap to open gift 2!">
+            <div class="penguin-with-gift-icon">🐧💖</div>
+            <span class="penguin-box-tag">Memories Collage</span>
+          </div>
+
+          <!-- Penguin 3 -->
+          <div class="selectable-penguin-box" id="pick-penguin-3" title="Tap to open gift 3!">
+            <div class="penguin-with-gift-icon">🐧🎂</div>
+            <span class="penguin-box-tag">Birthday Cake</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SCREEN 3: SCRAPBOOK PAGE (Photo + Heartfelt Letter)
+         ========================================== -->
+    <div class="penguin-screen" id="screen-scrapbook-1">
+      <div class="scrapbook-notebook-card">
+        <button type="button" class="scrapbook-back-btn" id="btn-back-to-penguins-1">← Choose Another Penguin</button>
+
+        <div class="scrapbook-two-page-grid">
+          <!-- Left Page: Heart-Shaped Photo Cutout -->
+          <div class="scrapbook-left-page">
+            <div class="scrapbook-sticker sticker-cam">📷</div>
+            <div class="scrapbook-sticker sticker-bunny">🐰</div>
+
+            <div class="heart-photo-frame">
+              {% if surprise.images and surprise.images|length > 0 %}
+                <img src="{{ surprise.images[0].image_url }}" alt="Special Memory Photo">
+              {% else %}
+                <div class="heart-photo-placeholder">
+                  <span>📸</span>
+                  <p>Our Special Moments</p>
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="scrapbook-caption">Forever My Favourite ♡</div>
+          </div>
+
+          <!-- Right Page: Birthday Letter -->
+          <div class="scrapbook-right-page">
+            <h2 class="scrapbook-bday-header">HAPPY BIRTHDAY! 🎉</h2>
+            <div class="scrapbook-letter-body">
+              {{ surprise.message }}
+            </div>
+            {% if surprise.sender_name %}
+              <div class="scrapbook-signature">
+                Always & forever beside you,<br>
+                {{ surprise.sender_name }} ♡
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SCREEN 4: SCRAPBOOK PAGE 2 (Triple Heart Collage)
+         ========================================== -->
+    <div class="penguin-screen" id="screen-scrapbook-2">
+      <div class="scrapbook-notebook-card">
+        <button type="button" class="scrapbook-back-btn" id="btn-back-to-penguins-2">← Choose Another Penguin</button>
+
+        <h2 style="font-family: 'Sniglet', cursive; font-size: 2rem; color: #be123c; text-align: center; margin-bottom: 8px;">
+          Beautiful =♡♡=
+        </h2>
+        <p style="text-align: center; color: #6b7280; font-size: 0.92rem; margin-bottom: 24px;">Every smile of yours makes my world brighter ✨</p>
+
+        <div class="triple-heart-grid">
+          <!-- Heart 1 -->
+          <div class="heart-collage-item">
+            <div class="mini-heart-frame">
+              {% if surprise.images and surprise.images|length > 0 %}
+                <img src="{{ surprise.images[0].image_url }}" alt="Memory 1">
+              {% else %}
+                <span style="font-size: 2rem;">💖</span>
+              {% endif %}
+            </div>
+            <span class="heart-arrow-label">← My Love ♡</span>
+          </div>
+
+          <!-- Heart 2 -->
+          <div class="heart-collage-item">
+            <div class="mini-heart-frame">
+              {% if surprise.images and surprise.images|length > 1 %}
+                <img src="{{ surprise.images[1].image_url }}" alt="Memory 2">
+              {% elif surprise.images and surprise.images|length > 0 %}
+                <img src="{{ surprise.images[0].image_url }}" alt="Memory 2">
+              {% else %}
+                <span style="font-size: 2rem;">🌸</span>
+              {% endif %}
+            </div>
+            <span class="heart-arrow-label">My Sunshine ☀️</span>
+          </div>
+
+          <!-- Heart 3 -->
+          <div class="heart-collage-item">
+            <div class="mini-heart-frame">
+              {% if surprise.images and surprise.images|length > 2 %}
+                <img src="{{ surprise.images[2].image_url }}" alt="Memory 3">
+              {% elif surprise.images and surprise.images|length > 0 %}
+                <img src="{{ surprise.images[0].image_url }}" alt="Memory 3">
+              {% else %}
+                <span style="font-size: 2rem;">🧸</span>
+              {% endif %}
+            </div>
+            <span class="heart-arrow-label">Forever & Always →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SCREEN 5: SCRAPBOOK PAGE 3 (Cake Celebration)
+         ========================================== -->
+    <div class="penguin-screen" id="screen-scrapbook-3">
+      <div class="paper-dialog-card" style="text-align: center;">
+        <button type="button" class="scrapbook-back-btn" id="btn-back-to-penguins-3" style="margin-bottom: 16px;">← Choose Another Penguin</button>
+
+        <div style="font-size: 6rem; animation: float 3s infinite;">🎂</div>
+        <h2 style="font-family: 'Sniglet', cursive; font-size: 2.2rem; color: #be123c; margin: 10px 0;">
+          Make a Birthday Wish! ✨
+        </h2>
+        <p style="color: #4b5563; font-size: 1.05rem; margin-bottom: 24px;">
+          May this year bring you endless happiness, boundless success, and all the love you deserve!
+        </p>
+
+        <button type="button" class="btn-choice-yes" id="btn-replay-all" style="width: 100%;">
+          ↺ Replay Experience
+        </button>
+
+        <div style="margin-top: 20px;">
+          <a href="{{ url_for('main.index') }}" class="btn btn-outline btn-sm">
+            <span>💌 Made with SurpriseLink</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/penguin.js') }}"></script>
+</body>
+</html>

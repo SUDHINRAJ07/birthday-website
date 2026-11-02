@@ -21,6 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const previewStickersContainer = document.getElementById('preview-stickers');
   const previewPhotoContainer = document.getElementById('preview-photos');
 
+  // Template Selection Toggle
+  const tplToggles = document.querySelectorAll('.btn-template-toggle');
+  const tplInput = document.getElementById('selected_template_slug');
+
+  tplToggles.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tplToggles.forEach(b => {
+        b.classList.remove('btn-primary');
+        b.classList.add('btn-outline');
+      });
+      btn.classList.remove('btn-outline');
+      btn.classList.add('btn-primary');
+      if (tplInput) tplInput.value = btn.dataset.tpl;
+      showToast(`Selected template: ${btn.textContent.trim()} ✨`);
+    });
+  });
+
   // Bond Traits Selection
   const traitBtns = document.querySelectorAll('.bond-trait-btn');
   const bondTraitsInput = document.getElementById('bond_traits');

@@ -21,7 +21,7 @@ def generate_unique_slug():
 @surprise_bp.route('/create', methods=['GET', 'POST'])
 def create_surprise():
     category = request.args.get('category', 'birthday')
-    template = request.args.get('template', '')
+    template = request.args.get('template', 'classic-birthday')
 
     if request.method == 'POST':
         recipient_name = request.form.get('recipient_name', '').strip()
@@ -29,6 +29,7 @@ def create_surprise():
         headline = request.form.get('headline', '').strip()
         message = request.form.get('message', '').strip()
         category = request.form.get('category', 'birthday')
+        template = request.form.get('template') or request.args.get('template', 'classic-birthday')
         theme_gradient = request.form.get('theme_gradient')
         font_family = request.form.get('font_family')
         text_color = request.form.get('text_color', '#1f2937')

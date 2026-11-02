@@ -17,4 +17,7 @@ def view_surprise(slug):
     except Exception:
         db.session.rollback()
 
+    if surprise.template_slug in ['penguin', 'penguin-scrapbook']:
+        return render_template('surprise_penguin.html', surprise=surprise)
+
     return render_template('surprise.html', surprise=surprise)

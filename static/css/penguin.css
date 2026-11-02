@@ -1,0 +1,386 @@
+/* SurpriseLink - Playful Penguin Scrapbook Template Stylesheet */
+
+.penguin-page {
+  min-height: 100vh;
+  width: 100%;
+  background: #fce7f3;
+  background-image: 
+    linear-gradient(#fbcfe8 1px, transparent 1px),
+    linear-gradient(90deg, #fbcfe8 1px, transparent 1px);
+  background-size: 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.penguin-sound-pill {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  background: #ffffff;
+  border: 2px solid #f472b6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(244, 114, 182, 0.3);
+  z-index: 1000;
+  transition: transform 0.2s ease;
+}
+
+.penguin-sound-pill:hover {
+  transform: scale(1.1);
+}
+
+.penguin-stage-wrapper {
+  width: 100%;
+  max-width: 680px;
+  position: relative;
+  z-index: 10;
+}
+
+.penguin-screen {
+  display: none;
+  animation: penguinFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.penguin-screen.active {
+  display: block;
+}
+
+/* Paper Dialog Card (Screen 1 & 2) */
+.paper-dialog-card {
+  background: #ffffff;
+  border: 3px solid #1e293b;
+  border-radius: 28px;
+  padding: 40px 28px;
+  box-shadow: 8px 8px 0px #1e293b;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 440px;
+}
+
+.penguin-title {
+  font-family: 'Sniglet', cursive;
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.penguin-avatar-box {
+  margin: 10px 0 28px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.chubby-penguin-svg {
+  animation: penguinWobble 2.5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08));
+}
+
+.penguin-choice-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.btn-choice-yes {
+  flex: 1;
+  padding: 14px 28px;
+  background: #ea580c;
+  color: #ffffff;
+  border: 3px solid #1e293b;
+  border-radius: 999px;
+  font-family: 'Sniglet', cursive;
+  font-size: 1.4rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #1e293b;
+  transition: all 0.15s ease;
+}
+
+.btn-choice-yes:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1e293b;
+  background: #f97316;
+}
+
+.btn-choice-no {
+  flex: 1;
+  padding: 14px 28px;
+  background: #f97316;
+  color: #ffffff;
+  border: 3px solid #1e293b;
+  border-radius: 999px;
+  font-family: 'Sniglet', cursive;
+  font-size: 1.4rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #1e293b;
+  transition: all 0.15s ease;
+}
+
+.btn-choice-no:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1e293b;
+}
+
+.btn-try-again {
+  width: 100%;
+  padding: 14px 28px;
+  background: #dc2626;
+  color: #ffffff;
+  border: 3px solid #1e293b;
+  border-radius: 999px;
+  font-family: 'Sniglet', cursive;
+  font-size: 1.3rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #1e293b;
+  transition: all 0.15s ease;
+}
+
+.btn-try-again:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1e293b;
+}
+
+/* Screen 2: Three Penguins Selection */
+.penguin-select-title {
+  font-family: 'Sniglet', cursive;
+  font-size: 2rem;
+  color: #c2410c;
+  margin-bottom: 6px;
+}
+
+.penguin-select-subtitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.45rem;
+  color: #4b5563;
+  margin-bottom: 28px;
+}
+
+.three-penguins-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.selectable-penguin-box {
+  background: #fff;
+  border: 2.5px solid #1e293b;
+  border-radius: 20px;
+  padding: 16px 8px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px #1e293b;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selectable-penguin-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 6px 8px 0px #1e293b;
+  background: #fff7ed;
+}
+
+.penguin-with-gift-icon {
+  font-size: 3rem;
+  margin-bottom: 8px;
+}
+
+.penguin-box-tag {
+  font-family: 'Sniglet', cursive;
+  font-size: 0.82rem;
+  color: #1e293b;
+  font-weight: 800;
+}
+
+/* Screen 3 & 4: Scrapbook Notebook Notebook */
+.scrapbook-notebook-card {
+  background: #ffffff;
+  border: 3px solid #1e293b;
+  border-radius: 24px;
+  padding: 32px 24px;
+  box-shadow: 8px 8px 0px #1e293b;
+  position: relative;
+  width: 100%;
+}
+
+.scrapbook-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5f9;
+  border: 2px solid #1e293b;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #1e293b;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.scrapbook-back-btn:hover {
+  background: #e2e8f0;
+}
+
+.scrapbook-two-page-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.scrapbook-left-page {
+  position: relative;
+  text-align: center;
+}
+
+.scrapbook-sticker {
+  position: absolute;
+  font-size: 2rem;
+  z-index: 10;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+.sticker-cam { top: -14px; left: 10px; transform: rotate(-12deg); }
+.sticker-bunny { bottom: 10px; left: -10px; transform: rotate(8deg); }
+
+/* Heart Shaped Photo Frame */
+.heart-photo-frame {
+  width: 240px;
+  height: 230px;
+  margin: 0 auto;
+  position: relative;
+  clip-path: path('M 120 220 C 35 155, 10 100, 35 55 C 65 5, 110 30, 120 55 C 130 30, 175 5, 205 55 C 230 100, 205 155, 120 220 Z');
+  background: #fbcfe8;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.heart-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.heart-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: #f43f5e;
+}
+
+.heart-photo-placeholder p {
+  font-family: 'Sniglet', cursive;
+  font-size: 0.95rem;
+  margin-top: 6px;
+}
+
+.scrapbook-caption {
+  font-family: 'Caveat', cursive;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #be123c;
+  margin-top: 12px;
+}
+
+.scrapbook-bday-header {
+  font-family: 'Sniglet', cursive;
+  font-size: 1.85rem;
+  color: #ea580c;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.scrapbook-letter-body {
+  font-family: 'Caveat', cursive;
+  font-size: 1.35rem;
+  line-height: 1.7;
+  color: #334155;
+  white-space: pre-wrap;
+}
+
+.scrapbook-signature {
+  font-family: 'Caveat', cursive;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #ea580c;
+  margin-top: 18px;
+  text-align: right;
+}
+
+/* Triple Heart Collage */
+.triple-heart-grid {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
+.heart-collage-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.mini-heart-frame {
+  width: 140px;
+  height: 135px;
+  clip-path: path('M 70 130 C 20 90, 5 60, 20 32 C 38 3, 65 18, 70 32 C 75 18, 102 3, 120 32 C 135 60, 120 90, 70 130 Z');
+  background: #fed7aa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.mini-heart-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heart-arrow-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #c2410c;
+}
+
+@keyframes penguinWobble {
+  0% { transform: rotate(-3deg); }
+  100% { transform: rotate(3deg); }
+}
+
+@keyframes penguinFadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 640px) {
+  .scrapbook-two-page-grid {
+    grid-template-columns: 1fr;
+  }
+}

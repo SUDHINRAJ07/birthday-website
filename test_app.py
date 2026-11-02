@@ -37,7 +37,7 @@ class SurpriseLinkTestCase(unittest.TestCase):
     def test_template_gallery(self):
         response = self.client.get('/templates')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Classic Birthday', response.data)
+        self.assertIn(b'Birthday Journey', response.data)
 
     def test_user_registration_and_login(self):
         # Register
