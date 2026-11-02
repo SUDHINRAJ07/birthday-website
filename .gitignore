@@ -10,5 +10,6 @@ surpriselink.db
 .env
 static/uploads/*
 !static/uploads/.gitkeep
+scratch/
 .DS_Store
 Thumbs.db

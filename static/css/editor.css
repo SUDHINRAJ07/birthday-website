@@ -380,46 +380,97 @@
   align-items: center;
 }
 
-.preview-controls {
+.preview-header-panel {
+  width: 100%;
+  max-width: 350px;
+  margin-bottom: 14px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 10px 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.preview-header-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  max-width: 360px;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
 .preview-label {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #374151;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #1f2937;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.preview-toggle {
+.preview-badge-status {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.preview-badge-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.preview-screen-tabs {
   display: flex;
-  background: #e5e7eb;
-  padding: 2px;
-  border-radius: var(--radius-full);
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
 }
 
-.toggle-btn {
-  border: none;
-  background: transparent;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  font-size: 0.78rem;
-  font-weight: 600;
+.preview-screen-tabs::-webkit-scrollbar {
+  height: 3px;
+}
+
+.preview-screen-tabs::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.screen-tab-btn {
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #475569;
   cursor: pointer;
-  color: #4b5563;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
-.toggle-btn.active {
-  background: #ffffff;
-  color: #111827;
-  box-shadow: var(--shadow-sm);
+.screen-tab-btn:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+.screen-tab-btn.active {
+  background: linear-gradient(135deg, #ec4899, #db2777);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 2px 6px rgba(219, 39, 119, 0.3);
 }
 
 /* Phone Screen in Editor Preview */
@@ -593,6 +644,397 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===================================================
+   Photo Slots & Editor Preview Styles
+   =================================================== */
+.photo-slots-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.photo-slot-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fdf2f8;
+  border: 1.5px solid #fbcfe8;
+  border-radius: 16px;
+  padding: 14px 16px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.photo-slot-card.highlight-slot {
+  background: linear-gradient(135deg, #fff1f2 0%, #fdf2f8 100%);
+  border: 2px solid #fb7185;
+}
+
+.slot-badge {
+  position: absolute;
+  top: -10px;
+  right: 14px;
+  background: #db2777;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 10px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(219, 39, 119, 0.25);
+}
+
+.slot-preview-box {
+  width: 74px;
+  height: 74px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 2px dashed #f472b6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.slot-preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slot-empty-icon {
+  font-size: 1.6rem;
+}
+
+.slot-empty-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #db2777;
+  margin-top: 2px;
+}
+
+.slot-info {
+  flex: 1;
+}
+
+.slot-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 2px;
+}
+
+.slot-desc {
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.slot-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  padding: 4px 12px;
+}
+
+.slots-section-title {
+  display: flex;
+  align-items: center;
+  margin: 16px 0 8px 0;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #9d174d;
+}
+
+.collage-slots-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.photo-slot-mini {
+  background: #ffffff;
+  border: 1.5px solid #fbcfe8;
+  border-radius: 12px;
+  padding: 10px 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.photo-slot-mini:hover {
+  border-color: #ec4899;
+  transform: translateY(-2px);
+}
+
+.photo-slot-mini.highlight-mini {
+  background: #fff1f2;
+  border: 1.5px solid #f43f5e;
+}
+
+.slot-badge-mini {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #db2777;
+  margin-bottom: 4px;
+}
+
+.slot-mini-preview {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: #fdf2f8;
+  border: 1px dashed #f472b6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.slot-mini-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slot-mini-label {
+  font-size: 0.65rem;
+  color: #4b5563;
+  line-height: 1.2;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 24px;
+}
+
+.btn-xs {
+  font-size: 0.68rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ===================================================
+   Bond Traits Buttons Styling
+   =================================================== */
+.bond-trait-btn {
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  color: #475569 !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  font-size: 0.9rem !important;
+  user-select: none !important;
+}
+
+.bond-trait-btn:hover {
+  border-color: #f472b6 !important;
+  background: #fff5f8 !important;
+  transform: translateY(-1px);
+}
+
+.bond-trait-btn.active {
+  background: #fdf2f8 !important;
+  border: 2px solid #ec4899 !important;
+  color: #db2777 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 3px 10px rgba(236, 72, 153, 0.2) !important;
+}
+
+/* Penguin Phone Mockup Views in Editor */
+.editor-penguin-p1-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  text-align: center;
+  margin: 10px 0;
+}
+
+.preview-p1-heart-frame {
+  width: 140px;
+  height: 135px;
+  margin: 0 auto;
+  clip-path: path('M 70 130 C 20 90, 5 60, 20 32 C 38 3, 65 18, 70 32 C 75 18, 102 3, 120 32 C 135 60, 120 90, 70 130 Z');
+  background: #fbcfe8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.preview-p1-heart-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-collage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.preview-collage-item {
+  width: 75px;
+  height: 70px;
+  clip-path: path('M 37.5 70 C 10 50, 2 35, 10 18 C 18 2, 33 10, 37.5 18 C 42 10, 57 2, 65 18 C 73 35, 65 50, 37.5 70 Z');
+  background: #fed7aa;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-collage-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===================================================
+   Live Phone Mockup Stages (Classic & Penguin)
+   =================================================== */
+.card-preview-stage-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8px;
+  animation: fadeIn 0.25s ease;
+}
+
+.lock-graphic-mini {
+  margin: 12px 0 6px 0;
+  filter: drop-shadow(0 6px 12px rgba(244, 63, 94, 0.25));
+}
+
+.preview-passcode-boxes {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.pass-box {
+  width: 34px;
+  height: 42px;
+  background: #ffffff;
+  border: 1.5px solid #fbcfe8;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #be123c;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.preview-balloons-cluster {
+  display: flex;
+  gap: 6px;
+  font-size: 2.2rem;
+  margin: 14px 0;
+  justify-content: center;
+}
+
+.preview-balloons-cluster .p-balloon {
+  display: inline-block;
+  animation: float 2.5s ease-in-out infinite alternate;
+}
+.preview-balloons-cluster .b-pink { animation-delay: 0s; }
+.preview-balloons-cluster .b-gold { animation-delay: 0.4s; }
+.preview-balloons-cluster .b-purple { animation-delay: 0.8s; }
+.preview-balloons-cluster .b-rose { animation-delay: 1.2s; }
+
+.preview-traits-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  max-width: 220px;
+}
+
+.preview-trait-pill {
+  background: #fdf2f8;
+  border: 1.5px solid #f472b6;
+  color: #db2777;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.preview-polaroid-frame {
+  background: #ffffff;
+  padding: 8px 8px 14px 8px;
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  margin: 10px auto;
+  width: 140px;
+  transform: rotate(-1.5deg);
+  border: 1px solid #f1f5f9;
+}
+
+.preview-polaroid-frame img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.preview-polaroid-caption {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #64748b;
+  display: block;
+  margin-top: 4px;
+  text-align: center;
+}
+
+.preview-cookie-badge {
+  background: #ffedd5;
+  border: 1.5px solid #ea580c;
+  color: #c2410c;
+  font-family: 'Sniglet', cursive;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+@media (max-width: 600px) {
+  .collage-slots-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 992px) {

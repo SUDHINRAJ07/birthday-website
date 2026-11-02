@@ -94,5 +94,30 @@ class SurpriseLinkTestCase(unittest.TestCase):
         self.assertEqual(resp.status_code, 404)
         self.assertIn(b'404', resp.data)
 
+    def test_penguin_template_surprise(self):
+        # Create surprise using penguin template
+        resp = self.client.post('/create', data={
+            'recipient_name': 'Priya',
+            'sender_name': 'Karthik',
+            'headline': 'Happy Birthday Priya!',
+            'message': 'Happy Birthday to my favourite person!',
+            'template_slug': 'penguin',
+            'action_type': 'publish'
+        }, follow_redirects=True)
+        self.assertEqual(resp.status_code, 200)
+
+        surprise = Surprise.query.filter_by(recipient_name='Priya').first()
+        self.assertIsNotNone(surprise)
+        self.assertEqual(surprise.template_slug, 'penguin')
+
+        # Test public recipient view
+        public_resp = self.client.get(f'/s/{surprise.slug}')
+        self.assertEqual(public_resp.status_code, 200)
+        self.assertIn(b'PLS ACCEPT THE GIFT', public_resp.data)
+        self.assertIn(b'Choose a penguin', public_resp.data)
+        self.assertIn(b'MAKE A WISH', public_resp.data)
+        self.assertIn(b'Beautiful', public_resp.data)
+        self.assertIn(b'Cutie', public_resp.data)
+
 if __name__ == '__main__':
     unittest.main()

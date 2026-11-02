@@ -18,6 +18,45 @@ def generate_unique_slug():
         if not Surprise.query.filter_by(slug=slug).first():
             return slug
 
+def process_surprise_photos(surprise_id, req):
+    """Saves individual slot uploads (photo_slot_1..7) and multi-upload photos in order"""
+    upload_folder = current_app.config['UPLOAD_FOLDER']
+    os.makedirs(upload_folder, exist_ok=True)
+
+    slot_images = {}
+    for slot_num in range(1, 8):
+        sfile = req.files.get(f'photo_slot_{slot_num}')
+        if sfile and allowed_file(sfile.filename):
+            fname = secure_filename(sfile.filename)
+            unique_name = f"{secrets.token_hex(6)}_{fname}"
+            filepath = os.path.join(upload_folder, unique_name)
+            sfile.save(filepath)
+            img_url = url_for('static', filename=f'uploads/{unique_name}')
+            slot_images[slot_num] = img_url
+
+    multi_files = req.files.getlist('photos')
+    multi_urls = []
+    for file in multi_files:
+        if file and allowed_file(file.filename):
+            fname = secure_filename(file.filename)
+            unique_name = f"{secrets.token_hex(6)}_{fname}"
+            filepath = os.path.join(upload_folder, unique_name)
+            file.save(filepath)
+            img_url = url_for('static', filename=f'uploads/{unique_name}')
+            multi_urls.append(img_url)
+
+    all_ordered_urls = []
+    for slot_num in range(1, 8):
+        if slot_num in slot_images:
+            all_ordered_urls.append(slot_images[slot_num])
+        elif multi_urls:
+            all_ordered_urls.append(multi_urls.pop(0))
+    all_ordered_urls.extend(multi_urls)
+
+    for img_url in all_ordered_urls:
+        img = SurpriseImage(surprise_id=surprise_id, image_url=img_url)
+        db.session.add(img)
+
 @surprise_bp.route('/create', methods=['GET', 'POST'])
 def create_surprise():
     category = request.args.get('category', 'birthday')
@@ -29,7 +68,7 @@ def create_surprise():
         headline = request.form.get('headline', '').strip()
         message = request.form.get('message', '').strip()
         category = request.form.get('category', 'birthday')
-        template = request.form.get('template') or request.args.get('template', 'classic-birthday')
+        template = request.form.get('template_slug') or request.form.get('template') or request.args.get('template', 'classic-birthday')
         theme_gradient = request.form.get('theme_gradient')
         font_family = request.form.get('font_family')
         text_color = request.form.get('text_color', '#1f2937')
@@ -75,21 +114,8 @@ def create_surprise():
         db.session.add(surprise)
         db.session.flush()
 
-        # Handle uploaded photos
-        files = request.files.getlist('photos')
-        upload_folder = current_app.config['UPLOAD_FOLDER']
-        os.makedirs(upload_folder, exist_ok=True)
-
-        for file in files:
-            if file and allowed_file(file.filename):
-                fname = secure_filename(file.filename)
-                unique_name = f"{secrets.token_hex(6)}_{fname}"
-                filepath = os.path.join(upload_folder, unique_name)
-                file.save(filepath)
-
-                img_url = url_for('static', filename=f'uploads/{unique_name}')
-                img = SurpriseImage(surprise_id=surprise.id, image_url=img_url)
-                db.session.add(img)
+        # Handle uploaded photos (slots and multi)
+        process_surprise_photos(surprise.id, request)
 
         # Create default settings
         settings = SurpriseSettings(surprise_id=surprise.id)
@@ -132,21 +158,8 @@ def edit_surprise(id):
         action_type = request.form.get('action_type', 'publish')
         surprise.is_published = (action_type == 'publish')
 
-        # Handle photos
-        files = request.files.getlist('photos')
-        upload_folder = current_app.config['UPLOAD_FOLDER']
-        os.makedirs(upload_folder, exist_ok=True)
-
-        for file in files:
-            if file and allowed_file(file.filename):
-                fname = secure_filename(file.filename)
-                unique_name = f"{secrets.token_hex(6)}_{fname}"
-                filepath = os.path.join(upload_folder, unique_name)
-                file.save(filepath)
-
-                img_url = url_for('static', filename=f'uploads/{unique_name}')
-                img = SurpriseImage(surprise_id=surprise.id, image_url=img_url)
-                db.session.add(img)
+        # Handle photos (slots and multi)
+        process_surprise_photos(surprise.id, request)
 
         db.session.commit()
 

@@ -8,7 +8,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Gaegu:wght@700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Sniglet:wght@800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Gaegu:wght@700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Sniglet:wght@800&family=Sacramento&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/penguin.css') }}">
@@ -19,7 +19,7 @@
 
   <!-- Sound Toggle Pill -->
   <div class="penguin-sound-pill" id="sound-pill" title="Toggle Music">
-    <span>🎵</span>
+    <span id="sound-pill-icon">🎵</span>
   </div>
 
   <div class="penguin-stage-wrapper">
@@ -32,26 +32,12 @@
         <h1 class="penguin-title">PLS ACCEPT THE GIFT</h1>
 
         <div class="penguin-avatar-box" id="avatar-happy">
-          <!-- Animated Chubby Penguin -->
-          <svg viewBox="0 0 160 180" width="150" height="170" class="chubby-penguin-svg">
-            <!-- Body -->
-            <ellipse cx="80" cy="105" rx="55" ry="65" fill="#2d3748"/>
-            <ellipse cx="80" cy="115" rx="42" ry="50" fill="#ffffff"/>
-            <!-- Cute Blush Cheeks -->
-            <circle cx="56" cy="95" r="9" fill="#fecdd3"/>
-            <circle cx="104" cy="95" r="9" fill="#fecdd3"/>
-            <!-- Happy Eyes -->
-            <path d="M 50 82 Q 58 74 66 82" stroke="#1a202c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-            <path d="M 94 82 Q 102 74 110 82" stroke="#1a202c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-            <!-- Beak -->
-            <polygon points="80,82 72,92 88,92" fill="#f59e0b"/>
-            <!-- Little Flippers touching in excitement -->
-            <ellipse cx="44" cy="115" rx="14" ry="24" fill="#2d3748" transform="rotate(25 44 115)"/>
-            <ellipse cx="116" cy="115" rx="14" ry="24" fill="#2d3748" transform="rotate(-25 116 115)"/>
-            <!-- Feet -->
-            <ellipse cx="64" cy="168" rx="14" ry="8" fill="#f59e0b"/>
-            <ellipse cx="96" cy="168" rx="14" ry="8" fill="#f59e0b"/>
-          </svg>
+          <!-- Cute 3D Mascot Penguin holding gift with dynamic breathing & shadow -->
+          <div class="mascot-3d-showcase">
+            <img src="{{ url_for('static', filename='images/user_penguin.png') }}" alt="Cute 3D Penguin" class="mascot-3d-img-large">
+            <div class="mascot-shadow-dynamic"></div>
+            <div class="mascot-gift-float">🎁</div>
+          </div>
         </div>
 
         <div class="penguin-choice-btns">
@@ -69,21 +55,25 @@
         <h1 class="penguin-title" style="color: #e11d48;">WHY DID YOU CLICK NO! 😭</h1>
 
         <div class="penguin-avatar-box" style="margin: 20px 0;">
-          <!-- Crying Penguin Lying Down -->
-          <svg viewBox="0 0 200 140" width="180" height="130">
+          <!-- Crying Penguin Lying Down on the Floor with Animated Tears -->
+          <svg viewBox="0 0 220 150" width="200" height="140" class="crying-penguin-svg-anim">
             <!-- Puddle of tears -->
-            <ellipse cx="100" cy="120" rx="75" ry="14" fill="#bae6fd"/>
+            <ellipse cx="110" cy="130" rx="85" ry="16" fill="#bae6fd" class="tear-puddle-anim"/>
             <!-- Penguin Fallen Body -->
-            <ellipse cx="100" cy="85" rx="60" ry="38" fill="#2d3748"/>
-            <ellipse cx="100" cy="92" rx="46" ry="26" fill="#ffffff"/>
-            <!-- Crying stream tears -->
-            <path d="M 60 76 Q 40 95 35 118" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round"/>
-            <path d="M 140 76 Q 160 95 165 118" stroke="#38bdf8" stroke-width="5" fill="none" stroke-linecap="round"/>
-            <!-- Closed Crying Eyes -->
-            <path d="M 70 76 Q 78 84 86 76" stroke="#1a202c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-            <path d="M 114 76 Q 122 84 130 76" stroke="#1a202c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-            <!-- Beak -->
-            <polygon points="100,76 93,85 107,85" fill="#f59e0b"/>
+            <g class="crying-body-group">
+              <ellipse cx="110" cy="90" rx="68" ry="42" fill="#2d3748"/>
+              <ellipse cx="110" cy="98" rx="52" ry="30" fill="#ffffff"/>
+              <!-- Closed Crying Eyes -->
+              <path d="M 80 82 Q 90 92 100 82" stroke="#1a202c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <path d="M 120 82 Q 130 92 140 82" stroke="#1a202c" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <!-- Beak -->
+              <polygon points="110,84 102,94 118,94" fill="#f59e0b"/>
+              <!-- Little feet sticking up -->
+              <ellipse cx="168" cy="95" rx="10" ry="6" fill="#f59e0b" transform="rotate(-30 168 95)"/>
+            </g>
+            <!-- Animated crying stream tears pouring out -->
+            <path d="M 72 82 Q 45 105 38 128" stroke="#38bdf8" stroke-width="6" fill="none" stroke-linecap="round" class="tear-stream-left"/>
+            <path d="M 148 82 Q 175 105 182 128" stroke="#38bdf8" stroke-width="6" fill="none" stroke-linecap="round" class="tear-stream-right"/>
           </svg>
         </div>
 
@@ -97,154 +87,502 @@
          SCREEN 2: "CHOOSE A PENGUIN"
          ========================================== -->
     <div class="penguin-screen" id="screen-choose">
-      <div class="paper-dialog-card" style="max-width: 520px;">
-        <h2 class="penguin-select-title">Choose a penguin 🐧</h2>
-        <p class="penguin-select-subtitle">Each one has something special to say ♡</p>
+      <div class="paper-dialog-card penguin-selector-card">
+        <h2 class="penguin-select-title">Choose a penguin</h2>
+        <p class="penguin-select-subtitle">Each one has something special to say ✨</p>
 
         <div class="three-penguins-row">
           <!-- Penguin 1 -->
-          <div class="selectable-penguin-box" id="pick-penguin-1" title="Tap to open gift 1!">
-            <div class="penguin-with-gift-icon">🐧🎁</div>
-            <span class="penguin-box-tag">Photo & Letter</span>
+          <div class="selectable-penguin-card" id="pick-penguin-1" title="Tap to open gift 1!">
+            <div class="p-card-status" id="badge-p1">✨</div>
+            <div class="penguin-mascot-wrap">
+              <img src="{{ url_for('static', filename='images/user_penguin.png') }}" alt="Cute 3D Penguin 1" class="p-mascot-3d-img">
+              <div class="p-gift-overlay gift-pink">🎁</div>
+            </div>
+            <span class="penguin-label-pill">Penguin 1</span>
           </div>
 
           <!-- Penguin 2 -->
-          <div class="selectable-penguin-box" id="pick-penguin-2" title="Tap to open gift 2!">
-            <div class="penguin-with-gift-icon">🐧💖</div>
-            <span class="penguin-box-tag">Memories Collage</span>
+          <div class="selectable-penguin-card" id="pick-penguin-2" title="Tap to open gift 2!">
+            <div class="p-card-status" id="badge-p2">✨</div>
+            <div class="penguin-mascot-wrap">
+              <img src="{{ url_for('static', filename='images/user_penguin.png') }}" alt="Cute 3D Penguin 2" class="p-mascot-3d-img">
+              <div class="p-gift-overlay gift-rose">🎁</div>
+            </div>
+            <span class="penguin-label-pill">Penguin 2</span>
           </div>
 
           <!-- Penguin 3 -->
-          <div class="selectable-penguin-box" id="pick-penguin-3" title="Tap to open gift 3!">
-            <div class="penguin-with-gift-icon">🐧🎂</div>
-            <span class="penguin-box-tag">Birthday Cake</span>
+          <div class="selectable-penguin-card" id="pick-penguin-3" title="Tap to open gift 3!">
+            <div class="p-card-status" id="badge-p3">✨</div>
+            <div class="penguin-mascot-wrap">
+              <img src="{{ url_for('static', filename='images/user_penguin.png') }}" alt="Cute 3D Penguin 3" class="p-mascot-3d-img">
+              <div class="p-gift-overlay gift-purple">🎁</div>
+            </div>
+            <span class="penguin-label-pill">Penguin 3</span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- ==========================================
-         SCREEN 3: SCRAPBOOK PAGE (Photo + Heartfelt Letter)
+         PENGUIN 1 - STEP A: BIRTHDAY CARTOON SCREEN
+         (Yellow duck + HAPPY BIRTHDAY + Penguin with Cake "MAKE A WISH" + "CLICK ME" cookie)
          ========================================== -->
-    <div class="penguin-screen" id="screen-scrapbook-1">
+    <div class="penguin-screen" id="screen-p1-cake">
+      <div class="cartoon-stage-card">
+        <!-- Floating Yellow Duck with Party Hat on Top-Left -->
+        <div class="cartoon-duck-box">
+          <svg viewBox="0 0 90 90" width="75" height="75">
+            <!-- Party Hat with polka dots -->
+            <polygon points="45,6 32,32 58,32" fill="#38bdf8"/>
+            <circle cx="45" cy="6" r="4" fill="#fbbf24"/>
+            <circle cx="40" cy="22" r="2.5" fill="#ffffff"/>
+            <circle cx="50" cy="24" r="2.5" fill="#ffffff"/>
+            <!-- Duck Body -->
+            <circle cx="45" cy="54" r="26" fill="#fde047" stroke="#eab308" stroke-width="1.5"/>
+            <ellipse cx="45" cy="58" rx="20" ry="16" fill="#facc15"/>
+            <!-- Duck Cheeks -->
+            <circle cx="34" cy="54" r="4" fill="#fecdd3"/>
+            <circle cx="56" cy="54" r="4" fill="#fecdd3"/>
+            <!-- Duck Eyes -->
+            <circle cx="36" cy="48" r="3" fill="#1e293b"/>
+            <circle cx="54" cy="48" r="3" fill="#1e293b"/>
+            <!-- Duck Beak -->
+            <ellipse cx="45" cy="55" rx="7" ry="4" fill="#ea580c"/>
+            <!-- Little Wings -->
+            <ellipse cx="20" cy="54" rx="6" ry="10" fill="#facc15" transform="rotate(-20 20 54)"/>
+            <ellipse cx="70" cy="54" rx="6" ry="10" fill="#facc15" transform="rotate(20 70 54)"/>
+          </svg>
+          <span class="sparkle-star s1">✨</span>
+          <span class="sparkle-star s2">✨</span>
+        </div>
+
+        <!-- Birthday Banner Header with Party Pennant -->
+        <div class="cartoon-header-box">
+          <div class="cartoon-title-row">
+            <h1 class="cartoon-bday-text">HAPPY BIRTHDAY</h1>
+            <div class="party-pennant-svg">
+              <svg viewBox="0 0 45 65" width="40" height="58">
+                <polygon points="12,4 40,20 10,44" fill="#38bdf8" stroke="#0284c7" stroke-width="1.5"/>
+                <circle cx="12" cy="4" r="3.5" fill="#fbbf24"/>
+                <path d="M 10 44 Q 20 56 14 64" stroke="#38bdf8" stroke-width="2.5" fill="none"/>
+                <path d="M 22 44 Q 30 54 26 64" stroke="#f43f5e" stroke-width="2" fill="none"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center Penguin holding Cake with Lit Candle + "MAKE A WISH" text -->
+        <div class="cartoon-center-character">
+          <div class="make-wish-text">MAKE A WISH</div>
+
+          <div class="penguin-cake-svg-wrap" id="cake-click-target" title="Tap candle or CLICK ME to blow wish!">
+            <div class="penguin-3d-cake-stage">
+              <!-- Cute 3D Penguin Mascot -->
+              <div class="p-3d-character-box">
+                <img src="{{ url_for('static', filename='images/user_penguin.png') }}" alt="Cute 3D Penguin" class="p-3d-cake-penguin">
+                <div class="p-3d-party-hat">🥳</div>
+              </div>
+
+              <!-- Cake in front of penguin with flickering candle -->
+              <div class="cake-front-box">
+                <svg viewBox="0 0 130 90" width="130" height="90">
+                  <!-- Plate -->
+                  <ellipse cx="65" cy="78" rx="55" ry="10" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                  <!-- Cake Base -->
+                  <rect x="25" y="45" width="80" height="32" rx="8" fill="#fda4af" stroke="#f43f5e" stroke-width="2"/>
+                  <path d="M 25 55 Q 35 63 45 55 Q 55 63 65 55 Q 75 63 85 55 Q 95 63 105 55" stroke="#ffffff" stroke-width="3" fill="none"/>
+                  <!-- Candle -->
+                  <rect x="62" y="24" width="6" height="22" fill="#ffffff" stroke="#cbd5e1"/>
+                  <!-- Glowing Candle Flame -->
+                  <g id="candle-flame-group">
+                    <ellipse cx="65" cy="16" rx="5" ry="8" fill="#f59e0b" class="candle-flame-anim" id="candle-flame"/>
+                    <ellipse cx="65" cy="18" rx="2.5" ry="4.5" fill="#fef08a" class="candle-flame-core"/>
+                  </g>
+                  <!-- Smoke Puff on Blow Out -->
+                  <g class="candle-smoke-puff" id="candle-smoke">
+                    <circle cx="65" cy="14" r="3.5" fill="#94a3b8" opacity="0.7"/>
+                    <circle cx="68" cy="8" r="4.5" fill="#cbd5e1" opacity="0.6"/>
+                    <circle cx="63" cy="2" r="5.5" fill="#e2e8f0" opacity="0.5"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating "CLICK ME" Heart Cookie Button -->
+        <button type="button" class="cookie-click-me-btn" id="btn-p1-to-scrapbook" title="Tap to open scrapbook!">
+          <span class="cookie-label">CLICK<br>ME ♡</span>
+        </button>
+
+        <!-- Exact 3 SVG Gift Boxes at bottom right -->
+        <div class="cartoon-gifts-footer">
+          <svg viewBox="0 0 160 80" width="150" height="75">
+            <!-- Box 1: Yellow with orange stripes & bow -->
+            <rect x="10" y="30" width="44" height="42" rx="4" fill="#fde047" stroke="#ca8a04" stroke-width="2"/>
+            <path d="M 10 44 L 54 44 M 10 58 L 54 58" stroke="#f97316" stroke-width="2.5"/>
+            <rect x="28" y="30" width="8" height="42" fill="#f97316"/>
+            <circle cx="32" cy="26" r="6" fill="#facc15" stroke="#ca8a04" stroke-width="1.5"/>
+
+            <!-- Box 2: Tall Pink Box with White vertical ribbon -->
+            <rect x="62" y="14" width="44" height="58" rx="4" fill="#fda4af" stroke="#e11d48" stroke-width="2"/>
+            <rect x="80" y="14" width="8" height="58" fill="#ffffff"/>
+            <path d="M 84 14 C 76 6, 72 10, 84 13 Z" fill="#fb7185"/>
+            <path d="M 84 14 C 92 6, 96 10, 84 13 Z" fill="#fb7185"/>
+
+            <!-- Box 3: Green Box with Cyan Cross Ribbon -->
+            <rect x="114" y="24" width="40" height="48" rx="4" fill="#a7f3d0" stroke="#059669" stroke-width="2"/>
+            <rect x="130" y="24" width="8" height="48" fill="#38bdf8"/>
+            <rect x="114" y="44" width="40" height="8" fill="#38bdf8"/>
+            <circle cx="134" cy="21" r="5" fill="#38bdf8"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         PENGUIN 1 - STEP B: SCRAPBOOK NOTEBOOK
+         (Heart Photo Cutout + "Cutie ♡" + Camera + Cherry + Bunny + Letter)
+         ========================================== -->
+    <div class="penguin-screen" id="screen-p1-scrapbook">
       <div class="scrapbook-notebook-card">
-        <button type="button" class="scrapbook-back-btn" id="btn-back-to-penguins-1">← Choose Another Penguin</button>
+        <button type="button" class="scrapbook-back-btn" id="btn-back-from-p1">← Back to Penguins</button>
 
         <div class="scrapbook-two-page-grid">
-          <!-- Left Page: Heart-Shaped Photo Cutout -->
+          <!-- Left Page: Large Heart-Shaped Photo Cutout -->
           <div class="scrapbook-left-page">
-            <div class="scrapbook-sticker sticker-cam">📷</div>
-            <div class="scrapbook-sticker sticker-bunny">🐰</div>
+            <!-- Vintage Camera Sticker on Top-Left -->
+            <div class="scrapbook-sticker sticker-cam-svg">
+              <svg viewBox="0 0 60 50" width="55" height="45">
+                <rect x="5" y="12" width="50" height="34" rx="6" fill="#6ee7b7" stroke="#047857" stroke-width="2"/>
+                <rect x="20" y="6" width="20" height="7" rx="2" fill="#047857"/>
+                <circle cx="30" cy="28" r="12" fill="#ffffff" stroke="#047857" stroke-width="2"/>
+                <!-- Heart Lens -->
+                <path d="M 30 25 C 27 21, 23 23, 25 27 C 27 30, 30 32, 30 33 C 30 32, 33 30, 35 27 C 37 23, 33 21, 30 25 Z" fill="#f43f5e"/>
+                <circle cx="48" cy="18" r="3" fill="#fbbf24"/>
+              </svg>
+            </div>
 
-            <div class="heart-photo-frame">
+            <!-- Stars Bottle Sticker on Top Spine -->
+            <div class="scrapbook-sticker sticker-bottle-svg">
+              <svg viewBox="0 0 40 50" width="35" height="45">
+                <rect x="12" y="4" width="16" height="8" rx="2" fill="#93c5fd" stroke="#1e40af" stroke-width="1.5"/>
+                <path d="M 8 16 C 8 12, 12 12, 14 12 L 26 12 C 28 12, 32 12, 32 16 L 32 40 C 32 44, 28 46, 20 46 C 12 46, 8 44, 8 40 Z" fill="#e0f2fe" stroke="#1e40af" stroke-width="1.5"/>
+                <text x="14" y="32" font-size="14">✨</text>
+              </svg>
+            </div>
+
+            <!-- LARGE Heart Photo Cutout (User's Custom Photo 1) -->
+            <div class="heart-photo-frame" id="p1-heart-frame">
               {% if surprise.images and surprise.images|length > 0 %}
-                <img src="{{ surprise.images[0].image_url }}" alt="Special Memory Photo">
+                <img src="{{ surprise.images[0].image_url }}" alt="Special Memory Photo" id="p1-photo-img">
               {% else %}
-                <div class="heart-photo-placeholder">
-                  <span>📸</span>
-                  <p>Our Special Moments</p>
-                </div>
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=80" alt="Special Memory Photo" id="p1-photo-img">
               {% endif %}
             </div>
 
-            <div class="scrapbook-caption">Forever My Favourite ♡</div>
+            <!-- Cherries Sticker on Bottom-Right of Photo -->
+            <div class="scrapbook-sticker sticker-cherries-svg">
+              <svg viewBox="0 0 50 50" width="45" height="45">
+                <path d="M 16 32 C 16 16, 28 10, 36 8" stroke="#15803d" stroke-width="2.5" fill="none"/>
+                <path d="M 34 32 C 34 18, 28 10, 36 8" stroke="#15803d" stroke-width="2.5" fill="none"/>
+                <circle cx="16" cy="34" r="10" fill="#dc2626" stroke="#991b1b" stroke-width="1.5"/>
+                <circle cx="34" cy="34" r="10" fill="#dc2626" stroke="#991b1b" stroke-width="1.5"/>
+                <ellipse cx="13" cy="31" rx="2.5" ry="4" fill="#ffffff" opacity="0.6"/>
+                <ellipse cx="31" cy="31" rx="2.5" ry="4" fill="#ffffff" opacity="0.6"/>
+              </svg>
+            </div>
+
+            <!-- Cute Bunny Peeking on Bottom-Left -->
+            <div class="scrapbook-sticker sticker-bunny-peeking">
+              <svg viewBox="0 0 60 70" width="55" height="65">
+                <!-- Bunny Ears -->
+                <ellipse cx="22" cy="22" rx="6" ry="18" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                <ellipse cx="22" cy="22" rx="3.5" ry="12" fill="#fecdd3"/>
+                <ellipse cx="38" cy="22" rx="6" ry="18" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                <ellipse cx="38" cy="22" rx="3.5" ry="12" fill="#fecdd3"/>
+                <!-- Bunny Face -->
+                <ellipse cx="30" cy="46" rx="22" ry="18" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                <circle cx="20" cy="46" r="3" fill="#f43f5e" opacity="0.5"/>
+                <circle cx="40" cy="46" r="3" fill="#f43f5e" opacity="0.5"/>
+                <circle cx="24" cy="42" r="2.5" fill="#1e293b"/>
+                <circle cx="36" cy="42" r="2.5" fill="#1e293b"/>
+                <polygon points="30,46 28,49 32,49" fill="#f43f5e"/>
+              </svg>
+            </div>
+
+            <div class="scrapbook-caption" id="p1-caption-text">Cutie ♡</div>
           </div>
 
           <!-- Right Page: Birthday Letter -->
           <div class="scrapbook-right-page">
-            <h2 class="scrapbook-bday-header">HAPPY BIRTHDAY! 🎉</h2>
-            <div class="scrapbook-letter-body">
-              {{ surprise.message }}
+            <div class="scrapbook-bday-header-wrap">
+              <span class="burst-sparkle">✨</span>
+              <h2 class="scrapbook-bday-header">HAPPY BIRTHDAY</h2>
+              <span class="burst-sparkle">✨</span>
             </div>
+
+            <!-- User's Dynamic Message / Letter Body -->
+            <div class="scrapbook-letter-body" id="p1-letter-content">
+              {% if surprise.message %}
+                {{ surprise.message }}
+              {% else %}
+Happy Birthday, my love 💖
+It's your special day...
+And every reminder of you makes my heart smile.
+Somewhere in your laughter and happiness,
+my whole world resides. ✨
+
+You are the kind of person
+who turns ordinary moments into beautiful memories.
+Every second with you feels soft, warm, and special.
+
+No matter how many birthdays come and go,
+I'll always choose you, every single time.
+You're my always and forever. 🌸
+my safe place, my happiness, my favorite person.
+
+I hope this year brings you endless smiles, peace, success,
+and all the love your heart desires.
+And whenever life gets difficult,
+just remember - I'll always be right beside you.
+Happy Birthday again, my girl. 💖
+              {% endif %}
+            </div>
+
             {% if surprise.sender_name %}
-              <div class="scrapbook-signature">
+              <div class="scrapbook-signature" id="p1-signature">
                 Always & forever beside you,<br>
                 {{ surprise.sender_name }} ♡
               </div>
             {% endif %}
+
+            <!-- Mascot holding flower with "CLICK ME" cookie button to return -->
+            <div class="scrapbook-mascot-footer">
+              <div class="blue-mascot-container">
+                <svg viewBox="0 0 100 110" width="85" height="95" class="blue-mascot-svg">
+                  <!-- Ears with yellow center -->
+                  <circle cx="26" cy="24" r="14" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
+                  <circle cx="26" cy="24" r="8" fill="#fde047"/>
+                  <circle cx="74" cy="24" r="14" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
+                  <circle cx="74" cy="24" r="8" fill="#fde047"/>
+                  <!-- Mascot Head/Body -->
+                  <ellipse cx="50" cy="62" rx="36" ry="40" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
+                  <!-- Smiling squint eyes -->
+                  <path d="M 36 50 Q 42 42 48 50" stroke="#1e293b" stroke-width="3" fill="none" stroke-linecap="round"/>
+                  <path d="M 52 50 Q 58 42 64 50" stroke="#1e293b" stroke-width="3" fill="none" stroke-linecap="round"/>
+                  <!-- Nose -->
+                  <polygon points="50,54 46,58 54,58" fill="#f43f5e"/>
+                  <!-- Yellow Flower held -->
+                  <circle cx="14" cy="68" r="8" fill="#fbbf24" stroke="#ca8a04" stroke-width="1.5"/>
+                  <circle cx="10" cy="62" r="5" fill="#fde047"/>
+                  <circle cx="18" cy="62" r="5" fill="#fde047"/>
+                  <circle cx="14" cy="74" r="5" fill="#fde047"/>
+                  <circle cx="14" cy="68" r="3" fill="#ea580c"/>
+                  <path d="M 14 76 Q 20 88 26 94" stroke="#15803d" stroke-width="2.5" fill="none"/>
+                </svg>
+                <button type="button" class="cookie-click-me-btn small-cookie mascot-cookie-btn" id="btn-p1-done-click">
+                  <span class="cookie-label">CLICK<br>ME ♡</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- ==========================================
-         SCREEN 4: SCRAPBOOK PAGE 2 (Triple Heart Collage)
+         PENGUIN 2: 5-HEART PHOTO COLLAGE SCRAPBOOK
+         (Beautiful =♡♡=, 5 Heart Photos, "My love", "My Baby", "still with you", "girlfriend")
          ========================================== -->
-    <div class="penguin-screen" id="screen-scrapbook-2">
-      <div class="scrapbook-notebook-card">
-        <button type="button" class="scrapbook-back-btn" id="btn-back-to-penguins-2">← Choose Another Penguin</button>
+    <div class="penguin-screen" id="screen-p2-collage">
+      <div class="scrapbook-notebook-card collage-notebook-card">
+        <button type="button" class="scrapbook-back-btn" id="btn-back-from-p2">← Back to Penguins</button>
 
-        <h2 style="font-family: 'Sniglet', cursive; font-size: 2rem; color: #be123c; text-align: center; margin-bottom: 8px;">
-          Beautiful =♡♡=
-        </h2>
-        <p style="text-align: center; color: #6b7280; font-size: 0.92rem; margin-bottom: 24px;">Every smile of yours makes my world brighter ✨</p>
+        <!-- Header: Beautiful =♡♡= -->
+        <div class="collage-header-box">
+          <h2 class="collage-cursive-title">Beautiful</h2>
+          <div class="collage-hearts-divider">=♡♡=</div>
+        </div>
 
-        <div class="triple-heart-grid">
-          <!-- Heart 1 -->
-          <div class="heart-collage-item">
-            <div class="mini-heart-frame">
-              {% if surprise.images and surprise.images|length > 0 %}
-                <img src="{{ surprise.images[0].image_url }}" alt="Memory 1">
-              {% else %}
-                <span style="font-size: 2rem;">💖</span>
-              {% endif %}
-            </div>
-            <span class="heart-arrow-label">← My Love ♡</span>
-          </div>
+        <!-- Camera sticker on top left -->
+        <div class="scrapbook-sticker collage-cam-sticker">📷</div>
+        <!-- Sunflower sticker on bottom right -->
+        <div class="scrapbook-sticker collage-sunflower-sticker">🌻</div>
 
-          <!-- Heart 2 -->
-          <div class="heart-collage-item">
-            <div class="mini-heart-frame">
+        <!-- 5-Heart Grid Layout -->
+        <div class="five-heart-collage-layout">
+
+          <!-- Heart 1 (Top Left) -> "My love ♡" -->
+          <div class="heart-item-wrap heart-pos-top-left">
+            <div class="heart-frame-cutout">
               {% if surprise.images and surprise.images|length > 1 %}
-                <img src="{{ surprise.images[1].image_url }}" alt="Memory 2">
+                <img src="{{ surprise.images[1].image_url }}" alt="Memory 1" id="p2-img-1">
               {% elif surprise.images and surprise.images|length > 0 %}
-                <img src="{{ surprise.images[0].image_url }}" alt="Memory 2">
+                <img src="{{ surprise.images[0].image_url }}" alt="Memory 1" id="p2-img-1">
               {% else %}
-                <span style="font-size: 2rem;">🌸</span>
+                <div class="mini-heart-ph">💖</div>
               {% endif %}
             </div>
-            <span class="heart-arrow-label">My Sunshine ☀️</span>
+            <div class="heart-arrow-note arrow-left">
+              <span>My love ♡</span>
+            </div>
           </div>
 
-          <!-- Heart 3 -->
-          <div class="heart-collage-item">
-            <div class="mini-heart-frame">
+          <!-- Heart 2 (Top Right) -> "My Baby ♡" -->
+          <div class="heart-item-wrap heart-pos-top-right">
+            <div class="heart-frame-cutout">
               {% if surprise.images and surprise.images|length > 2 %}
-                <img src="{{ surprise.images[2].image_url }}" alt="Memory 3">
+                <img src="{{ surprise.images[2].image_url }}" alt="Memory 2" id="p2-img-2">
               {% elif surprise.images and surprise.images|length > 0 %}
-                <img src="{{ surprise.images[0].image_url }}" alt="Memory 3">
+                <img src="{{ surprise.images[0].image_url }}" alt="Memory 2" id="p2-img-2">
               {% else %}
-                <span style="font-size: 2rem;">🧸</span>
+                <div class="mini-heart-ph">🌸</div>
               {% endif %}
             </div>
-            <span class="heart-arrow-label">Forever & Always →</span>
+            <div class="heart-arrow-note arrow-right">
+              <span>My Baby ♡</span>
+            </div>
           </div>
+
+          <!-- Heart 3 (Center Heart - Large) -->
+          <div class="heart-item-wrap heart-pos-center">
+            <div class="heart-frame-cutout center-heart-frame">
+              {% if surprise.images and surprise.images|length > 3 %}
+                <img src="{{ surprise.images[3].image_url }}" alt="Memory Center" id="p2-img-3">
+              {% elif surprise.images and surprise.images|length > 0 %}
+                <img src="{{ surprise.images[0].image_url }}" alt="Memory Center" id="p2-img-3">
+              {% else %}
+                <div class="mini-heart-ph">✨</div>
+              {% endif %}
+            </div>
+            <div class="collage-center-tag">girlfriend ♡</div>
+          </div>
+
+          <!-- Heart 4 (Bottom Left) -> "still with you ♡" -->
+          <div class="heart-item-wrap heart-pos-bottom-left">
+            <div class="heart-frame-cutout">
+              {% if surprise.images and surprise.images|length > 4 %}
+                <img src="{{ surprise.images[4].image_url }}" alt="Memory 4" id="p2-img-4">
+              {% elif surprise.images and surprise.images|length > 0 %}
+                <img src="{{ surprise.images[0].image_url }}" alt="Memory 4" id="p2-img-4">
+              {% else %}
+                <div class="mini-heart-ph">🧸</div>
+              {% endif %}
+            </div>
+            <div class="heart-sticker-badge">still with you ♡</div>
+          </div>
+
+          <!-- Heart 5 (Bottom Right) -> sunflowers -->
+          <div class="heart-item-wrap heart-pos-bottom-right">
+            <div class="heart-frame-cutout">
+              {% if surprise.images and surprise.images|length > 5 %}
+                <img src="{{ surprise.images[5].image_url }}" alt="Memory 5" id="p2-img-5">
+              {% elif surprise.images and surprise.images|length > 0 %}
+                <img src="{{ surprise.images[0].image_url }}" alt="Memory 5" id="p2-img-5">
+              {% else %}
+                <div class="mini-heart-ph">🥰</div>
+              {% endif %}
+            </div>
+            <div class="heart-sticker-badge">sunshine ☀️</div>
+          </div>
+
+        </div>
+
+        <div style="text-align: center; margin-top: 24px;">
+          <button type="button" class="cookie-click-me-btn small-cookie" id="btn-p2-done-click" style="display: inline-block;">
+            <span class="cookie-label">CLICK<br>ME ♡</span>
+          </button>
         </div>
       </div>
     </div>
 
     <!-- ==========================================
-         SCREEN 5: SCRAPBOOK PAGE 3 (Cake Celebration)
+         PENGUIN 3 - STEP A: PROPOSAL / SPECIAL DATE
+         ("Will you be mine?" + Heart Photo + Date e.g. "11 05 2026")
          ========================================== -->
-    <div class="penguin-screen" id="screen-scrapbook-3">
-      <div class="paper-dialog-card" style="text-align: center;">
-        <button type="button" class="scrapbook-back-btn" id="btn-back-to-penguins-3" style="margin-bottom: 16px;">← Choose Another Penguin</button>
+    <div class="penguin-screen" id="screen-p3-date">
+      <div class="paper-dialog-card date-proposal-card">
+        <button type="button" class="scrapbook-back-btn" id="btn-back-from-p3-a">← Back to Penguins</button>
 
-        <div style="font-size: 6rem; animation: float 3s infinite;">🎂</div>
-        <h2 style="font-family: 'Sniglet', cursive; font-size: 2.2rem; color: #be123c; margin: 10px 0;">
-          Make a Birthday Wish! ✨
-        </h2>
-        <p style="color: #4b5563; font-size: 1.05rem; margin-bottom: 24px;">
-          May this year bring you endless happiness, boundless success, and all the love you deserve!
+        <h2 class="date-proposal-title">Will you be mine? ♡</h2>
+
+        <div class="triple-connected-heart-wrap">
+          <div class="big-date-heart-frame">
+            {% if surprise.images and surprise.images|length > 6 %}
+              <img src="{{ surprise.images[6].image_url }}" alt="Special Proposal Photo" id="p3-photo-img">
+            {% elif surprise.images and surprise.images|length > 0 %}
+              <img src="{{ surprise.images[0].image_url }}" alt="Special Proposal Photo" id="p3-photo-img">
+            {% else %}
+              <div class="mini-heart-ph" style="font-size: 3.5rem;">💍</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="special-date-display" id="p3-date-text">
+          {{ surprise.special_date if surprise.special_date else '11 05 2026' }}
+        </div>
+
+        <button type="button" class="cookie-click-me-btn" id="btn-p3-to-hug" style="margin: 20px auto 0 auto; display: block;">
+          <span class="cookie-label">CLICK<br>ME ♡</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         PENGUIN 3 - STEP B: ANIMATED VIRTUAL HUG
+         ("Virtual hug for ya! I MISS YOU" + Cute Hugging Bears)
+         ========================================== -->
+    <div class="penguin-screen" id="screen-p3-hug">
+      <div class="paper-dialog-card virtual-hug-card">
+        <div class="hug-arched-title">Virtual hug for ya!</div>
+
+        <div class="hug-animation-box">
+          <div class="hug-gif-wrapper">
+            <img src="{{ url_for('static', filename='images/virtual_hug.png') }}" alt="Virtual Hug Bears" class="virtual-hug-gif-img">
+            <span class="hug-heart h1">💖</span>
+            <span class="hug-heart h2">💕</span>
+            <span class="hug-heart h3">✨</span>
+            <span class="hug-heart h4">💗</span>
+            <span class="hug-heart h5">🌸</span>
+          </div>
+        </div>
+
+        <h1 class="hug-miss-you-text">I MISS YOU</h1>
+
+        <button type="button" class="cookie-click-me-btn" id="btn-p3-to-finale" style="margin: 20px auto 0 auto; display: block;">
+          <span class="cookie-label">CLICK<br>ME ♡</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         PENGUIN 3 - STEP C: GRAND FINALE
+         ("I Love You" Ribbon Banner + Confetti + Replay)
+         ========================================== -->
+    <div class="penguin-screen" id="screen-p3-finale">
+      <div class="paper-dialog-card finale-banner-card">
+        <div class="love-you-ribbon-banner">
+          <h1 class="love-you-banner-text">I Love You</h1>
+        </div>
+
+        <div style="font-size: 3.5rem; margin: 24px 0 16px 0; animation: float 2s infinite ease-in-out;">
+          💖 🌸 ✨
+        </div>
+
+        <p style="font-family: 'Caveat', cursive; font-size: 1.55rem; color: #475569; margin-bottom: 24px;">
+          Happy Birthday, {{ surprise.recipient_name }}! You make every single moment brighter. ♡
         </p>
 
-        <button type="button" class="btn-choice-yes" id="btn-replay-all" style="width: 100%;">
+        <button type="button" class="btn-choice-yes" id="btn-replay-all" style="width: 100%; margin-bottom: 14px;">
           ↺ Replay Experience
         </button>
 
-        <div style="margin-top: 20px;">
+        <div>
           <a href="{{ url_for('main.index') }}" class="btn btn-outline btn-sm">
-            <span>💌 Made with SurpriseLink</span>
+            <span>💌 Created with SurpriseLink</span>
           </a>
         </div>
       </div>

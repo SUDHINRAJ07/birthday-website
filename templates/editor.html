@@ -188,15 +188,238 @@
         <!-- TAB 3: PHOTOS -->
         <div class="tab-pane" id="tab-photos">
           <div class="form-group">
-            <label class="form-label">Upload Special Photos (Optional, up to 4)</label>
-            <div class="upload-dropzone" onclick="document.getElementById('photo_upload').click()">
-              <div class="upload-icon">📸</div>
-              <p style="font-weight: 700; color: #374151; margin-bottom: 4px;">Click to select photos or memories</p>
-              <p style="font-size: 0.8rem; color: #9ca3af;">Supported: JPG, PNG, WEBP (Max 5MB each)</p>
-            </div>
-            <input type="file" id="photo_upload" name="photos" accept="image/*" multiple style="display: none;">
 
-            <div class="photo-preview-grid" id="photo-preview-list">
+            <!-- ==============================================
+                 A. CLASSIC 6-STAGE JOURNEY PHOTOS CONTAINER
+                 (Visible when template is classic-birthday / journey)
+                 ============================================== -->
+            <div id="photos-classic-container">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <label class="form-label" style="margin-bottom: 0;">Classic Journey Photo Memories 📸</label>
+                <span style="font-size: 0.75rem; background: #e0f2fe; color: #0284c7; font-weight: 700; padding: 2px 8px; border-radius: 999px;">Polaroid & Keepsake</span>
+              </div>
+              <p class="form-hint" style="margin-bottom: 16px;">
+                Upload your special photo for the Polaroid card inside the final unboxing letter.
+              </p>
+
+              <div class="photo-slots-grid">
+                <!-- Slot 1: Polaroid Memory Photo -->
+                <div class="photo-slot-card highlight-slot" data-slot="1">
+                  <div class="slot-badge" style="background: #0284c7;">Main Polaroid Photo</div>
+                  <div class="slot-preview-box" id="slot-preview-classic-1">
+                    {% if surprise and surprise.images and surprise.images|length > 0 %}
+                      <img src="{{ surprise.images[0].image_url }}" alt="Slot 1">
+                    {% else %}
+                      <div class="slot-empty-icon">📷</div>
+                      <span class="slot-empty-label" style="color: #0284c7;">Polaroid Photo</span>
+                    {% endif %}
+                  </div>
+                  <div class="slot-info">
+                    <h4 class="slot-title">Photo 1: Polaroid Memory Photo</h4>
+                    <p class="slot-desc">Displayed on the white Polaroid card with "Memories ♡" caption in the final unboxing stage.</p>
+                    <label class="btn btn-sm btn-outline slot-upload-btn" for="photo_slot_classic_1">
+                      📁 Choose Photo
+                    </label>
+                    <input type="file" id="photo_slot_classic_1" name="photo_slot_1" accept="image/*" class="slot-file-input slot-classic-input" data-slot="1" style="display: none;">
+                  </div>
+                </div>
+
+                <!-- Slot 2: Celebration Moment -->
+                <div class="photo-slot-card" data-slot="2">
+                  <div class="slot-badge" style="background: #64748b;">Photo 2 • Extra Moment</div>
+                  <div class="slot-preview-box" id="slot-preview-classic-2">
+                    {% if surprise and surprise.images and surprise.images|length > 1 %}
+                      <img src="{{ surprise.images[1].image_url }}" alt="Slot 2">
+                    {% else %}
+                      <div class="slot-empty-icon">✨</div>
+                      <span class="slot-empty-label" style="color: #64748b;">Celebration</span>
+                    {% endif %}
+                  </div>
+                  <div class="slot-info">
+                    <h4 class="slot-title">Photo 2: Celebration Moment</h4>
+                    <p class="slot-desc">Additional memory picture in the recipient's keepsake album slider.</p>
+                    <label class="btn btn-sm btn-outline slot-upload-btn" for="photo_slot_classic_2">
+                      📁 Choose Photo 2
+                    </label>
+                    <input type="file" id="photo_slot_classic_2" name="photo_slot_2" accept="image/*" class="slot-file-input slot-classic-input" data-slot="2" style="display: none;">
+                  </div>
+                </div>
+
+                <!-- Slot 3: Special Memory -->
+                <div class="photo-slot-card" data-slot="3">
+                  <div class="slot-badge" style="background: #64748b;">Photo 3 • Extra Moment</div>
+                  <div class="slot-preview-box" id="slot-preview-classic-3">
+                    {% if surprise and surprise.images and surprise.images|length > 2 %}
+                      <img src="{{ surprise.images[2].image_url }}" alt="Slot 3">
+                    {% else %}
+                      <div class="slot-empty-icon">💖</div>
+                      <span class="slot-empty-label" style="color: #64748b;">Special Memory</span>
+                    {% endif %}
+                  </div>
+                  <div class="slot-info">
+                    <h4 class="slot-title">Photo 3: Special Memory</h4>
+                    <p class="slot-desc">Extra celebration picture included in the recipient's album.</p>
+                    <label class="btn btn-sm btn-outline slot-upload-btn" for="photo_slot_classic_3">
+                      📁 Choose Photo 3
+                    </label>
+                    <input type="file" id="photo_slot_classic_3" name="photo_slot_3" accept="image/*" class="slot-file-input slot-classic-input" data-slot="3" style="display: none;">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ==============================================
+                 B. PENGUIN SCRAPBOOK PHOTOS CONTAINER
+                 (Visible when template is penguin-scrapbook)
+                 ============================================== -->
+            <div id="photos-penguin-container" style="display: none;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <label class="form-label" style="margin-bottom: 0;">Penguin Scrapbook Photo Slots 🐧💖</label>
+                <span style="font-size: 0.75rem; background: #fdf2f8; color: #db2777; font-weight: 700; padding: 2px 8px; border-radius: 999px;">7 Interactive Frames</span>
+              </div>
+              <p class="form-hint" style="margin-bottom: 16px;">
+                Select specific photos for each of the 7 frames in the Penguin scrapbook. They sync instantly to the Live Preview on the right!
+              </p>
+
+              <div class="photo-slots-grid">
+                <!-- Slot 1: Penguin 1 Main Heart Scrapbook Photo -->
+                <div class="photo-slot-card highlight-slot" data-slot="1">
+                  <div class="slot-badge">Slot 1 • Heart Cutout</div>
+                  <div class="slot-preview-box" id="slot-preview-1">
+                    {% if surprise and surprise.images and surprise.images|length > 0 %}
+                      <img src="{{ surprise.images[0].image_url }}" alt="Slot 1">
+                    {% else %}
+                      <div class="slot-empty-icon">💖</div>
+                      <span class="slot-empty-label">Heart Cutout</span>
+                    {% endif %}
+                  </div>
+                  <div class="slot-info">
+                    <h4 class="slot-title">Photo 1: Penguin 1 Main Heart Cutout</h4>
+                    <p class="slot-desc">Large heart photo frame on the scrapbook page with "Cutie ♡" caption & bunny sticker</p>
+                    <label class="btn btn-sm btn-outline slot-upload-btn" for="photo_slot_1">
+                      📁 Choose Photo 1
+                    </label>
+                    <input type="file" id="photo_slot_1" name="photo_slot_1" accept="image/*" class="slot-file-input slot-penguin-input" data-slot="1" style="display: none;">
+                  </div>
+                </div>
+
+                <!-- Section: Penguin 2 - 5 Heart Collage Photos -->
+                <div class="slots-section-title">
+                  <span>Penguin 2: 5-Heart Scrapbook Collage 🐧💖</span>
+                </div>
+
+                <div class="collage-slots-row">
+                  <!-- Slot 2: Collage 1 (Top Left) -->
+                  <div class="photo-slot-mini" data-slot="2">
+                    <div class="slot-badge-mini">Photo 2</div>
+                    <div class="slot-mini-preview" id="slot-preview-2">
+                      {% if surprise and surprise.images and surprise.images|length > 1 %}
+                        <img src="{{ surprise.images[1].image_url }}" alt="Slot 2">
+                      {% else %}
+                        <span>📸</span>
+                      {% endif %}
+                    </div>
+                    <span class="slot-mini-label">Top-Left ("My love ♡")</span>
+                    <label class="btn btn-xs btn-outline" for="photo_slot_2">Upload</label>
+                    <input type="file" id="photo_slot_2" name="photo_slot_2" accept="image/*" class="slot-file-input slot-penguin-input" data-slot="2" style="display: none;">
+                  </div>
+
+                  <!-- Slot 3: Collage 2 (Top Right) -->
+                  <div class="photo-slot-mini" data-slot="3">
+                    <div class="slot-badge-mini">Photo 3</div>
+                    <div class="slot-mini-preview" id="slot-preview-3">
+                      {% if surprise and surprise.images and surprise.images|length > 2 %}
+                        <img src="{{ surprise.images[2].image_url }}" alt="Slot 3">
+                      {% else %}
+                        <span>📸</span>
+                      {% endif %}
+                    </div>
+                    <span class="slot-mini-label">Top-Right ("My Baby ♡")</span>
+                    <label class="btn btn-xs btn-outline" for="photo_slot_3">Upload</label>
+                    <input type="file" id="photo_slot_3" name="photo_slot_3" accept="image/*" class="slot-file-input slot-penguin-input" data-slot="3" style="display: none;">
+                  </div>
+
+                  <!-- Slot 4: Collage 3 (Center Heart) -->
+                  <div class="photo-slot-mini highlight-mini" data-slot="4">
+                    <div class="slot-badge-mini">Photo 4</div>
+                    <div class="slot-mini-preview" id="slot-preview-4">
+                      {% if surprise and surprise.images and surprise.images|length > 3 %}
+                        <img src="{{ surprise.images[3].image_url }}" alt="Slot 4">
+                      {% else %}
+                        <span>💖</span>
+                      {% endif %}
+                    </div>
+                    <span class="slot-mini-label">Center ("girlfriend ♡")</span>
+                    <label class="btn btn-xs btn-outline" for="photo_slot_4">Upload</label>
+                    <input type="file" id="photo_slot_4" name="photo_slot_4" accept="image/*" class="slot-file-input slot-penguin-input" data-slot="4" style="display: none;">
+                  </div>
+
+                  <!-- Slot 5: Collage 4 (Bottom Left) -->
+                  <div class="photo-slot-mini" data-slot="5">
+                    <div class="slot-badge-mini">Photo 5</div>
+                    <div class="slot-mini-preview" id="slot-preview-5">
+                      {% if surprise and surprise.images and surprise.images|length > 4 %}
+                        <img src="{{ surprise.images[4].image_url }}" alt="Slot 5">
+                      {% else %}
+                        <span>📸</span>
+                      {% endif %}
+                    </div>
+                    <span class="slot-mini-label">Bottom-Left ("still with you")</span>
+                    <label class="btn btn-xs btn-outline" for="photo_slot_5">Upload</label>
+                    <input type="file" id="photo_slot_5" name="photo_slot_5" accept="image/*" class="slot-file-input slot-penguin-input" data-slot="5" style="display: none;">
+                  </div>
+
+                  <!-- Slot 6: Collage 5 (Bottom Right) -->
+                  <div class="photo-slot-mini" data-slot="6">
+                    <div class="slot-badge-mini">Photo 6</div>
+                    <div class="slot-mini-preview" id="slot-preview-6">
+                      {% if surprise and surprise.images and surprise.images|length > 5 %}
+                        <img src="{{ surprise.images[5].image_url }}" alt="Slot 6">
+                      {% else %}
+                        <span>🌻</span>
+                      {% endif %}
+                    </div>
+                    <span class="slot-mini-label">Bottom-Right ("sunshine")</span>
+                    <label class="btn btn-xs btn-outline" for="photo_slot_6">Upload</label>
+                    <input type="file" id="photo_slot_6" name="photo_slot_6" accept="image/*" class="slot-file-input slot-penguin-input" data-slot="6" style="display: none;">
+                  </div>
+                </div>
+
+                <!-- Slot 7: Penguin 3 Ending Love Photo -->
+                <div class="photo-slot-card" data-slot="7" style="margin-top: 14px;">
+                  <div class="slot-badge">Slot 7 • Proposal / Ending Photo</div>
+                  <div class="slot-preview-box" id="slot-preview-7">
+                    {% if surprise and surprise.images and surprise.images|length > 6 %}
+                      <img src="{{ surprise.images[6].image_url }}" alt="Slot 7">
+                    {% else %}
+                      <div class="slot-empty-icon">💍</div>
+                      <span class="slot-empty-label">Proposal Heart</span>
+                    {% endif %}
+                  </div>
+                  <div class="slot-info">
+                    <h4 class="slot-title">Photo 7: Penguin 3 Special Date & Memory</h4>
+                    <p class="slot-desc">Displayed on the "Will you be mine?" screen with your special date</p>
+                    <label class="btn btn-sm btn-outline slot-upload-btn" for="photo_slot_7">
+                      📁 Choose Photo 7
+                    </label>
+                    <input type="file" id="photo_slot_7" name="photo_slot_7" accept="image/*" class="slot-file-input slot-penguin-input" data-slot="7" style="display: none;">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Multi-Upload Dropzone -->
+            <div style="margin-top: 20px;">
+              <div class="upload-dropzone" onclick="document.getElementById('photo_upload').click()">
+                <div class="upload-icon">⚡</div>
+                <p style="font-weight: 700; color: #374151; margin-bottom: 4px;">Or Quick Multi-Upload (Select all photos at once)</p>
+                <p style="font-size: 0.8rem; color: #9ca3af;">Auto-populates photos in order • JPG, PNG, WEBP (Max 5MB)</p>
+              </div>
+              <input type="file" id="photo_upload" name="photos" accept="image/*" multiple style="display: none;">
+            </div>
+
+            <!-- Existing photos thumbnail list -->
+            <div class="photo-preview-grid" id="photo-preview-list" style="margin-top: 14px;">
               {% if surprise and surprise.images %}
                 {% for img in surprise.images %}
                   <div class="photo-preview-item">
@@ -300,49 +523,237 @@
 
     <!-- Right Column: Sticky Live Mobile Mockup Preview -->
     <div class="preview-sticky">
-      <div class="preview-controls">
-        <div class="preview-label">
-          <span>📱</span> Live Recipient View
+      <div class="preview-header-panel">
+        <div class="preview-header-top">
+          <div class="preview-label">
+            <span>📱</span> Live Recipient View
+          </div>
+          <span class="preview-badge-status">Real-time Sync</span>
         </div>
-        <div class="preview-toggle">
-          <button type="button" class="toggle-btn active" id="btn-view-envelope">Envelope</button>
-          <button type="button" class="toggle-btn" id="btn-view-letter">Open Card</button>
+
+        <!-- Clean Horizontal Scrollable Screen Tabs -->
+        <!-- 1. Classic 6-Stage Journey Tabs (Visible when classic template is selected) -->
+        <div class="preview-screen-tabs" id="preview-tabs-classic">
+          <button type="button" class="screen-tab-btn active" id="btn-view-classic-lock">🔒 1: Lock</button>
+          <button type="button" class="screen-tab-btn" id="btn-view-classic-balloons">🎈 2: Balloons</button>
+          <button type="button" class="screen-tab-btn" id="btn-view-classic-cake">🎂 3: Wish</button>
+          <button type="button" class="screen-tab-btn" id="btn-view-classic-traits">💐 4: Traits</button>
+          <button type="button" class="screen-tab-btn" id="btn-view-classic-letter">💌 5: Unboxing</button>
+        </div>
+
+        <!-- 2. Penguin Scrapbook Tabs (Visible when penguin-scrapbook is selected) -->
+        <div class="preview-screen-tabs" id="preview-tabs-penguin" style="display: none;">
+          <button type="button" class="screen-tab-btn active" id="btn-view-penguin-cake">🎂 1: Cake & Wish</button>
+          <button type="button" class="screen-tab-btn" id="btn-view-penguin-scrapbook">📖 1: Scrapbook</button>
+          <button type="button" class="screen-tab-btn" id="btn-view-penguin-collage">💖 2: 5-Hearts</button>
+          <button type="button" class="screen-tab-btn" id="btn-view-penguin-date">💍 3: Date & Love</button>
         </div>
       </div>
 
       <div class="editor-phone">
         <div class="editor-phone-screen" id="preview-screen" style="background: linear-gradient(135deg, #fff0f5 0%, #fce7f3 50%, #ede9fe 100%);">
-          <!-- Envelope View -->
-          <div class="card-preview-envelope-view" id="preview-envelope-view">
-            <span class="recipient-badge" id="preview-recipient">FOR SOMEONE SPECIAL</span>
-            <h2 class="preview-headline" id="preview-headline">{{ surprise.headline if surprise else 'Happy Birthday!' }}</h2>
-            <p class="preview-subheadline">A sweet message they'll smile at forever ♡</p>
-
-            <div class="preview-envelope" id="preview-envelope-tap">
-              <div class="preview-envelope-heart">💖</div>
-              <span class="preview-open-text">TAP TO OPEN ♡</span>
+          
+          <!-- ==============================================
+               CONTAINER A: CLASSIC 6-STAGE JOURNEY SCREENS
+               ============================================== -->
+          <div id="classic-preview-container">
+            <!-- 1. Classic Lock Screen -->
+            <div class="card-preview-stage-view" id="preview-classic-lock-view">
+              <span class="recipient-badge" id="preview-recipient-lock">FOR {{ surprise.recipient_name if surprise and surprise.recipient_name else 'SOMEONE SPECIAL' }}</span>
+              <div class="lock-graphic-mini">
+                <svg viewBox="0 0 160 160" width="105" height="105">
+                  <path d="M 52 75 L 52 48 C 52 32, 64 20, 80 20 C 96 20, 108 32, 108 48 L 108 75" fill="none" stroke="#cbd5e1" stroke-width="12" stroke-linecap="round"/>
+                  <path d="M 80 145 C 35 110, 20 85, 32 60 C 48 35, 72 45, 80 60 C 88 45, 112 35, 128 60 C 140 85, 125 110, 80 145 Z" fill="#f43f5e"/>
+                  <circle cx="80" cy="85" r="7" fill="#1e293b"/>
+                  <polygon points="76,87 84,87 82,105 78,105" fill="#1e293b"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 0.95rem; font-weight: 800; color: #be123c; margin: 6px 0 2px 0; letter-spacing: 1px;">ENTER PASSCODE</h3>
+              <div class="preview-passcode-boxes" id="preview-passcode-display">
+                <span class="pass-box">{{ (surprise.passcode[0] if surprise and surprise.passcode else '8') }}</span>
+                <span class="pass-box">{{ (surprise.passcode[1] if surprise and surprise.passcode and surprise.passcode|length > 1 else '2') }}</span>
+                <span class="pass-box">{{ (surprise.passcode[2] if surprise and surprise.passcode and surprise.passcode|length > 2 else '8') }}</span>
+                <span class="pass-box">{{ (surprise.passcode[3] if surprise and surprise.passcode and surprise.passcode|length > 3 else '5') }}</span>
+              </div>
+              <p style="font-size: 0.72rem; color: #64748b; margin-top: 6px;">Something special is waiting for you ♡</p>
             </div>
 
-            <div class="preview-stickers-row" id="preview-stickers">
-              <span>🎂</span><span>✨</span><span>💖</span>
+            <!-- 2. Classic Balloons Screen -->
+            <div class="card-preview-stage-view" id="preview-classic-balloons-view" style="display: none;">
+              <span class="recipient-badge">POP TO CELEBRATE 🎈</span>
+              <div class="preview-balloons-cluster">
+                <span class="p-balloon b-pink">🎈</span>
+                <span class="p-balloon b-gold">🎈</span>
+                <span class="p-balloon b-purple">🎈</span>
+                <span class="p-balloon b-rose">🎈</span>
+              </div>
+              <h3 style="font-size: 1.05rem; font-weight: 800; color: #1e293b; margin-top: 12px;">Pop the Balloons!</h3>
+              <p style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">Tap each balloon to release joyful confetti!</p>
+            </div>
+
+            <!-- 3. Classic Cake & Wish Screen -->
+            <div class="card-preview-stage-view" id="preview-classic-cake-view" style="display: none;">
+              <span class="recipient-badge">MAKE A WISH 🕯️</span>
+              <div style="margin: 16px 0;">
+                <svg viewBox="0 0 140 130" width="100" height="95">
+                  <rect x="25" y="65" width="90" height="42" rx="8" fill="#fda4af" stroke="#f43f5e" stroke-width="2"/>
+                  <path d="M 25 75 Q 35 83 45 75 Q 55 83 65 75 Q 75 83 85 75 Q 95 83 105 75 Q 115 83 115 75" stroke="#ffffff" stroke-width="3" fill="none"/>
+                  <rect x="67" y="38" width="6" height="27" fill="#ffffff" stroke="#cbd5e1"/>
+                  <ellipse cx="70" cy="28" rx="5" ry="9" fill="#f59e0b"/>
+                  <ellipse cx="70" cy="30" rx="2.5" ry="5" fill="#fef08a"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.05rem; font-weight: 800; color: #ea580c;">Blow the Candle!</h3>
+              <p style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">Make a silent birthday wish and tap to blow ♡</p>
+            </div>
+
+            <!-- 4. Classic Traits & Bouquet Screen -->
+            <div class="card-preview-stage-view" id="preview-classic-traits-view" style="display: none;">
+              <span class="recipient-badge">OUR SPECIAL BOND 💕</span>
+              <div style="font-size: 2.5rem; margin: 10px 0;">💐</div>
+              <h3 style="font-size: 0.98rem; font-weight: 800; color: #9d174d; margin-bottom: 8px;">What Describes You</h3>
+              <div class="preview-traits-chips" id="preview-classic-traits-chips">
+                <span class="preview-trait-pill">💗 Sweet</span>
+                <span class="preview-trait-pill">🤝 Loyal</span>
+                <span class="preview-trait-pill">🪨 My rock</span>
+              </div>
+            </div>
+
+            <!-- 5. Classic Unboxing Letter & Polaroid Screen -->
+            <div class="card-preview-stage-view" id="preview-classic-letter-view" style="display: none;">
+              <div class="preview-inner-card" style="padding: 14px 12px; margin-top: 0;">
+                <span class="recipient-badge" id="preview-recipient-letter">FOR {{ surprise.recipient_name if surprise and surprise.recipient_name else 'YOU ♡' }}</span>
+                <h3 class="preview-headline" id="preview-headline" style="font-size: 1.2rem; margin: 6px 0;">{{ surprise.headline if surprise else 'Happy Birthday!' }}</h3>
+                <p class="preview-message-body" id="preview-message" style="font-size: 0.82rem; margin: 8px 0; max-height: 100px; overflow-y: auto;">
+                  {{ surprise.message if surprise else 'Wishing you the happiest moments, endless smiles, and all your dreams fulfilled today and always! ✨' }}
+                </p>
+
+                <!-- Polaroid Photo Preview -->
+                <div class="preview-polaroid-frame">
+                  <img id="preview-classic-polaroid-img" src="{{ surprise.images[0].image_url if surprise and surprise.images and surprise.images|length > 0 else 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80' }}" alt="Polaroid Memory">
+                  <span class="preview-polaroid-caption">Memories ♡</span>
+                </div>
+
+                <p id="preview-sender" style="text-align: right; font-weight: 700; color: var(--primary); font-size: 0.85rem; margin-top: 8px;">
+                  With love, {{ surprise.sender_name if surprise and surprise.sender_name else 'Me ♡' }}
+                </p>
+              </div>
             </div>
           </div>
 
-          <!-- Open Card / Letter View -->
-          <div class="card-preview-content-view" id="preview-letter-view" style="display: none;">
-            <div class="preview-inner-card">
-              <span class="recipient-badge">FOR YOU ♡</span>
-              <p class="preview-message-body" id="preview-message">
-                {{ surprise.message if surprise else 'Wishing you the happiest moments, endless smiles, and all your dreams fulfilled today and always! ✨' }}
-              </p>
+          <!-- ==============================================
+               CONTAINER B: PENGUIN SCRAPBOOK SCREENS
+               ============================================== -->
+          <div id="penguin-preview-container" style="display: none;">
+            <!-- 1. Penguin Cake & Make a Wish Screen -->
+            <div class="card-preview-stage-view" id="preview-penguin-cake-view">
+              <div class="editor-penguin-p1-card" style="padding: 10px; background: #ffffff;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <!-- Baby Duck -->
+                  <div style="width: 32px; height: 32px;">
+                    <svg viewBox="0 0 90 90" width="32" height="32">
+                      <polygon points="45,6 32,32 58,32" fill="#38bdf8"/>
+                      <circle cx="45" cy="54" r="26" fill="#fde047"/>
+                      <circle cx="36" cy="48" r="3" fill="#1e293b"/>
+                      <circle cx="54" cy="48" r="3" fill="#1e293b"/>
+                      <ellipse cx="45" cy="55" rx="7" ry="4" fill="#ea580c"/>
+                    </svg>
+                  </div>
+                  <div style="font-family: 'Sniglet', cursive; font-size: 0.95rem; font-weight: 800; color: #ea580c;">HAPPY BIRTHDAY 🎉</div>
+                  <span style="font-size: 0.85rem;">✨</span>
+                </div>
 
-              <div class="preview-photo-slider" id="preview-photos"></div>
+                <!-- 3D Mascot Penguin with Cake -->
+                <div style="margin: 6px 0; display: flex; flex-direction: column; align-items: center;">
+                  <img src="{{ url_for('static', filename='images/user_penguin.png') }}" alt="Cute 3D Penguin" style="width: 85px; height: 90px; object-fit: contain;">
+                  <div style="margin-top: -18px; z-index: 5;">
+                    <svg viewBox="0 0 100 65" width="80" height="52">
+                      <ellipse cx="50" cy="55" rx="42" ry="8" fill="#e2e8f0"/>
+                      <rect x="18" y="30" width="64" height="25" rx="6" fill="#fda4af" stroke="#f43f5e" stroke-width="1.5"/>
+                      <rect x="47" y="14" width="6" height="17" fill="#ffffff"/>
+                      <ellipse cx="50" cy="8" rx="4" ry="6" fill="#f59e0b"/>
+                    </svg>
+                  </div>
+                </div>
+                <div style="font-family: 'Caveat', cursive; font-size: 1.05rem; font-weight: 700; color: #475569;">MAKE A WISH</div>
 
-              <p id="preview-sender" style="text-align: right; font-weight: 700; color: var(--primary); margin-top: 14px;">
-                With love ♡
-              </p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                  <span class="preview-cookie-badge">CLICK ME ♡</span>
+                  <!-- 3 Mini Gifts -->
+                  <div style="display: flex; gap: 4px; font-size: 1.1rem;">
+                    <span>🎁</span><span>🎁</span><span>🎁</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Penguin Scrapbook Notebook View -->
+            <div class="card-preview-stage-view" id="preview-penguin-scrapbook-view" style="display: none;">
+              <div class="editor-penguin-p1-card" style="padding: 10px; background: #fff;">
+                <span style="font-size: 0.72rem; font-weight: 800; color: #db2777; background: #fdf2f8; padding: 2px 8px; border-radius: 999px;">PENGUIN 1 SCRAPBOOK</span>
+                <div style="font-family: 'Sniglet', cursive; font-size: 1.1rem; color: #ea580c; margin: 4px 0;">HAPPY BIRTHDAY 🎉</div>
+                
+                <!-- Large Heart Cutout Preview -->
+                <div class="preview-p1-heart-frame">
+                  <img id="preview-mockup-p1-img" src="{{ surprise.images[0].image_url if surprise and surprise.images and surprise.images|length > 0 else 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80' }}" alt="Slot 1 Preview">
+                </div>
+                <div style="font-family: 'Caveat', cursive; font-size: 1.18rem; font-weight: 700; color: #be123c; margin-top: 4px;">Cutie ♡</div>
+
+                <div style="font-family: 'Caveat', cursive; font-size: 0.9rem; line-height: 1.35; color: #4b5563; margin-top: 6px; text-align: left; background: #fff5f8; padding: 6px 8px; border-radius: 8px; max-height: 85px; overflow-y: auto;">
+                  <span id="preview-mockup-p1-msg">{{ surprise.message if surprise else 'Happy Birthday, my love 💖 It is your special day...' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Penguin 2: 5-Heart Collage View -->
+            <div class="card-preview-stage-view" id="preview-penguin-collage-view" style="display: none;">
+              <div class="editor-penguin-p1-card" style="background: #fff; padding: 10px;">
+                <span style="font-size: 0.72rem; font-weight: 800; color: #db2777; background: #fdf2f8; padding: 2px 8px; border-radius: 999px;">PENGUIN 2: 5-HEARTS</span>
+                <div style="font-family: 'Sacramento', cursive; font-size: 1.6rem; color: #1e293b; margin: 2px 0 0 0;">Beautiful =♡♡=</div>
+
+                <!-- 5-Heart Grid inside Mockup -->
+                <div class="preview-collage-grid">
+                  <div class="preview-collage-item">
+                    <img id="preview-mockup-p2-img1" src="{{ surprise.images[1].image_url if surprise and surprise.images and surprise.images|length > 1 else 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80' }}" alt="P2-1">
+                  </div>
+                  <div class="preview-collage-item">
+                    <img id="preview-mockup-p2-img2" src="{{ surprise.images[2].image_url if surprise and surprise.images and surprise.images|length > 2 else 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&auto=format&fit=crop&q=80' }}" alt="P2-2">
+                  </div>
+                  <div class="preview-collage-item" style="grid-column: 1 / span 2; width: 80px; height: 75px;">
+                    <img id="preview-mockup-p2-img3" src="{{ surprise.images[3].image_url if surprise and surprise.images and surprise.images|length > 3 else 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop&q=80' }}" alt="P2-3">
+                  </div>
+                  <div class="preview-collage-item">
+                    <img id="preview-mockup-p2-img4" src="{{ surprise.images[4].image_url if surprise and surprise.images and surprise.images|length > 4 else 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&auto=format&fit=crop&q=80' }}" alt="P2-4">
+                  </div>
+                  <div class="preview-collage-item">
+                    <img id="preview-mockup-p2-img5" src="{{ surprise.images[5].image_url if surprise and surprise.images and surprise.images|length > 5 else 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80' }}" alt="P2-5">
+                  </div>
+                </div>
+                <div style="font-family: 'Sacramento', cursive; font-size: 1.3rem; color: #be123c;">girlfriend ♡</div>
+              </div>
+            </div>
+
+            <!-- 4. Penguin 3: Date & Proposal View -->
+            <div class="card-preview-stage-view" id="preview-penguin-date-view" style="display: none;">
+              <div class="editor-penguin-p1-card" style="padding: 10px;">
+                <span style="font-size: 0.72rem; font-weight: 800; color: #db2777; background: #fdf2f8; padding: 2px 8px; border-radius: 999px;">PENGUIN 3: LOVE & DATE</span>
+                <div style="font-family: 'Sniglet', cursive; font-size: 1.15rem; color: #b91c1c; margin: 6px 0 2px 0;">Will you be mine? ♡</div>
+
+                <div class="preview-p1-heart-frame" style="width: 110px; height: 105px;">
+                  <img id="preview-mockup-p3-img" src="{{ surprise.images[6].image_url if surprise and surprise.images and surprise.images|length > 6 else (surprise.images[0].image_url if surprise and surprise.images and surprise.images|length > 0 else 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80') }}" alt="P3 Photo">
+                </div>
+
+                <div id="preview-mockup-date" style="font-family: 'Caveat', cursive; font-size: 1.45rem; font-weight: 700; color: #7c2d12; letter-spacing: 2px; margin-top: 6px;">
+                  {{ surprise.special_date if surprise and surprise.special_date else '11 05 2026' }}
+                </div>
+              </div>
             </div>
           </div>
+
+        </div>
+      </div>
+    </div>
+
         </div>
       </div>
     </div>
