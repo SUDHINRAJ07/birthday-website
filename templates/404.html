@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Surprise Not Found – SurpriseLink{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 540px; text-align: center; margin-top: 40px;">
+  <div class="glass-card" style="padding: 48px 32px; border-radius: 32px;">
+    <div style="font-size: 4rem; animation: pulse-heart 2s infinite ease-in-out; margin-bottom: 12px;">💔</div>
+    <span class="section-badge" style="background: #fee2e2; color: #b91c1c;">404 Not Found</span>
+    <h1 style="font-family: var(--font-serif); font-size: 2.2rem; color: #111827; margin: 12px 0 8px 0;">This Surprise Couldn't Be Found</h1>
+    <p style="color: #6b7280; font-size: 1rem; line-height: 1.6; margin-bottom: 28px;">
+      The surprise link you opened may have been deleted, the link might have a typo, or it hasn't been published yet.
+    </p>
+
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <a href="{{ url_for('main.index') }}" class="btn btn-secondary">
+        <span>🏠 Go Back Home</span>
+      </a>
+      <a href="{{ url_for('surprise.create_surprise') }}" class="btn btn-primary">
+        <span>✨ Create a New Surprise</span>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}SurpriseLink – Create Personalized Digital Surprise Cards & Shareable Links{% endblock %}
+
+{% block content %}
+<div class="container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="section-badge">✨ Create Magical Moments</div>
+        <h1>A sweet surprise they'll <span class="highlight">smile at forever</span> ♡</h1>
+        <p>Craft personalized interactive greeting cards, love letters, and birthday surprises with custom background music, animations, and photos. Share a magical link in seconds.</p>
+
+        <div class="hero-actions">
+          <a href="{{ url_for('surprise.create_surprise') }}" class="btn btn-primary btn-lg">
+            <span>✨ Create a Surprise Link</span>
+          </a>
+          <a href="{{ url_for('main.templates_gallery') }}" class="btn btn-secondary btn-lg">
+            <span>Browse Templates</span>
+          </a>
+        </div>
+
+        <div class="hero-badges">
+          <div class="hero-badge-item">
+            <span style="color: #ff4d79;">⚡</span>
+            <span>Make it in 30 seconds</span>
+          </div>
+          <div class="hero-badge-item">
+            <span style="color: #9333ea;">📱</span>
+            <span>No app install needed</span>
+          </div>
+          <div class="hero-badge-item">
+            <span style="color: #10b981;">🎵</span>
+            <span>Music & Confetti</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone Mockup Right Side -->
+      <div class="mockup-wrapper">
+        <div class="floating-pill pill-left">
+          <span>💌</span>
+          <span>Tap to Open Surprise!</span>
+        </div>
+        <div class="floating-pill pill-right">
+          <span>🎵</span>
+          <span>Plays Romantic Music</span>
+        </div>
+
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="preview-chip">FOR MY FAVOURITE PERSON</div>
+            <div style="text-align: center; margin-top: 10px;">
+              <h3 style="font-family: var(--font-serif); font-size: 1.35rem; color: #1f2937;">Happy Birthday, My Love!</h3>
+              <p style="font-size: 0.82rem; color: #6b7280; margin-top: 4px;">A tiny corner of the internet for you ♡</p>
+            </div>
+
+            <div class="mini-envelope" onclick="alert('In the full surprise, this bursts with confetti and reveals your personalized letter & music! ✨')">
+              <div class="heart-stamp">💖</div>
+              <span style="font-size: 0.72rem; font-weight: 700; color: #ff4d79; margin-top: 8px;">TAP TO OPEN</span>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 8px; margin-top: 15px; font-size: 1.2rem;">
+              <span>🎂</span><span>✨</span><span>🎁</span><span>🌷</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Categories Section -->
+  <section style="margin-top: 40px; margin-bottom: 70px;">
+    <div class="section-header">
+      <div class="section-badge">Categories</div>
+      <h2 class="section-title">Designed for Every Heartfelt Moment</h2>
+      <p class="section-subtitle">Choose from hand-crafted themes and interactive templates for every special occasion in life.</p>
+    </div>
+
+    <div class="category-grid">
+      <!-- 1. Birthday Wishes -->
+      <a href="{{ url_for('surprise.create_surprise', category='birthday') }}" class="category-card">
+        <div class="category-icon-box">🎂</div>
+        <h3 class="category-title">Birthday Wishes</h3>
+        <p class="category-desc">Celebrate their special day with confetti cannons, upbeat music, and photo memories.</p>
+        <span class="category-badge">4 Templates • Popular</span>
+      </a>
+
+      <!-- 2. Love & Romance -->
+      <a href="{{ url_for('surprise.create_surprise', category='love') }}" class="category-card">
+        <div class="category-icon-box" style="background: #ffe4e6; color: #e11d48;">💖</div>
+        <h3 class="category-title">Love & Romance</h3>
+        <p class="category-desc">Express your deepest feelings with romantic letters, wax-sealed envelopes, and soft lofi piano.</p>
+        <span class="category-badge">4 Templates • Romantic</span>
+      </a>
+
+      <!-- 3. Anniversary -->
+      <a href="{{ url_for('surprise.create_surprise', category='anniversary') }}" class="category-card">
+        <div class="category-icon-box" style="background: #fef3c7; color: #d97706;">💍</div>
+        <h3 class="category-title">Anniversary</h3>
+        <p class="category-desc">Cherish another year together with polaroid memory timelines and sweet messages.</p>
+        <span class="category-badge">3 Templates • Elegant</span>
+      </a>
+
+      <!-- 4. Marriage Proposal -->
+      <a href="{{ url_for('surprise.create_surprise', category='proposal') }}" class="category-card">
+        <div class="category-icon-box" style="background: #ede9fe; color: #7c3aed;">✨</div>
+        <h3 class="category-title">Marriage Proposal</h3>
+        <p class="category-desc">Pop the big question with a cinematic interactive proposal card and romantic melody.</p>
+        <span class="category-badge">3 Templates • Special</span>
+      </a>
+
+      <!-- 5. Sorry / Apology -->
+      <a href="{{ url_for('surprise.create_surprise', category='sorry') }}" class="category-card">
+        <div class="category-icon-box" style="background: #e0f2fe; color: #0284c7;">🥺</div>
+        <h3 class="category-title">Sorry / Apology</h3>
+        <p class="category-desc">Say sorry from the bottom of your heart with cute reassuring doodles and heartfelt notes.</p>
+        <span class="category-badge">3 Templates • Cute</span>
+      </a>
+
+      <!-- 6. Friendship -->
+      <a href="{{ url_for('surprise.create_surprise', category='friendship') }}" class="category-card">
+        <div class="category-icon-box" style="background: #dcfce7; color: #16a34a;">👯</div>
+        <h3 class="category-title">Friendship</h3>
+        <p class="category-desc">Remind your best friends how awesome they are with fun stickers and upbeat vibes.</p>
+        <span class="category-badge">3 Templates • Fun</span>
+      </a>
+    </div>
+
+    <div style="text-align: center; margin-top: 32px;">
+      <a href="{{ url_for('main.categories') }}" class="btn btn-secondary">
+        <span>View All 10 Categories →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 3 Steps Process Section -->
+  <section style="margin-bottom: 80px;">
+    <div class="section-header">
+      <div class="section-badge">How It Works</div>
+      <h2 class="section-title">Create & Share in 3 Simple Steps</h2>
+      <p class="section-subtitle">No complicated sign-up or design skills needed. Beautiful surprises ready in seconds.</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-icon">🎨</div>
+        <h3>Pick a Template</h3>
+        <p>Choose an aesthetic card theme matching your occasion: Birthday, Love, Anniversary, or Custom.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-icon">✍️</div>
+        <h3>Personalize with Love</h3>
+        <p>Add your heartfelt words, names, photos, stickers, and select romantic background music.</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-icon">💌</div>
+        <h3>Share the Secret Link</h3>
+        <p>Get a unique shareable link instantly. Send it via WhatsApp or Instagram and watch them smile!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Box -->
+  <section class="glass-card" style="text-align: center; background: linear-gradient(135deg, #fff0f5, #f3e8ff); border: 1px solid #fbcfe8; padding: 48px 24px; margin-bottom: 40px;">
+    <h2 style="font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 12px; color: #111827;">Ready to make someone feel special?</h2>
+    <p style="color: #4b5563; font-size: 1.05rem; max-width: 580px; margin: 0 auto 28px auto;">It takes less than a minute to create a memories that last a lifetime. Try it now for free!</p>
+    <a href="{{ url_for('surprise.create_surprise') }}" class="btn btn-primary btn-lg">
+      <span>✨ Start Creating Now</span>
+    </a>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+surpriselink.db
+.env
+static/uploads/*
+!static/uploads/.gitkeep
+.DS_Store
+Thumbs.db

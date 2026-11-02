@@ -1,0 +1,358 @@
+/* SurpriseLink - Recipient Surprise Experience Stylesheet */
+
+.recipient-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  position: relative;
+  overflow-x: hidden;
+  transition: background 0.8s ease;
+}
+
+/* Background floating particles canvas */
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.particles-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floating-heart-particle {
+  position: absolute;
+  color: rgba(255, 77, 121, 0.25);
+  animation: floatUp 8s linear infinite;
+  user-select: none;
+}
+
+/* Sound Controller Pill */
+.music-pill-controller {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  transition: all 0.25s ease;
+}
+
+.music-pill-controller:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.music-disc {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #ec4899, #8b5cf6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.8rem;
+  transition: transform 0.3s;
+}
+
+.music-disc.spinning {
+  animation: spin 3s linear infinite;
+}
+
+.music-pill-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+/* Main Surprise Stage */
+.surprise-stage {
+  width: 100%;
+  max-width: 480px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  perspective: 1000px;
+}
+
+/* Envelope Container */
+.envelope-box {
+  width: 310px;
+  height: 210px;
+  background: #ffffff;
+  border-radius: 18px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.envelope-box:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* Envelope Flap 3D */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 155px solid transparent;
+  border-right: 155px solid transparent;
+  border-top: 110px solid #ffd1dc;
+  transform-origin: top;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5;
+}
+
+.envelope-box.opened .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+/* Wax Heart Seal */
+.wax-seal {
+  position: absolute;
+  top: 75px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 58px;
+  height: 58px;
+  background: radial-gradient(circle, #ff3366 0%, #d81b60 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.5rem;
+  box-shadow: 0 6px 16px rgba(216, 27, 96, 0.45);
+  z-index: 6;
+  animation: pulse-seal 2s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+.envelope-box.opened .wax-seal {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tap-to-open-pill {
+  position: absolute;
+  bottom: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  padding: 8px 20px;
+  border-radius: var(--radius-full);
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--primary);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  animation: float 2.5s ease-in-out infinite;
+}
+
+/* Unveiled Surprise Card */
+.revealed-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 28px;
+  padding: 36px 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+  display: none;
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+}
+
+.revealed-card.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.card-top-badge {
+  display: inline-block;
+  padding: 5px 16px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.card-headline {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.card-recipient-sub {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+.card-message-box {
+  background: rgba(255, 245, 248, 0.7);
+  border: 1px dashed #fbcfe8;
+  border-radius: 18px;
+  padding: 24px 20px;
+  margin-bottom: 24px;
+}
+
+.card-message-text {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #374151;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.card-sender-signature {
+  text-align: right;
+  margin-top: 14px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* Polaroid Gallery */
+.polaroid-gallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+}
+
+.polaroid-item {
+  background: #ffffff;
+  padding: 8px 8px 18px 8px;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  max-width: 180px;
+}
+
+.polaroid-item:nth-child(even) {
+  transform: rotate(-3deg);
+}
+
+.polaroid-item:nth-child(odd) {
+  transform: rotate(3deg);
+}
+
+.polaroid-item:hover {
+  transform: scale(1.06) rotate(0deg);
+  z-index: 20;
+}
+
+.polaroid-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.polaroid-caption {
+  font-family: var(--font-handwriting);
+  font-size: 1rem;
+  color: #4b5563;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* Stickers Display */
+.stickers-display-bar {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  font-size: 2rem;
+  margin: 18px 0;
+}
+
+/* Brand Footnote */
+.recipient-cta {
+  margin-top: 36px;
+  text-align: center;
+}
+
+.recipient-cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.recipient-cta a:hover {
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-seal {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.1); }
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}

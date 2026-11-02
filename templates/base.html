@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}SurpriseLink – Personalized Digital Surprise Card & Webpage Generator{% endblock %}</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+  
+  <!-- App Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="{{ url_for('main.index') }}" class="brand">
+        <span class="brand-icon">💌</span>
+        <span>Surprise<span class="accent">Link</span></span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="{{ url_for('main.index') }}" class="{% if request.endpoint == 'main.index' %}active{% endif %}">Home</a></li>
+        <li><a href="{{ url_for('main.categories') }}" class="{% if request.endpoint == 'main.categories' %}active{% endif %}">Categories</a></li>
+        <li><a href="{{ url_for('main.templates_gallery') }}" class="{% if request.endpoint == 'main.templates_gallery' %}active{% endif %}">Templates</a></li>
+        {% if session.get('user_id') %}
+          <li><a href="{{ url_for('surprise.dashboard') }}" class="{% if request.endpoint == 'surprise.dashboard' %}active{% endif %}">Dashboard</a></li>
+          <li><a href="{{ url_for('surprise.my_creations') }}" class="{% if request.endpoint == 'surprise.my_creations' %}active{% endif %}">My Creations</a></li>
+        {% endif %}
+      </ul>
+
+      <div class="nav-actions">
+        <a href="{{ url_for('surprise.create_surprise') }}" class="btn btn-primary btn-sm">
+          <span>✨ Create Surprise</span>
+        </a>
+        {% if session.get('user_id') %}
+          <a href="{{ url_for('auth.logout') }}" class="btn btn-outline btn-sm">Logout</a>
+        {% else %}
+          <a href="{{ url_for('auth.login') }}" class="btn btn-secondary btn-sm">Sign In</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <!-- Flash Notifications -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="container" style="margin-top: 18px;">
+        {% for category, message in messages %}
+          <div class="alert-dismissible" style="padding: 12px 20px; border-radius: 12px; margin-bottom: 10px; font-weight: 600; font-size: 0.9rem; background: {% if category == 'error' %}#fee2e2; color: #b91c1c; border: 1px solid #fca5a5;{% else %}#ecfdf5; color: #047857; border: 1px solid #6ee7b7;{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Main Content Block -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="{{ url_for('main.index') }}" class="brand">
+            <span class="brand-icon">💌</span>
+            <span>Surprise<span class="accent">Link</span></span>
+          </a>
+          <p>Create beautiful, interactive digital surprise cards and love letters with custom music, animations, and instant shareable links for your loved ones.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Occasions</h4>
+          <ul>
+            <li><a href="{{ url_for('surprise.create_surprise', category='birthday') }}">Birthday Wishes</a></li>
+            <li><a href="{{ url_for('surprise.create_surprise', category='love') }}">Love & Romance</a></li>
+            <li><a href="{{ url_for('surprise.create_surprise', category='anniversary') }}">Anniversaries</a></li>
+            <li><a href="{{ url_for('surprise.create_surprise', category='proposal') }}">Marriage Proposal</a></li>
+            <li><a href="{{ url_for('surprise.create_surprise', category='sorry') }}">Sorry / Apology</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="{{ url_for('main.categories') }}">All Categories</a></li>
+            <li><a href="{{ url_for('main.templates_gallery') }}">Template Gallery</a></li>
+            <li><a href="{{ url_for('surprise.create_surprise') }}">Card Maker</a></li>
+            <li><a href="{{ url_for('surprise.my_creations') }}">My Creations</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Features</h4>
+          <ul>
+            <li><span style="color: #6b7280; font-size: 0.9rem;">✨ Instant QR Codes</span></li>
+            <li><span style="color: #6b7280; font-size: 0.9rem;">🎵 Interactive Music</span></li>
+            <li><span style="color: #6b7280; font-size: 0.9rem;">💌 3D Wax Seal Envelopes</span></li>
+            <li><span style="color: #6b7280; font-size: 0.9rem;">🎉 Confetti Celebrations</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 SurpriseLink. All rights reserved. Made with love ♡</p>
+        <p>No app install required for recipients • Opens directly in any mobile browser</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

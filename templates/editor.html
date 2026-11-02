@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block title %}{% if surprise %}Edit Surprise{% else %}Create Surprise Card{% endif %} – SurpriseLink{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="editor-layout">
+    <!-- Left Column: Form & Customizer Controls -->
+    <div class="editor-panel">
+      <div class="editor-header">
+        <h1 class="editor-title">
+          <span>💌</span>
+          <span>{% if surprise %}Edit Your Surprise Card{% else %}Personalize Your Surprise Card{% endif %}</span>
+        </h1>
+        <p class="editor-subtitle">Fill in your heartfelt message, customize colors, upload photos, and choose romantic music.</p>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="editor-tabs">
+        <button type="button" class="tab-btn active" data-tab="tab-content">
+          <span>✍️</span> Content
+        </button>
+        <button type="button" class="tab-btn" data-tab="tab-design">
+          <span>🎨</span> Colors & Fonts
+        </button>
+        <button type="button" class="tab-btn" data-tab="tab-photos">
+          <span>📸</span> Photos
+        </button>
+        <button type="button" class="tab-btn" data-tab="tab-stickers">
+          <span>✨</span> Stickers
+        </button>
+        <button type="button" class="tab-btn" data-tab="tab-music">
+          <span>🎵</span> Music
+        </button>
+      </div>
+
+      <form id="surprise-form" method="POST" action="{% if surprise %}{{ url_for('surprise.edit_surprise', id=surprise.id) }}{% else %}{{ url_for('surprise.create_surprise') }}{% endif %}" enctype="multipart/form-data">
+        <!-- Hidden Inputs for State -->
+        <input type="hidden" name="category" id="category" value="{{ surprise.category if surprise else category }}">
+        <input type="hidden" name="theme_gradient" id="theme_gradient" value="{{ surprise.theme_gradient if surprise else 'linear-gradient(135deg, #fff0f5 0%, #fce7f3 50%, #ede9fe 100%)' }}">
+        <input type="hidden" name="font_family" id="font_family" value="{{ surprise.font_family if surprise else 'Playfair Display' }}">
+        <input type="hidden" name="selected_stickers" id="selected_stickers" value='{{ surprise.stickers_json if surprise and surprise.stickers_json else "[\"🎂\", \"✨\", \"💖\"]" }}'>
+        <input type="hidden" name="music_track" id="music_track" value="{{ surprise.music_track if surprise else 'birthday' if category == 'birthday' else 'lofi' }}">
+        <input type="hidden" name="action_type" id="action_type" value="publish">
+
+        <!-- TAB 1: CONTENT -->
+        <div class="tab-pane active" id="tab-content">
+          <div class="form-group">
+            <label class="form-label" for="recipient_name">Recipient's Name <span class="req">*</span></label>
+            <input type="text" id="recipient_name" name="recipient_name" class="form-input" placeholder="e.g. My Dearest Priya, John, Bestie..." value="{{ surprise.recipient_name if surprise else '' }}" required>
+            <p class="form-hint">This name will appear proudly on the secret envelope badge.</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="sender_name">Your Name / Signature</label>
+            <input type="text" id="sender_name" name="sender_name" class="form-input" placeholder="e.g. Your Secret Admirer, Rahul, Forever Yours..." value="{{ surprise.sender_name if surprise else '' }}">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="headline">Occasion Headline <span class="req">*</span></label>
+            <input type="text" id="headline" name="headline" class="form-input" placeholder="e.g. Happy Birthday, My Love! ♡" value="{{ surprise.headline if surprise else 'Happy Birthday!' if category == 'birthday' else 'Happy Girlfriend\'s Day, My Love ♡' }}" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message">Heartfelt Message / Love Note <span class="req">*</span></label>
+            <textarea id="message" name="message" class="form-textarea" rows="5" placeholder="Write your heartfelt letter here..." required>{{ surprise.message if surprise else 'Today is all about celebrating you! Thank you for bringing so much warmth, laughter, and happiness into my life. May every dream of yours come true today and always! ✨' }}</textarea>
+            <p class="form-hint">Tip: Speak from the heart! You can include inside jokes, warm memories, and love notes.</p>
+          </div>
+        </div>
+
+        <!-- TAB 2: DESIGN & FONTS -->
+        <div class="tab-pane" id="tab-design">
+          <div class="form-group">
+            <label class="form-label">Background Color Palette</label>
+            <p class="form-hint" style="margin-bottom: 10px;">Select a romantic background theme:</p>
+            <div class="theme-picker">
+              <!-- Palette 1: Sweet Rose -->
+              <div class="theme-swatch active" data-gradient="linear-gradient(135deg, #fff0f5 0%, #fce7f3 50%, #ede9fe 100%)" style="background: linear-gradient(135deg, #fff0f5 0%, #fce7f3 50%, #ede9fe 100%);" title="Sweet Rose"></div>
+              <!-- Palette 2: Sunset Love -->
+              <div class="theme-swatch" data-gradient="linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%)" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%);" title="Sunset Pink"></div>
+              <!-- Palette 3: Lavender Dream -->
+              <div class="theme-swatch" data-gradient="linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)" style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);" title="Lavender Dream"></div>
+              <!-- Palette 4: Golden Glow -->
+              <div class="theme-swatch" data-gradient="linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);" title="Golden Glow"></div>
+              <!-- Palette 5: Midnight Magic -->
+              <div class="theme-swatch" data-gradient="linear-gradient(135deg, #2b1055 0%, #7597de 100%)" style="background: linear-gradient(135deg, #2b1055 0%, #7597de 100%);" title="Midnight Magic"></div>
+              <!-- Palette 6: Peach Blossom -->
+              <div class="theme-swatch" data-gradient="linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);" title="Peach Blossom"></div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 24px;">
+            <label class="form-label">Font Style</label>
+            <div class="font-selector">
+              <button type="button" class="font-option-btn active" data-font="'Playfair Display', serif" style="font-family: 'Playfair Display', serif;">
+                Romantic Serif
+              </button>
+              <button type="button" class="font-option-btn" data-font="'Dancing Script', cursive" style="font-family: 'Dancing Script', cursive; font-size: 1.1rem;">
+                Handwritten Script
+              </button>
+              <button type="button" class="font-option-btn" data-font="'Plus Jakarta Sans', sans-serif" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                Modern Clean
+              </button>
+              <button type="button" class="font-option-btn" data-font="'Sacramento', cursive" style="font-family: 'Sacramento', cursive; font-size: 1.3rem;">
+                Elegant Calligraphy
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 20px;">
+            <label class="form-label" for="text_color">Text Accent Color</label>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <input type="color" id="text_color" name="text_color" value="{{ surprise.text_color if surprise else '#1f2937' }}" style="width: 50px; height: 40px; border-radius: 8px; border: 1px solid #e5e7eb; cursor: pointer;">
+              <span style="font-size: 0.88rem; color: #6b7280;">Adjust the headline and text shade</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: PHOTOS -->
+        <div class="tab-pane" id="tab-photos">
+          <div class="form-group">
+            <label class="form-label">Upload Special Photos (Optional, up to 4)</label>
+            <div class="upload-dropzone" onclick="document.getElementById('photo_upload').click()">
+              <div class="upload-icon">📸</div>
+              <p style="font-weight: 700; color: #374151; margin-bottom: 4px;">Click to select photos or memories</p>
+              <p style="font-size: 0.8rem; color: #9ca3af;">Supported: JPG, PNG, WEBP (Max 5MB each)</p>
+            </div>
+            <input type="file" id="photo_upload" name="photos" accept="image/*" multiple style="display: none;">
+
+            <div class="photo-preview-grid" id="photo-preview-list">
+              {% if surprise and surprise.images %}
+                {% for img in surprise.images %}
+                  <div class="photo-preview-item">
+                    <img src="{{ img.image_url }}" alt="Uploaded Photo">
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: STICKERS -->
+        <div class="tab-pane" id="tab-stickers">
+          <div class="form-group">
+            <label class="form-label">Select Stickers & Doodles (Choose up to 5)</label>
+            <p class="form-hint" style="margin-bottom: 12px;">These cute icons float and animate inside your card:</p>
+
+            <div class="stickers-grid">
+              <button type="button" class="sticker-btn selected" data-sticker="🎂">🎂</button>
+              <button type="button" class="sticker-btn selected" data-sticker="✨">✨</button>
+              <button type="button" class="sticker-btn selected" data-sticker="💖">💖</button>
+              <button type="button" class="sticker-btn" data-sticker="🌹">🌹</button>
+              <button type="button" class="sticker-btn" data-sticker="🧸">🧸</button>
+              <button type="button" class="sticker-btn" data-sticker="🎁">🎁</button>
+              <button type="button" class="sticker-btn" data-sticker="💌">💌</button>
+              <button type="button" class="sticker-btn" data-sticker="🥂">🥂</button>
+              <button type="button" class="sticker-btn" data-sticker="💍">💍</button>
+              <button type="button" class="sticker-btn" data-sticker="🌸">🌸</button>
+              <button type="button" class="sticker-btn" data-sticker="🦋">🦋</button>
+              <button type="button" class="sticker-btn" data-sticker="🧁">🧁</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: MUSIC -->
+        <div class="tab-pane" id="tab-music">
+          <div class="form-group">
+            <label class="form-label">Background Melody</label>
+            <p class="form-hint" style="margin-bottom: 14px;">Plays automatically when the recipient opens the envelope:</p>
+
+            <div class="music-list">
+              <div class="music-card {% if (surprise and surprise.music_track == 'birthday') or (not surprise and category == 'birthday') %}active{% endif %}" data-track="birthday">
+                <div class="music-info">
+                  <div class="music-icon">🎂</div>
+                  <div class="music-details">
+                    <h4>Birthday Celebration</h4>
+                    <p>Uplifting, sweet acoustic birthday melody</p>
+                  </div>
+                </div>
+                <button type="button" class="music-preview-btn" title="Preview track">▶</button>
+              </div>
+
+              <div class="music-card {% if surprise and surprise.music_track == 'romantic' %}active{% endif %}" data-track="romantic">
+                <div class="music-info">
+                  <div class="music-icon">💖</div>
+                  <div class="music-details">
+                    <h4>Romantic Acoustic</h4>
+                    <p>Gentle and heartfelt guitar & harp chord progression</p>
+                  </div>
+                </div>
+                <button type="button" class="music-preview-btn" title="Preview track">▶</button>
+              </div>
+
+              <div class="music-card {% if surprise and surprise.music_track == 'musicbox' %}active{% endif %}" data-track="musicbox">
+                <div class="music-info">
+                  <div class="music-icon">🧸</div>
+                  <div class="music-details">
+                    <h4>Soft Music Box</h4>
+                    <p>Nostalgic music box lullaby with crystalline notes</p>
+                  </div>
+                </div>
+                <button type="button" class="music-preview-btn" title="Preview track">▶</button>
+              </div>
+
+              <div class="music-card {% if (surprise and surprise.music_track == 'lofi') or (not surprise and category != 'birthday') %}active{% endif %}" data-track="lofi">
+                <div class="music-info">
+                  <div class="music-icon">🌙</div>
+                  <div class="music-details">
+                    <h4>Lo-Fi Piano</h4>
+                    <p>Cozy, relaxing lofi keys for warm moments</p>
+                  </div>
+                </div>
+                <button type="button" class="music-preview-btn" title="Preview track">▶</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="editor-actions-bar">
+          <button type="button" class="btn btn-outline" onclick="document.getElementById('action_type').value='draft'; document.getElementById('surprise-form').submit();">
+            <span>💾 Save Draft</span>
+          </button>
+
+          <button type="submit" class="btn btn-primary btn-lg" onclick="document.getElementById('action_type').value='publish';">
+            <span>✨ Generate Secret Link</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Column: Sticky Live Mobile Mockup Preview -->
+    <div class="preview-sticky">
+      <div class="preview-controls">
+        <div class="preview-label">
+          <span>📱</span> Live Recipient View
+        </div>
+        <div class="preview-toggle">
+          <button type="button" class="toggle-btn active" id="btn-view-envelope">Envelope</button>
+          <button type="button" class="toggle-btn" id="btn-view-letter">Open Card</button>
+        </div>
+      </div>
+
+      <div class="editor-phone">
+        <div class="editor-phone-screen" id="preview-screen" style="background: linear-gradient(135deg, #fff0f5 0%, #fce7f3 50%, #ede9fe 100%);">
+          <!-- Envelope View -->
+          <div class="card-preview-envelope-view" id="preview-envelope-view">
+            <span class="recipient-badge" id="preview-recipient">FOR SOMEONE SPECIAL</span>
+            <h2 class="preview-headline" id="preview-headline">{{ surprise.headline if surprise else 'Happy Birthday!' }}</h2>
+            <p class="preview-subheadline">A sweet message they'll smile at forever ♡</p>
+
+            <div class="preview-envelope" id="preview-envelope-tap">
+              <div class="preview-envelope-heart">💖</div>
+              <span class="preview-open-text">TAP TO OPEN ♡</span>
+            </div>
+
+            <div class="preview-stickers-row" id="preview-stickers">
+              <span>🎂</span><span>✨</span><span>💖</span>
+            </div>
+          </div>
+
+          <!-- Open Card / Letter View -->
+          <div class="card-preview-content-view" id="preview-letter-view" style="display: none;">
+            <div class="preview-inner-card">
+              <span class="recipient-badge">FOR YOU ♡</span>
+              <p class="preview-message-body" id="preview-message">
+                {{ surprise.message if surprise else 'Wishing you the happiest moments, endless smiles, and all your dreams fulfilled today and always! ✨' }}
+              </p>
+
+              <div class="preview-photo-slider" id="preview-photos"></div>
+
+              <p id="preview-sender" style="text-align: right; font-weight: 700; color: var(--primary); margin-top: 14px;">
+                With love ♡
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/editor.js') }}"></script>
+{% endblock %}

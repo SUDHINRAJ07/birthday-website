@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Choose a Category – SurpriseLink{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="section-header">
+    <div class="section-badge">Step 1 • Categories</div>
+    <h1 class="section-title">Select a Surprise Category</h1>
+    <p class="section-subtitle">Every celebration deserves its own special touch. Select your occasion below to explore customized templates.</p>
+  </div>
+
+  <div class="category-grid">
+    <!-- 1. Birthday Wishes -->
+    <a href="{{ url_for('main.templates_gallery', category='birthday') }}" class="category-card">
+      <div class="category-icon-box" style="background: #ffe4e6; color: #ff4d79;">🎂</div>
+      <h3 class="category-title">Birthday Wishes</h3>
+      <p class="category-desc">Celebrate their birth date with festive confetti, colorful balloons, and heartfelt birthday notes.</p>
+      <span class="category-badge">4 Templates • Most Popular</span>
+    </a>
+
+    <!-- 2. Love & Romance -->
+    <a href="{{ url_for('main.templates_gallery', category='love') }}" class="category-card">
+      <div class="category-icon-box" style="background: #fce7f3; color: #ec4899;">💖</div>
+      <h3 class="category-title">Love & Romance</h3>
+      <p class="category-desc">Express your deepest feelings with romantic love letters, wax-sealed envelopes, and soft lofi piano.</p>
+      <span class="category-badge">4 Templates • Romantic</span>
+    </a>
+
+    <!-- 3. Anniversary -->
+    <a href="{{ url_for('main.templates_gallery', category='anniversary') }}" class="category-card">
+      <div class="category-icon-box" style="background: #fef3c7; color: #d97706;">💍</div>
+      <h3 class="category-title">Anniversary</h3>
+      <p class="category-desc">Cherish another year together with polaroid memory galleries and sweet reminiscence.</p>
+      <span class="category-badge">3 Templates • Elegant</span>
+    </a>
+
+    <!-- 4. Marriage Proposal -->
+    <a href="{{ url_for('main.templates_gallery', category='proposal') }}" class="category-card">
+      <div class="category-icon-box" style="background: #ede9fe; color: #8b5cf6;">✨</div>
+      <h3 class="category-title">Marriage Proposal</h3>
+      <p class="category-desc">Pop the big question with an interactive heart seal, romantic music, and unforgettable words.</p>
+      <span class="category-badge">3 Templates • Special</span>
+    </a>
+
+    <!-- 5. Sorry / Apology -->
+    <a href="{{ url_for('main.templates_gallery', category='sorry') }}" class="category-card">
+      <div class="category-icon-box" style="background: #e0f2fe; color: #0284c7;">🥺</div>
+      <h3 class="category-title">Sorry / Apology</h3>
+      <p class="category-desc">Mend hearts and bring back smiles with sincere apologies and comforting messages.</p>
+      <span class="category-badge">3 Templates • Heartfelt</span>
+    </a>
+
+    <!-- 6. Friendship -->
+    <a href="{{ url_for('main.templates_gallery', category='friendship') }}" class="category-card">
+      <div class="category-icon-box" style="background: #dcfce7; color: #16a34a;">👯</div>
+      <h3 class="category-title">Friendship</h3>
+      <p class="category-desc">Celebrate your best friends and unbreakable bonds with cheerful vibes and fun stickers.</p>
+      <span class="category-badge">3 Templates • Fun</span>
+    </a>
+
+    <!-- 7. Thank You -->
+    <a href="{{ url_for('main.templates_gallery', category='thankyou') }}" class="category-card">
+      <div class="category-icon-box" style="background: #ffedd5; color: #ea580c;">💐</div>
+      <h3 class="category-title">Thank You</h3>
+      <p class="category-desc">Show genuine gratitude for someone who supported or inspired you when you needed it most.</p>
+      <span class="category-badge">3 Templates • Warm</span>
+    </a>
+
+    <!-- 8. Valentine's Day -->
+    <a href="{{ url_for('main.templates_gallery', category='valentine') }}" class="category-card">
+      <div class="category-icon-box" style="background: #fee2e2; color: #dc2626;">🌹</div>
+      <h3 class="category-title">Valentine's Day</h3>
+      <p class="category-desc">Passionate roses, Cupid arrows, and unforgettable digital love surprises for Valentine's week.</p>
+      <span class="category-badge">4 Templates • Seasonal</span>
+    </a>
+
+    <!-- 9. Special Memories -->
+    <a href="{{ url_for('main.templates_gallery', category='memories') }}" class="category-card">
+      <div class="category-icon-box" style="background: #fae8ff; color: #a21caf;">📸</div>
+      <h3 class="category-title">Special Memories</h3>
+      <p class="category-desc">Revisit unforgettable trips, milestones, and shared moments with a rich photo slide experience.</p>
+      <span class="category-badge">3 Templates • Nostalgic</span>
+    </a>
+
+    <!-- 10. Custom Surprise -->
+    <a href="{{ url_for('surprise.create_surprise', category='custom') }}" class="category-card" style="border: 2px dashed #f472b6; background: #fffdfd;">
+      <div class="category-icon-box" style="background: #fdf2f8; color: #db2777;">🪄</div>
+      <h3 class="category-title">Custom Surprise</h3>
+      <p class="category-desc">Start from scratch with complete creative freedom over every title, color, animation, and track.</p>
+      <span class="category-badge" style="background: var(--primary-light); color: var(--primary);">Full Freedom • Blank Canvas</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

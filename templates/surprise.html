@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ surprise.headline }} – For {{ surprise.recipient_name }} ♡</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+
+  <!-- Core & Surprise Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/surprise.css') }}">
+
+  <style>
+    body {
+      background: {{ surprise.theme_gradient or 'linear-gradient(135deg, #fff0f5 0%, #fce7f3 50%, #ede9fe 100%)' }};
+      min-height: 100vh;
+    }
+    .card-headline, .card-message-text, .card-sender-signature {
+      font-family: {{ surprise.font_family or "'Playfair Display', serif" }};
+      color: {{ surprise.text_color or '#1f2937' }};
+    }
+  </style>
+</head>
+<body class="recipient-page">
+
+  <!-- Floating Particles Background -->
+  <div class="particles-bg" id="particles-bg"></div>
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Ambient Sound Control Pill -->
+  <div class="music-pill-controller" id="music-pill-controller" title="Toggle background music">
+    <div class="music-disc" id="music-disc">🎵</div>
+    <span class="music-pill-label" id="music-pill-label">Tap Envelope to Play Music</span>
+  </div>
+
+  <!-- Surprise Stage -->
+  <div class="surprise-stage">
+    
+    <!-- Phase 1: Interactive Wax-Sealed Envelope -->
+    <div class="envelope-box" id="surprise-envelope">
+      <div class="envelope-flap"></div>
+      <div class="wax-seal">💌</div>
+      
+      <div style="text-align: center; z-index: 2; padding: 20px;">
+        <span class="recipient-badge">FOR {{ surprise.recipient_name | upper }}</span>
+        <h2 style="font-family: var(--font-serif); font-size: 1.35rem; color: #1f2937; margin-top: 6px;">{{ surprise.headline }}</h2>
+      </div>
+
+      <div class="tap-to-open-pill">
+        <span>✨ TAP TO OPEN ♡</span>
+      </div>
+    </div>
+
+    <!-- Phase 2: Unveiled Letter / Surprise Card -->
+    <div class="revealed-card" id="revealed-card">
+      <span class="card-top-badge">A GIFT FOR YOU ♡</span>
+      <h1 class="card-headline">{{ surprise.headline }}</h1>
+      <p class="card-recipient-sub">Dearest {{ surprise.recipient_name }}</p>
+
+      <!-- Message Letter Box -->
+      <div class="card-message-box">
+        <p class="card-message-text">{{ surprise.message }}</p>
+        {% if surprise.sender_name %}
+          <div class="card-sender-signature">With all my love, {{ surprise.sender_name }} ♡</div>
+        {% endif %}
+      </div>
+
+      <!-- Polaroid Photos Gallery -->
+      {% if surprise.images %}
+        <div class="polaroid-gallery">
+          {% for img in surprise.images %}
+            <div class="polaroid-item">
+              <img src="{{ img.image_url }}" alt="Memory Photo">
+              <div class="polaroid-caption">Forever Sweet Moments ♡</div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- Decorative Animated Stickers -->
+      <div class="stickers-display-bar">
+        {% set stickers = surprise.stickers %}
+        {% if stickers %}
+          {% for s in stickers %}
+            <span style="animation: float {{ 3 + loop.index }}s ease-in-out infinite;">{{ s }}</span>
+          {% endfor %}
+        {% else %}
+          <span>🎂</span><span>✨</span><span>💖</span><span>🌸</span>
+        {% endif %}
+      </div>
+
+      <!-- Footnote CTA -->
+      <div class="recipient-cta">
+        <a href="{{ url_for('main.index') }}" target="_blank">
+          <span>💌 Create your own surprise link with SurpriseLink</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Audio Synth & Controller Scripts -->
+  <script>
+    window.SURPRISE_MUSIC = "{{ surprise.music_track or 'lofi' }}";
+  </script>
+  <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/surprise.js') }}"></script>
+</body>
+</html>
