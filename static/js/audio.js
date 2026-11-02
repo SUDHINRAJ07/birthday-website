@@ -219,6 +219,24 @@ class SurpriseAudioSynth {
     this.isPlaying = true;
     this.currentTrack = trackName;
 
+    // Custom uploaded song support (HTML5 Audio MP3)
+    if (trackName === 'custom_song' || trackName === 'custom' || (typeof trackName === 'string' && trackName.includes('.mp3'))) {
+      const src = (typeof trackName === 'string' && trackName.includes('/')) ? trackName : '/static/audio/custom_song.mp3';
+      if (!this.customAudio) {
+        this.customAudio = new Audio(src);
+        this.customAudio.loop = true;
+      } else {
+        this.customAudio.src = src;
+      }
+      this.customAudio.currentTime = 0;
+      this.customAudio.volume = 0.7;
+      const playPromise = this.customAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(e => console.log('Autoplay interaction needed:', e));
+      }
+      return;
+    }
+
     const melody = this.getMelody(trackName);
     const loopMelody = () => {
       if (!this.isPlaying) return;
@@ -240,6 +258,11 @@ class SurpriseAudioSynth {
     if (this.timerId) {
       clearTimeout(this.timerId);
       this.timerId = null;
+    }
+    if (this.customAudio) {
+      try {
+        this.customAudio.pause();
+      } catch (e) {}
     }
   }
 

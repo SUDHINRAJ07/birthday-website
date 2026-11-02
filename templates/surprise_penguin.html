@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/penguin.css') }}">
 </head>
-<body class="penguin-page">
+<body class="penguin-page" data-music-track="{{ surprise.music_track if surprise and surprise.music_track else 'custom_song' }}">
 
   <canvas id="confetti-canvas"></canvas>
 

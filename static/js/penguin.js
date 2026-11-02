@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnReplayAll = document.getElementById('btn-replay-all');
   const soundPill = document.getElementById('sound-pill');
   const soundPillIcon = document.getElementById('sound-pill-icon');
+  const configuredTrack = document.body.dataset.musicTrack || 'custom_song';
 
   function safePlay(fnName, param) {
     try {
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Acceptance decisions
   bindAction(btnYes, () => {
     safePlay('playUnlock');
-    safePlay('playTrack', 'birthday');
+    safePlay('playTrack', configuredTrack);
     showScreen('choose');
   });
 
@@ -210,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (soundPill) {
     soundPill.addEventListener('click', () => {
       if (window.surpriseAudio) {
-        const isPlaying = window.surpriseAudio.toggle('birthday');
+        const isPlaying = window.surpriseAudio.toggle(configuredTrack);
         if (soundPillIcon) soundPillIcon.textContent = isPlaying ? '🔊' : '🔇';
       }
     });

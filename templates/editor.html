@@ -44,7 +44,7 @@
         <input type="hidden" name="theme_gradient" id="theme_gradient" value="{{ surprise.theme_gradient if surprise else 'linear-gradient(135deg, #fff0f5 0%, #fce7f3 50%, #ede9fe 100%)' }}">
         <input type="hidden" name="font_family" id="font_family" value="{{ surprise.font_family if surprise else 'Playfair Display' }}">
         <input type="hidden" name="selected_stickers" id="selected_stickers" value='{{ surprise.stickers_json if surprise and surprise.stickers_json else "[\"🎂\", \"✨\", \"💖\"]" }}'>
-        <input type="hidden" name="music_track" id="music_track" value="{{ surprise.music_track if surprise else 'birthday' if category == 'birthday' else 'lofi' }}">
+        <input type="hidden" name="music_track" id="music_track" value="{{ surprise.music_track if surprise else 'custom_song' }}">
         <input type="hidden" name="action_type" id="action_type" value="publish">
 
         <!-- TAB 1: CONTENT -->
@@ -461,7 +461,19 @@
             <p class="form-hint" style="margin-bottom: 14px;">Plays automatically when the recipient opens the envelope:</p>
 
             <div class="music-list">
-              <div class="music-card {% if (surprise and surprise.music_track == 'birthday') or (not surprise and category == 'birthday') %}active{% endif %}" data-track="birthday">
+              <!-- Custom User Uploaded Birthday Song -->
+              <div class="music-card {% if (surprise and surprise.music_track == 'custom_song') or not surprise %}active{% endif %}" data-track="custom_song">
+                <div class="music-info">
+                  <div class="music-icon">🎵</div>
+                  <div class="music-details">
+                    <h4>Special Birthday Song (Custom BGM) ⭐</h4>
+                    <p>Your uploaded romantic birthday song (Plays in background)</p>
+                  </div>
+                </div>
+                <button type="button" class="music-preview-btn" title="Preview track">▶</button>
+              </div>
+
+              <div class="music-card {% if surprise and surprise.music_track == 'birthday' %}active{% endif %}" data-track="birthday">
                 <div class="music-info">
                   <div class="music-icon">🎂</div>
                   <div class="music-details">
