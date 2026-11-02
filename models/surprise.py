@@ -28,6 +28,9 @@ class Surprise(db.Model):
 
     # Security & Public Access
     slug = db.Column(db.String(32), unique=True, nullable=False, index=True)
+    passcode = db.Column(db.String(10), default='3105') # 4-digit PIN for Stage 1 lock
+    balloon_words_json = db.Column(db.Text, default='["You", "are", "so", "special ♡"]')
+    wishes_json = db.Column(db.Text, default='["You make my world beautiful 🌸", "Forever yours 🤍", "You are my sunshine ☀️", "I\'m lucky to have you 🥺", "You are my favorite person 💕", "Happy Birthday! 💖"]')
     is_published = db.Column(db.Boolean, default=True)
     views = db.Column(db.Integer, default=0)
 
@@ -44,6 +47,20 @@ class Surprise(db.Model):
             return json.loads(self.stickers_json) if self.stickers_json else ['🎂', '✨', '💖']
         except Exception:
             return ['🎂', '✨', '💖']
+
+    @property
+    def balloon_words(self):
+        try:
+            return json.loads(self.balloon_words_json) if self.balloon_words_json else ["You", "are", "so", "special ♡"]
+        except Exception:
+            return ["You", "are", "so", "special ♡"]
+
+    @property
+    def wishes(self):
+        try:
+            return json.loads(self.wishes_json) if self.wishes_json else ["You make my world beautiful 🌸", "Forever yours 🤍", "You are my sunshine ☀️", "I'm lucky to have you 🥺", "You are my favorite person 💕", "Happy Birthday! 💖"]
+        except Exception:
+            return ["You make my world beautiful 🌸", "Forever yours 🤍", "You are my sunshine ☀️", "I'm lucky to have you 🥺", "You are my favorite person 💕", "Happy Birthday! 💖"]
 
     def __repr__(self):
         return f'<Surprise {self.slug} for {self.recipient_name}>'

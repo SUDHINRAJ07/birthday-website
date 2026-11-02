@@ -34,6 +34,7 @@ def create_surprise():
         text_color = request.form.get('text_color', '#1f2937')
         stickers_json = request.form.get('selected_stickers')
         music_track = request.form.get('music_track', 'lofi')
+        passcode = request.form.get('passcode', '3105').strip() or '3105'
         action_type = request.form.get('action_type', 'publish')
 
         if not recipient_name or not headline or not message:
@@ -57,6 +58,7 @@ def create_surprise():
             text_color=text_color,
             stickers_json=stickers_json,
             music_track=music_track,
+            passcode=passcode,
             slug=slug,
             is_published=is_published
         )
@@ -115,6 +117,8 @@ def edit_surprise(id):
         surprise.text_color = request.form.get('text_color', '#1f2937')
         surprise.stickers_json = request.form.get('selected_stickers')
         surprise.music_track = request.form.get('music_track', 'lofi')
+        if request.form.get('passcode'):
+            surprise.passcode = request.form.get('passcode').strip()
 
         action_type = request.form.get('action_type', 'publish')
         surprise.is_published = (action_type == 'publish')

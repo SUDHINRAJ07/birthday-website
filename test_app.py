@@ -87,7 +87,7 @@ class SurpriseLinkTestCase(unittest.TestCase):
         public_resp = self.client.get(f'/s/{surprise.slug}')
         self.assertEqual(public_resp.status_code, 200)
         self.assertIn(b'Happy Birthday Ananya!', public_resp.data)
-        self.assertIn(b'ANANYA', public_resp.data)
+        self.assertIn(b'Ananya', public_resp.data)
 
     def test_invalid_slug_gives_404(self):
         resp = self.client.get('/s/non_existent_slug_999')

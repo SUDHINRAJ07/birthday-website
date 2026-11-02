@@ -10,103 +10,236 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
 
-  <!-- Core & Surprise Stylesheet -->
+  <!-- Core & Multi-Stage Surprise Stylesheet -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/surprise.css') }}">
 
   <style>
     body {
-      background: {{ surprise.theme_gradient or 'linear-gradient(135deg, #fff0f5 0%, #fce7f3 50%, #ede9fe 100%)' }};
+      background: {{ surprise.theme_gradient or 'linear-gradient(180deg, #ffeef6 0%, #fdf2f8 40%, #f5f3ff 100%)' }};
       min-height: 100vh;
-    }
-    .card-headline, .card-message-text, .card-sender-signature {
-      font-family: {{ surprise.font_family or "'Playfair Display', serif" }};
-      color: {{ surprise.text_color or '#1f2937' }};
     }
   </style>
 </head>
 <body class="recipient-page">
 
-  <!-- Floating Particles Background -->
+  <!-- Floating Particles & Confetti Canvas -->
   <div class="particles-bg" id="particles-bg"></div>
   <canvas id="confetti-canvas"></canvas>
 
-  <!-- Ambient Sound Control Pill -->
-  <div class="music-pill-controller" id="music-pill-controller" title="Toggle background music">
-    <div class="music-disc" id="music-disc">🎵</div>
-    <span class="music-pill-label" id="music-pill-label">Tap Envelope to Play Music</span>
+  <!-- Top App Navigation Bar -->
+  <div class="experience-top-bar">
+    <button type="button" class="nav-back-btn" id="nav-back-btn">
+      <span>← Back</span>
+    </button>
+    <div class="stage-tracker-pill" id="stage-tracker-pill">1/5</div>
+    <div class="sound-toggle-pill" id="sound-toggle-pill" title="Toggle Sound">🔊</div>
   </div>
 
-  <!-- Surprise Stage -->
-  <div class="surprise-stage">
-    
-    <!-- Phase 1: Interactive Wax-Sealed Envelope -->
-    <div class="envelope-box" id="surprise-envelope">
-      <div class="envelope-flap"></div>
-      <div class="wax-seal">💌</div>
-      
-      <div style="text-align: center; z-index: 2; padding: 20px;">
-        <span class="recipient-badge">FOR {{ surprise.recipient_name | upper }}</span>
-        <h2 style="font-family: var(--font-serif); font-size: 1.35rem; color: #1f2937; margin-top: 6px;">{{ surprise.headline }}</h2>
+  <div class="stages-container">
+
+    <!-- =========================================
+         STAGE 1: 🔒 SECRET HEART PASSCODE LOCK
+         ========================================= -->
+    <div class="experience-stage active" id="stage-1">
+      <div class="lock-visual-wrapper">
+        <div class="heart-lock-shackle"></div>
+        <div class="heart-lock" id="heart-lock">
+          <div class="heart-lock-keyhole"></div>
+        </div>
       </div>
 
-      <div class="tap-to-open-pill">
-        <span>✨ TAP TO OPEN ♡</span>
+      <div class="passcode-title">ENTER PASSCODE</div>
+
+      <div class="passcode-boxes">
+        <div class="passcode-box"></div>
+        <div class="passcode-box"></div>
+        <div class="passcode-box"></div>
+        <div class="passcode-box"></div>
       </div>
+
+      <p class="passcode-subtitle">Something special is waiting for you ♡</p>
+
+      <!-- Keypad -->
+      <div class="keypad-grid">
+        <button type="button" class="key-btn" data-key="1">1</button>
+        <button type="button" class="key-btn" data-key="2">2</button>
+        <button type="button" class="key-btn" data-key="3">3</button>
+        <button type="button" class="key-btn" data-key="4">4</button>
+        <button type="button" class="key-btn" data-key="5">5</button>
+        <button type="button" class="key-btn" data-key="6">6</button>
+        <button type="button" class="key-btn" data-key="7">7</button>
+        <button type="button" class="key-btn" data-key="8">8</button>
+        <button type="button" class="key-btn" data-key="9">9</button>
+        <div style="width: 66px;"></div>
+        <button type="button" class="key-btn" data-key="0">0</button>
+        <button type="button" class="key-btn" data-key="del" style="font-size: 1.4rem;">×</button>
+      </div>
+
+      <p style="font-size: 0.76rem; color: #9ca3af; margin-top: 24px;">Tip: Enter 4-digit code (e.g. {{ surprise.passcode or '3105' }})</p>
     </div>
 
-    <!-- Phase 2: Unveiled Letter / Surprise Card -->
-    <div class="revealed-card" id="revealed-card">
-      <span class="card-top-badge">A GIFT FOR YOU ♡</span>
-      <h1 class="card-headline">{{ surprise.headline }}</h1>
-      <p class="card-recipient-sub">Dearest {{ surprise.recipient_name }}</p>
+    <!-- =========================================
+         STAGE 2: 🎈 BALLOON POP MINI-GAME
+         ========================================= -->
+    <div class="experience-stage" id="stage-2">
+      <h2 class="stage-headline">Pop all 4 balloons 🎈</h2>
+      <div class="stage-counter-badge" id="popped-counter">0/4 POPPED</div>
 
-      <!-- Message Letter Box -->
-      <div class="card-message-box">
-        <p class="card-message-text">{{ surprise.message }}</p>
-        {% if surprise.sender_name %}
-          <div class="card-sender-signature">With all my love, {{ surprise.sender_name }} ♡</div>
-        {% endif %}
-      </div>
-
-      <!-- Polaroid Photos Gallery -->
-      {% if surprise.images %}
-        <div class="polaroid-gallery">
-          {% for img in surprise.images %}
-            <div class="polaroid-item">
-              <img src="{{ img.image_url }}" alt="Memory Photo">
-              <div class="polaroid-caption">Forever Sweet Moments ♡</div>
-            </div>
-          {% endfor %}
+      <div class="balloons-arena">
+        <!-- Balloon 1: Mint -->
+        <div class="floating-balloon balloon-1" data-balloon="0" title="Tap to pop!">
+          <span class="tap-hint">👆</span>
+          <div class="balloon-knot"></div>
         </div>
-      {% endif %}
 
-      <!-- Decorative Animated Stickers -->
-      <div class="stickers-display-bar">
-        {% set stickers = surprise.stickers %}
-        {% if stickers %}
-          {% for s in stickers %}
-            <span style="animation: float {{ 3 + loop.index }}s ease-in-out infinite;">{{ s }}</span>
-          {% endfor %}
-        {% else %}
-          <span>🎂</span><span>✨</span><span>💖</span><span>🌸</span>
-        {% endif %}
+        <!-- Balloon 2: Lavender -->
+        <div class="floating-balloon balloon-2" data-balloon="1" title="Tap to pop!">
+          <span class="tap-hint">👆</span>
+          <div class="balloon-knot"></div>
+        </div>
+
+        <!-- Balloon 3: Peach -->
+        <div class="floating-balloon balloon-3" data-balloon="2" title="Tap to pop!">
+          <span class="tap-hint">👆</span>
+          <div class="balloon-knot"></div>
+        </div>
+
+        <!-- Balloon 4: Pink -->
+        <div class="floating-balloon balloon-4" data-balloon="3" title="Tap to pop!">
+          <span class="tap-hint">👆</span>
+          <div class="balloon-knot"></div>
+        </div>
       </div>
 
-      <!-- Footnote CTA -->
-      <div class="recipient-cta">
-        <a href="{{ url_for('main.index') }}" target="_blank">
-          <span>💌 Create your own surprise link with SurpriseLink</span>
+      <button type="button" class="flow-btn-primary" id="balloon-continue-btn" style="display: none;">
+        <span>Continue to Flowers 💐 →</span>
+      </button>
+    </div>
+
+    <!-- =========================================
+         STAGE 3: 🌹 3D ROSE BOUQUET & WISH CLOUDS
+         ========================================= -->
+    <div class="experience-stage" id="stage-3">
+      <h2 class="stage-headline">Your Rose Bouquet 🌹</h2>
+      <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 12px;">Hand-picked for {{ surprise.recipient_name }} ♡</p>
+
+      <div class="bouquet-wrapper">
+        <!-- Bouquet Visual -->
+        <div class="bouquet-illustration" style="display: flex; align-items: center; justify-content: center; font-size: 8.5rem;">
+          💐
+        </div>
+
+        <!-- 6 Floating Wish Clouds -->
+        {% set wishes = surprise.wishes %}
+        <div class="floating-wish-bubble wish-1">{{ wishes[0] if wishes|length > 0 else "You make my world beautiful 🌸" }}</div>
+        <div class="floating-wish-bubble wish-2">{{ wishes[1] if wishes|length > 1 else "Forever yours 🤍" }}</div>
+        <div class="floating-wish-bubble wish-3">{{ wishes[2] if wishes|length > 2 else "You are my sunshine ☀️" }}</div>
+        <div class="floating-wish-bubble wish-4">{{ wishes[3] if wishes|length > 3 else "I'm lucky to have you 🥺" }}</div>
+        <div class="floating-wish-bubble wish-5">{{ wishes[4] if wishes|length > 4 else "You are my favorite person 💕" }}</div>
+        <div class="floating-wish-bubble wish-6">{{ wishes[5] if wishes|length > 5 else "Happy Birthday! 💖" }}</div>
+      </div>
+
+      <button type="button" class="flow-btn-primary" id="to-stage-4-btn">
+        <span>Read Letter 💌 →</span>
+      </button>
+    </div>
+
+    <!-- =========================================
+         STAGE 4: 📜 TYPEWRITER HEARTFELT LETTER
+         ========================================= -->
+    <div class="experience-stage" id="stage-4">
+      <h2 class="stage-headline" style="margin-bottom: 18px;">A Message From My Heart</h2>
+
+      <div class="letter-stationery">
+        <div class="stationery-stamp">💖</div>
+
+        <div class="letter-greeting">Dearest {{ surprise.recipient_name }},</div>
+
+        <!-- Typewriter Live Text -->
+        <div class="typewriter-text">
+          <span id="typewriter-text"></span><span class="typewriter-cursor"></span>
+        </div>
+
+        {% if surprise.sender_name %}
+          <div style="font-family: var(--font-handwriting); font-size: 1.4rem; font-weight: 700; color: #ff4d79; margin-top: 20px; text-align: right;">
+            With all my love and best wishes,<br>
+            {{ surprise.sender_name }} ♡
+          </div>
+        {% endif %}
+
+        <!-- Cute Kitten/Bear Corner Stickers -->
+        <div class="stationery-stickers-corner">
+          <span>🐱</span><span>🧸</span><span>🌸</span>
+        </div>
+      </div>
+
+      <button type="button" class="flow-btn-primary" id="to-stage-5-btn" style="display: none;">
+        <span>One last surprise 🎁 →</span>
+      </button>
+    </div>
+
+    <!-- =========================================
+         STAGE 5: 🎁 MYSTERY GIFT BOX UNBOXING
+         ========================================= -->
+    <div class="experience-stage" id="stage-5">
+      <div id="gift-intro-box">
+        <h2 class="stage-headline">One Last Thing...</h2>
+        <p style="font-size: 1rem; color: #e11d48; font-weight: 700; margin-top: 4px;">Tap the gift 🎁</p>
+      </div>
+
+      <div class="gift-box-wrapper" id="gift-box-wrapper">
+        <div class="gift-box-icon">🎁</div>
+        <div class="tap-counter-bubble" id="tap-counter-bubble">3</div>
+      </div>
+
+      <!-- Final Celebration Reveal Card -->
+      <div class="final-reveal-card" id="final-reveal-card">
+        <div class="final-character-art">🐰🎂🐻</div>
+        <h2 style="font-family: var(--font-handwriting); font-size: 2.2rem; color: #e11d48; margin-bottom: 6px;">
+          Lots of love for you ❤️
+        </h2>
+        <p style="font-family: var(--font-serif); font-size: 1.2rem; color: #4b5563; margin-bottom: 20px;">
+          Once again, {{ surprise.headline }}!
+        </p>
+
+        <!-- Uploaded Polaroid Photos -->
+        {% if surprise.images %}
+          <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
+            {% for img in surprise.images %}
+              <div style="background: #fff; padding: 6px 6px 14px 6px; border-radius: 8px; box-shadow: 0 8px 18px rgba(0,0,0,0.1); max-width: 140px; transform: rotate({{ loop.index * 3 - 6 }}deg);">
+                <img src="{{ img.image_url }}" alt="Memory" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px;">
+                <p style="font-family: var(--font-handwriting); font-size: 0.85rem; color: #6b7280; text-align: center; margin-top: 4px;">Memories ♡</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <button type="button" class="btn btn-secondary btn-lg" id="replay-journey-btn" style="width: 100%; margin-bottom: 14px;">
+          <span>↺ Replay Experience</span>
+        </button>
+
+        <a href="{{ url_for('main.index') }}" class="btn btn-outline btn-sm" style="width: 100%;">
+          <span>💌 Create your own surprise with SurpriseLink</span>
         </a>
       </div>
     </div>
 
   </div>
 
-  <!-- Audio Synth & Controller Scripts -->
+  <!-- Injected Server Data -->
   <script>
-    window.SURPRISE_MUSIC = "{{ surprise.music_track or 'lofi' }}";
+    window.SURPRISE_DATA = {
+      passcode: "{{ surprise.passcode or '3105' }}",
+      recipient: "{{ surprise.recipient_name }}",
+      headline: "{{ surprise.headline }}",
+      message: {{ surprise.message | tojson }},
+      balloonWords: {{ surprise.balloon_words | tojson }},
+      musicTrack: "{{ surprise.music_track or 'birthday' if surprise.category == 'birthday' else 'lofi' }}"
+    };
   </script>
+
+  <!-- Audio Synth & Multi-Stage Scripts -->
   <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
   <script src="{{ url_for('static', filename='js/surprise.js') }}"></script>
 </body>
