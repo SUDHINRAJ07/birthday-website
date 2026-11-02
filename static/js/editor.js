@@ -64,14 +64,21 @@ document.addEventListener('DOMContentLoaded', () => {
   if (monthSelect) monthSelect.addEventListener('change', updateSpecialDate);
   if (daySelect) daySelect.addEventListener('change', updateSpecialDate);
 
+  // Tab Switching
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanes = document.querySelectorAll('.tab-pane');
+
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       tabBtns.forEach(b => b.classList.remove('active'));
       tabPanes.forEach(p => p.classList.remove('active'));
 
       btn.classList.add('active');
-      const target = document.getElementById(btn.dataset.tab);
-      if (target) target.classList.add('active');
+      const targetId = btn.dataset.tab;
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.classList.add('active');
+      }
     });
   });
 
