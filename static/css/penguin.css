@@ -1410,57 +1410,286 @@
 }
 
 /* ===================================================
-   Mobile Screen Responsive Fit (Any Device)
+   Mobile Screen Responsive Fit (Tailored for Realme 8 5G & Any Mobile 360px-440px)
    =================================================== */
 @media (max-width: 640px) {
   .penguin-page {
-    padding: 10px 8px;
+    padding: 8px 6px;
+    min-height: 100dvh;
+    justify-content: center;
   }
-  .cartoon-stage-card {
-    padding: 24px 12px 68px 12px;
+
+  .penguin-stage-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .paper-dialog-card {
+    padding: 22px 14px;
     border-radius: 22px;
+    border-width: 2.5px;
+    box-shadow: 5px 5px 0px #1e293b;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
   }
+
+  .penguin-title {
+    font-size: clamp(1.5rem, 5.5vw, 1.85rem);
+    margin-bottom: 12px;
+  }
+
+  /* Screen 1 Mascot */
+  .mascot-3d-showcase {
+    margin: 6px 0;
+  }
+
+  .mascot-3d-img-large {
+    width: 125px;
+    height: 125px;
+  }
+
+  .mascot-shadow-dynamic {
+    width: 85px;
+    height: 12px;
+    margin-top: -6px;
+  }
+
+  .mascot-gift-float {
+    font-size: 2.1rem;
+    bottom: 2px;
+    right: 2px;
+  }
+
+  .btn-choice-yes,
+  .btn-choice-no,
+  .btn-try-again {
+    padding: 12px 18px;
+    font-size: 1.25rem;
+    border-width: 2.5px;
+    box-shadow: 3px 3px 0px #1e293b;
+  }
+
+  /* Screen 2: Choose Penguin 3 Cards */
+  .penguin-selector-card {
+    padding: 18px 10px;
+  }
+
+  .penguin-select-title {
+    font-size: 1.65rem;
+  }
+
+  .penguin-select-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+  }
+
+  .three-penguins-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .selectable-penguin-card {
+    padding: 8px 3px;
+    border-radius: 16px;
+    border-width: 2px;
+    box-shadow: 3px 3px 0px #1e293b;
+  }
+
+  .penguin-mascot-wrap {
+    width: 76px;
+    height: 86px;
+    margin: 2px auto 4px auto;
+  }
+
+  .p-gift-overlay {
+    font-size: 1.2rem;
+    bottom: -2px;
+    right: 2px;
+  }
+
+  .penguin-label-pill {
+    font-size: 0.74rem;
+    padding: 2px 6px;
+    border-width: 1px;
+  }
+
+  /* Screen A: Cake & Wish */
+  .cartoon-stage-card {
+    padding: 18px 10px 52px 10px;
+    border-radius: 22px;
+    border-width: 2.5px;
+    box-shadow: 5px 5px 0px #1e293b;
+    box-sizing: border-box;
+  }
+
   .cartoon-duck-box {
-    top: 8px;
-    left: 8px;
-    transform: scale(0.85);
+    top: 6px;
+    left: 6px;
+    transform: scale(0.72);
+    transform-origin: top left;
   }
+
   #btn-p1-to-scrapbook {
-    top: 75px;
-    right: 8px;
-    transform: scale(0.88) rotate(8deg);
+    top: 56px;
+    right: 6px;
+    transform: scale(0.82) rotate(6deg);
+    transform-origin: top right;
   }
+
   .cartoon-gifts-footer {
-    bottom: 6px;
-    right: 8px;
-    transform: scale(0.85);
+    bottom: 4px;
+    right: 6px;
+    transform: scale(0.72);
     transform-origin: bottom right;
   }
+
+  .cartoon-bday-text {
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
+  }
+
+  .make-wish-text {
+    font-size: 1.2rem;
+    margin-bottom: -4px;
+  }
+
+  .penguin-3d-cake-stage {
+    width: 140px;
+    height: 160px;
+  }
+
+  .p-3d-character-box {
+    width: 100px;
+    height: 110px;
+  }
+
+  .cake-front-box {
+    margin-top: -30px;
+    transform: scale(0.88);
+    transform-origin: center top;
+  }
+
+  /* Screen B: Scrapbook Notebook */
   .scrapbook-notebook-card {
     padding: 14px 10px;
     border-radius: 20px;
+    border-width: 2.5px;
+    box-shadow: 5px 5px 0px #1e293b;
+    box-sizing: border-box;
   }
+
   .scrapbook-two-page-grid {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 12px;
   }
+
+  .scrapbook-left-page,
+  .scrapbook-right-page {
+    padding: 14px 10px;
+    border-radius: 16px;
+  }
+
   .heart-photo-frame {
-    width: clamp(170px, 48vw, 210px);
-    height: clamp(160px, 46vw, 200px);
+    width: 175px;
+    height: 165px;
   }
+
+  .scrapbook-bday-header {
+    font-size: 1.45rem;
+  }
+
   .scrapbook-letter-body {
-    font-size: clamp(1.05rem, 3.8vw, 1.25rem);
-    max-height: 240px;
+    font-size: 1.12rem;
+    line-height: 1.5;
+    max-height: 200px;
   }
+
+  .scrapbook-caption {
+    font-size: 1.35rem;
+    margin-top: 4px;
+  }
+
+  .blue-mascot-container {
+    transform: scale(0.85);
+    transform-origin: bottom right;
+  }
+
+  /* Screen 2: 5-Heart Collage */
+  .collage-notebook-card {
+    padding: 16px 10px;
+  }
+
+  .collage-cursive-title {
+    font-size: 2.2rem;
+  }
+
   .five-heart-collage-layout {
-    gap: 10px;
+    gap: 8px;
+    max-width: 325px;
   }
+
   .heart-frame-cutout {
-    width: 95px;
-    height: 90px;
+    width: 88px;
+    height: 84px;
   }
+
   .center-heart-frame {
-    width: 115px;
-    height: 110px;
+    width: 112px;
+    height: 106px;
+  }
+
+  .heart-arrow-note {
+    font-size: 1rem;
+  }
+
+  .collage-center-tag {
+    font-size: 1.55rem;
+  }
+
+  .heart-sticker-badge {
+    font-size: 0.92rem;
+  }
+
+  /* Screen 3A: Date */
+  .date-proposal-title {
+    font-size: 1.7rem;
+    margin-bottom: 12px;
+  }
+
+  .big-date-heart-frame {
+    width: 160px;
+    height: 150px;
+  }
+
+  .special-date-display {
+    font-size: 1.75rem;
+    letter-spacing: 3px;
+  }
+
+  /* Screen 3B: Virtual Hug */
+  .hug-arched-title {
+    font-size: 1.65rem;
+    margin-bottom: 8px;
+  }
+
+  .virtual-hug-gif-img {
+    max-width: 200px;
+    border-radius: 16px;
+  }
+
+  .hug-miss-you-text {
+    font-size: 1.95rem;
+    margin: 6px 0;
+  }
+
+  /* Screen 3C: Finale */
+  .love-you-ribbon-banner {
+    padding: 10px 18px;
+    border-radius: 16px;
+    border-width: 2.5px;
+  }
+
+  .love-you-banner-text {
+    font-size: 2rem;
   }
 }

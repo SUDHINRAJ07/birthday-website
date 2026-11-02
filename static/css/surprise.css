@@ -717,3 +717,73 @@
   20%, 60% { transform: translateX(-8px); }
   40%, 80% { transform: translateX(8px); }
 }
+
+/* ===================================================
+   Mobile Screen Responsive Fit (Realme 8 5G & Mobile 360px-440px)
+   =================================================== */
+@media (max-width: 480px) {
+  .recipient-page {
+    padding: 10px 8px;
+    min-height: 100dvh;
+  }
+
+  .stage-card {
+    padding: 20px 14px;
+    border-radius: 20px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .stage-title {
+    font-size: clamp(1.4rem, 5.2vw, 1.75rem);
+    margin-bottom: 6px;
+  }
+
+  .stage-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+
+  /* Lock pad */
+  .heart-padlock-container {
+    transform: scale(0.85);
+    margin: 8px 0;
+  }
+
+  /* Balloons */
+  .balloons-sky-area {
+    height: 180px;
+  }
+
+  /* Cake */
+  .cake-stage-container {
+    transform: scale(0.85);
+    margin: 6px 0;
+  }
+
+  /* Bond traits */
+  .traits-interactive-grid {
+    gap: 8px;
+  }
+
+  .trait-chip-btn {
+    padding: 8px 12px;
+    font-size: 0.88rem;
+  }
+
+  /* Polaroid Photo Card */
+  .polaroid-card {
+    max-width: 270px;
+    padding: 10px 10px 18px 10px;
+  }
+
+  .polaroid-photo-frame {
+    height: 190px;
+  }
+
+  .letter-content {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    max-height: 220px;
+  }
+}
