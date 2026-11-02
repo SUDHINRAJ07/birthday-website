@@ -221,19 +221,24 @@
     </div>
 
     <!-- =========================================
-         STAGE 4: 🌹 3D ROSE BOUQUET & WISH CLOUDS
+         STAGE 4: 📸 FULL-SIZE PHOTO & FLOATING WISH CLOUDS
          ========================================= -->
     <div class="experience-stage" id="stage-4">
-      <h2 class="stage-headline">Your Rose Bouquet 🌹</h2>
-      <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 12px;">Hand-picked for {{ surprise.recipient_name }} ♡</p>
+      <h2 class="stage-headline">Special Moments 💖</h2>
+      <p style="font-size: 0.95rem; color: #6b7280; margin-bottom: 14px;">Cherished memories for {{ surprise.recipient_name }} ♡</p>
 
       <div class="bouquet-wrapper">
-        <!-- Bouquet Visual -->
-        <div class="bouquet-illustration" style="display: flex; align-items: center; justify-content: center; font-size: 8.5rem;">
-          💐
+        <!-- Center Full-Size Photo Showcase -->
+        <div class="stage-photo-showcase">
+          {% if surprise.images and surprise.images|length > 0 %}
+            <img src="{{ surprise.images[0].image_url }}" alt="Special Memory Photo" class="stage-photo-full">
+          {% else %}
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=80" alt="Special Memory Photo" class="stage-photo-full">
+          {% endif %}
+          <div class="stage-photo-badge">💖</div>
         </div>
 
-        <!-- 6 Floating Wish Clouds -->
+        <!-- 6 Floating Glassmorphism Wish Clouds -->
         {% set wishes = surprise.wishes %}
         <div class="floating-wish-bubble wish-1">{{ wishes[0] if wishes|length > 0 else "You make my world beautiful 🌸" }}</div>
         <div class="floating-wish-bubble wish-2">{{ wishes[1] if wishes|length > 1 else "Forever yours 🤍" }}</div>

@@ -222,12 +222,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePinDisplay();
 
         if (enteredPin.length === 4) {
-          // Verify PIN
-          if (enteredPin === targetPasscode || targetPasscode === '1234' || targetPasscode === '3105' || targetPasscode === '8285' || enteredPin.length === 4) {
+          // Verify PIN - Strict check against creator's chosen passcode
+          if (enteredPin === targetPasscode) {
             // Correct PIN!
             if (window.surpriseAudio) {
               window.surpriseAudio.playUnlock();
-              window.surpriseAudio.playTrack(data.musicTrack || 'birthday');
+              window.surpriseAudio.playTrack(data.musicTrack || 'custom_song');
             }
 
             if (heartLockSvg) heartLockSvg.classList.add('unlocked');
@@ -237,8 +237,11 @@ document.addEventListener('DOMContentLoaded', () => {
               goToStage(2);
             }, 800);
           } else {
-            // Error shake
+            // Error shake on wrong password
             pinBoxes.forEach(b => b.classList.add('error'));
+            if (window.surpriseAudio) {
+              window.surpriseAudio.playKeyClick();
+            }
             setTimeout(() => {
               pinBoxes.forEach(b => b.classList.remove('error'));
               enteredPin = '';
