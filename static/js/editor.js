@@ -21,9 +21,48 @@ document.addEventListener('DOMContentLoaded', () => {
   const previewStickersContainer = document.getElementById('preview-stickers');
   const previewPhotoContainer = document.getElementById('preview-photos');
 
-  // Tab Switching
-  const tabBtns = document.querySelectorAll('.tab-btn');
-  const tabPanes = document.querySelectorAll('.tab-pane');
+  // Bond Traits Selection
+  const traitBtns = document.querySelectorAll('.bond-trait-btn');
+  const bondTraitsInput = document.getElementById('bond_traits');
+  let selectedTraits = ['Sweet', 'Loyal', 'My rock'];
+
+  traitBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const trait = btn.dataset.trait;
+      if (selectedTraits.includes(trait)) {
+        selectedTraits = selectedTraits.filter(t => t !== trait);
+        btn.classList.remove('active');
+        btn.style.background = '#fff';
+        btn.style.color = '#4b5563';
+        btn.style.borderColor = '#e5e7eb';
+      } else {
+        if (selectedTraits.length < 3) {
+          selectedTraits.push(trait);
+          btn.classList.add('active');
+          btn.style.background = 'var(--primary-light)';
+          btn.style.color = 'var(--primary)';
+          btn.style.borderColor = 'var(--primary)';
+        } else {
+          showToast('Choose any 3 traits!', 'error');
+        }
+      }
+      if (bondTraitsInput) bondTraitsInput.value = JSON.stringify(selectedTraits);
+    });
+  });
+
+  // Month & Day change auto updates passcode hint
+  const monthSelect = document.getElementById('special_date_month');
+  const daySelect = document.getElementById('special_date_day');
+  const specialDateInput = document.getElementById('special_date');
+  const passcodeInput = document.getElementById('passcode');
+
+  function updateSpecialDate() {
+    if (monthSelect && daySelect && specialDateInput) {
+      specialDateInput.value = `${monthSelect.value} ${daySelect.value}`;
+    }
+  }
+  if (monthSelect) monthSelect.addEventListener('change', updateSpecialDate);
+  if (daySelect) daySelect.addEventListener('change', updateSpecialDate);
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {

@@ -16,8 +16,12 @@ class Surprise(db.Model):
     # Content Fields
     recipient_name = db.Column(db.String(120), nullable=False)
     sender_name = db.Column(db.String(120), nullable=True)
+    special_date = db.Column(db.String(50), default='Nov 4')
     headline = db.Column(db.String(255), nullable=False)
     message = db.Column(db.Text, nullable=False)
+    cake_choice = db.Column(db.String(50), default='princess')
+    character_choice = db.Column(db.String(50), default='teddy')
+    bond_traits_json = db.Column(db.Text, default='["Sweet", "Loyal", "My rock"]')
 
     # Design & Customization
     theme_gradient = db.Column(db.String(255), default='linear-gradient(135deg, #fff0f5 0%, #fce7f3 50%, #ede9fe 100%)')

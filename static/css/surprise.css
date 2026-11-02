@@ -132,111 +132,71 @@
    ========================================= */
 .lock-visual-wrapper {
   position: relative;
-  width: 120px;
-  height: 120px;
-  margin-bottom: 20px;
-}
-
-.heart-lock {
-  width: 100px;
-  height: 90px;
-  background: radial-gradient(circle at 35% 35%, #ff527b 0%, #e11d48 100%);
-  position: absolute;
-  bottom: 0;
-  left: 10px;
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  transform: rotate(-45deg);
-  box-shadow: 0 12px 28px rgba(225, 29, 72, 0.35);
+  width: 170px;
+  height: 170px;
+  margin: 0 auto 12px auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.4s ease;
 }
 
-.heart-lock::before,
-.heart-lock::after {
-  content: "";
-  position: absolute;
-  width: 100px;
-  height: 90px;
-  background: inherit;
-  border-radius: 50%;
+.heart-lock-svg {
+  filter: drop-shadow(0 14px 28px rgba(225, 29, 72, 0.28));
+  animation: floatLock 4s ease-in-out infinite;
+  transition: transform 0.4s ease;
 }
 
-.heart-lock::before {
-  top: -45px;
-  left: 0;
+.inserted-key {
+  animation: keyTwist 3s ease-in-out infinite alternate;
+  transform-origin: 100px 106px;
 }
 
-.heart-lock::after {
-  left: 45px;
-  top: 0;
+.svg-shackle-group {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: 68px 78px;
 }
 
-.heart-lock-keyhole {
-  position: relative;
-  z-index: 10;
-  width: 14px;
-  height: 22px;
-  background: #1e1b2e;
-  border-radius: 6px 6px 4px 4px;
-  transform: rotate(45deg);
-}
-
-.heart-lock-shackle {
-  position: absolute;
-  top: -12px;
-  left: 36px;
-  width: 48px;
-  height: 48px;
-  border: 8px solid #cbd5e1;
-  border-bottom: none;
-  border-radius: 28px 28px 0 0;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  transform-origin: left bottom;
-}
-
-.heart-lock.unlocked .heart-lock-shackle {
-  transform: rotate(-45deg) translateY(-8px);
-  border-color: #ffd700;
+.heart-lock-svg.unlocked .svg-shackle-group {
+  transform: rotate(-38deg) translateY(-8px);
 }
 
 .passcode-title {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-weight: 800;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   color: #be123c;
   text-transform: uppercase;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .passcode-boxes {
   display: flex;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .passcode-box {
-  width: 46px;
-  height: 52px;
+  width: 52px;
+  height: 56px;
   background: #ffffff;
   border: 2px solid #fbcfe8;
   border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.7rem;
   font-weight: 800;
-  color: #be123c;
+  color: #ffffff;
   box-shadow: 0 4px 10px rgba(0,0,0,0.04);
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .passcode-box.filled {
-  border-color: #ff4d79;
-  background: #fff0f5;
+  border-color: #e11d48;
+  background: linear-gradient(135deg, #ff4d79, #e11d48);
   transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(225, 29, 72, 0.3);
 }
 
 .passcode-box.error {
@@ -245,10 +205,102 @@
   color: #ef4444;
 }
 
+.passcode-dashes {
+  display: flex;
+  gap: 24px;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #fda4af;
+  margin-bottom: 8px;
+  user-select: none;
+}
+
 .passcode-subtitle {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: #6b7280;
   margin-bottom: 24px;
+}
+
+/* =========================================
+   CANDLE BLOW MINI-GAME STYLES
+   ========================================= */
+.candle-stage-box {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 28px;
+  padding: 36px 24px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.08);
+  width: 100%;
+}
+
+.wish-prompt-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: #be123c;
+  margin-bottom: 24px;
+}
+
+.candle-cake-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0 24px 0;
+  cursor: pointer;
+}
+
+.candle-flame {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 14px rgba(245, 158, 11, 0.8));
+  animation: flameFlicker 0.6s ease-in-out infinite alternate;
+  user-select: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.candle-flame.blown {
+  opacity: 0;
+  transform: scale(0.2) translateY(-20px);
+}
+
+.candle-stick {
+  width: 8px;
+  height: 28px;
+  background: repeating-linear-gradient(45deg, #f43f5e, #f43f5e 6px, #ffffff 6px, #ffffff 12px);
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  margin-top: -6px;
+}
+
+.cake-illustration {
+  font-size: 7.5rem;
+  margin-top: -12px;
+  filter: drop-shadow(0 14px 24px rgba(0,0,0,0.1));
+  animation: float 4s ease-in-out infinite;
+}
+
+.candle-tap-hint {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #9ca3af;
+  margin-top: 10px;
+}
+
+@keyframes flameFlicker {
+  0% { transform: scale(1) rotate(-3deg); }
+  50% { transform: scale(1.12) rotate(2deg); filter: drop-shadow(0 0 18px rgba(245, 158, 11, 0.95)); }
+  100% { transform: scale(0.95) rotate(-2deg); }
+}
+
+@keyframes floatLock {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes keyTwist {
+  0% { transform: translate(100px, 106px) rotate(-32deg); }
+  100% { transform: translate(100px, 106px) rotate(-24deg); }
 }
 
 /* Numeric Keypad */

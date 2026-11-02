@@ -43,10 +43,86 @@
          ========================================= -->
     <div class="experience-stage active" id="stage-1">
       <div class="lock-visual-wrapper">
-        <div class="heart-lock-shackle"></div>
-        <div class="heart-lock" id="heart-lock">
-          <div class="heart-lock-keyhole"></div>
-        </div>
+        <!-- Ultra-Realistic 3D Glossy Heart Padlock with Silver Shackle and Golden Key -->
+        <svg class="heart-lock-svg" viewBox="0 0 200 200" width="160" height="160">
+          <defs>
+            <!-- Metallic Silver Shackle Gradient -->
+            <linearGradient id="shackleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f1f5f9"/>
+              <stop offset="30%" stop-color="#cbd5e1"/>
+              <stop offset="60%" stop-color="#94a3b8"/>
+              <stop offset="100%" stop-color="#e2e8f0"/>
+            </linearGradient>
+            
+            <!-- Glossy Heart 3D Radial Gradient -->
+            <radialGradient id="heartBodyGrad" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#ff7597"/>
+              <stop offset="35%" stop-color="#ff3366"/>
+              <stop offset="80%" stop-color="#d81b60"/>
+              <stop offset="100%" stop-color="#ad1457"/>
+            </radialGradient>
+
+            <!-- Heart Specular Highlight -->
+            <radialGradient id="highlightGrad" cx="30%" cy="25%" r="45%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+              <stop offset="40%" stop-color="#ffffff" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- Golden Key Gradient -->
+            <linearGradient id="goldKeyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fef08a"/>
+              <stop offset="45%" stop-color="#eab308"/>
+              <stop offset="80%" stop-color="#ca8a04"/>
+              <stop offset="100%" stop-color="#facc15"/>
+            </linearGradient>
+
+            <!-- Drop Shadows -->
+            <filter id="lockShadow" x="-20%" y="-20%" width="150%" height="150%">
+              <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#be123c" flood-opacity="0.32"/>
+            </filter>
+            <filter id="keyGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#f59e0b" flood-opacity="0.5"/>
+            </filter>
+          </defs>
+
+          <!-- Silver Curved Shackle -->
+          <g id="svg-shackle" class="svg-shackle-group">
+            <path d="M 68 78 C 68 36, 132 36, 132 78" 
+                  fill="none" 
+                  stroke="url(#shackleGrad)" 
+                  stroke-width="15" 
+                  stroke-linecap="round"/>
+          </g>
+
+          <!-- 3D Heart Lock Body -->
+          <g filter="url(#lockShadow)" id="svg-heart-body">
+            <path d="M 100 172 C 38 126, 32 82, 54 58 C 76 34, 94 48, 100 64 C 106 48, 124 34, 146 58 C 168 82, 162 126, 100 172 Z"
+                  fill="url(#heartBodyGrad)"/>
+            <!-- Heart Gloss Highlight Overlay -->
+            <ellipse cx="74" cy="74" rx="26" ry="18" fill="url(#highlightGrad)" transform="rotate(-30 74 74)"/>
+          </g>
+
+          <!-- Keyhole -->
+          <g class="lock-keyhole">
+            <circle cx="100" cy="102" r="6.5" fill="#1e1b2e"/>
+            <polygon points="95,102 105,102 103.5,120 96.5,120" fill="#1e1b2e"/>
+          </g>
+
+          <!-- Golden Heart Key inserted into keyhole -->
+          <g class="inserted-key" filter="url(#keyGlow)" transform="translate(100, 106) rotate(-28)">
+            <!-- Key Stem -->
+            <rect x="0" y="-3.5" width="46" height="7" rx="3.5" fill="url(#goldKeyGrad)"/>
+            <!-- Key Teeth -->
+            <rect x="8" y="3.5" width="5.5" height="7" rx="1.5" fill="url(#goldKeyGrad)"/>
+            <rect x="18" y="3.5" width="5.5" height="9" rx="1.5" fill="url(#goldKeyGrad)"/>
+            <!-- Key Heart Bow Handle -->
+            <g transform="translate(48, -1)">
+              <path d="M 0 8 C -14 1, -12 -12, -4 -12 C 0 -12, 0 -6, 0 -6 C 0 -6, 0 -12, 4 -12 C 12 -12, 14 1, 0 8 Z" 
+                    fill="url(#goldKeyGrad)" transform="scale(1.4)"/>
+            </g>
+          </g>
+        </svg>
       </div>
 
       <div class="passcode-title">ENTER PASSCODE</div>
@@ -56,6 +132,11 @@
         <div class="passcode-box"></div>
         <div class="passcode-box"></div>
         <div class="passcode-box"></div>
+      </div>
+
+      <!-- 4 Dashes beneath boxes matching the video design -->
+      <div class="passcode-dashes">
+        <span>—</span><span>—</span><span>—</span><span>—</span>
       </div>
 
       <p class="passcode-subtitle">Something special is waiting for you ♡</p>
@@ -76,7 +157,7 @@
         <button type="button" class="key-btn" data-key="del" style="font-size: 1.4rem;">×</button>
       </div>
 
-      <p style="font-size: 0.76rem; color: #9ca3af; margin-top: 24px;">Tip: Enter 4-digit code (e.g. {{ surprise.passcode or '3105' }})</p>
+      <p style="font-size: 0.76rem; color: #9ca3af; margin-top: 24px;">Tip: Enter 4-digit code (e.g. {{ surprise.passcode or '8285' }})</p>
     </div>
 
     <!-- =========================================
@@ -113,14 +194,36 @@
       </div>
 
       <button type="button" class="flow-btn-primary" id="balloon-continue-btn" style="display: none;">
-        <span>Continue to Flowers 💐 →</span>
+        <span>Make a Wish 🕯️ →</span>
       </button>
     </div>
 
     <!-- =========================================
-         STAGE 3: 🌹 3D ROSE BOUQUET & WISH CLOUDS
+         STAGE 3: 🕯️ BLOW THE CANDLE MINI-GAME
          ========================================= -->
     <div class="experience-stage" id="stage-3">
+      <div class="candle-stage-box">
+        <h2 class="stage-headline" style="color: #be123c;">Blow the candle 🕯️</h2>
+        <p class="wish-prompt-text">Close your eyes & make a wish ♡</p>
+
+        <div class="candle-cake-wrapper" id="candle-cake-wrapper" title="Tap candle to blow it out!">
+          <!-- Flame Animation -->
+          <div class="candle-flame" id="candle-flame">🔥</div>
+          <div class="candle-stick"></div>
+          <div class="cake-illustration">🎂</div>
+          <p class="candle-tap-hint">Tap flame to blow it out ✨</p>
+        </div>
+
+        <button type="button" class="flow-btn-primary" id="after-candle-btn" style="display: none;">
+          <span>View Rose Bouquet 🌹 →</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- =========================================
+         STAGE 4: 🌹 3D ROSE BOUQUET & WISH CLOUDS
+         ========================================= -->
+    <div class="experience-stage" id="stage-4">
       <h2 class="stage-headline">Your Rose Bouquet 🌹</h2>
       <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 12px;">Hand-picked for {{ surprise.recipient_name }} ♡</p>
 
@@ -140,15 +243,15 @@
         <div class="floating-wish-bubble wish-6">{{ wishes[5] if wishes|length > 5 else "Happy Birthday! 💖" }}</div>
       </div>
 
-      <button type="button" class="flow-btn-primary" id="to-stage-4-btn">
+      <button type="button" class="flow-btn-primary" id="to-stage-letter-btn">
         <span>Read Letter 💌 →</span>
       </button>
     </div>
 
     <!-- =========================================
-         STAGE 4: 📜 TYPEWRITER HEARTFELT LETTER
+         STAGE 5: 📜 TYPEWRITER HEARTFELT LETTER
          ========================================= -->
-    <div class="experience-stage" id="stage-4">
+    <div class="experience-stage" id="stage-5">
       <h2 class="stage-headline" style="margin-bottom: 18px;">A Message From My Heart</h2>
 
       <div class="letter-stationery">
@@ -174,15 +277,15 @@
         </div>
       </div>
 
-      <button type="button" class="flow-btn-primary" id="to-stage-5-btn" style="display: none;">
+      <button type="button" class="flow-btn-primary" id="to-stage-gift-btn" style="display: none;">
         <span>One last surprise 🎁 →</span>
       </button>
     </div>
 
     <!-- =========================================
-         STAGE 5: 🎁 MYSTERY GIFT BOX UNBOXING
+         STAGE 6: 🎁 MYSTERY GIFT BOX UNBOXING
          ========================================= -->
-    <div class="experience-stage" id="stage-5">
+    <div class="experience-stage" id="stage-6">
       <div id="gift-intro-box">
         <h2 class="stage-headline">One Last Thing...</h2>
         <p style="font-size: 1rem; color: #e11d48; font-weight: 700; margin-top: 4px;">Tap the gift 🎁</p>

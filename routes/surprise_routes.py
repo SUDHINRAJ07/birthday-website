@@ -34,7 +34,11 @@ def create_surprise():
         text_color = request.form.get('text_color', '#1f2937')
         stickers_json = request.form.get('selected_stickers')
         music_track = request.form.get('music_track', 'lofi')
-        passcode = request.form.get('passcode', '3105').strip() or '3105'
+        passcode = request.form.get('passcode', '8285').strip() or '8285'
+        special_date = request.form.get('special_date', 'Nov 4')
+        cake_choice = request.form.get('cake_choice', 'princess')
+        character_choice = request.form.get('character_choice', 'teddy')
+        bond_traits_json = request.form.get('bond_traits', '["Sweet", "Loyal", "My rock"]')
         action_type = request.form.get('action_type', 'publish')
 
         if not recipient_name or not headline or not message:
@@ -51,8 +55,12 @@ def create_surprise():
             template_slug=template,
             recipient_name=recipient_name,
             sender_name=sender_name,
+            special_date=special_date,
             headline=headline,
             message=message,
+            cake_choice=cake_choice,
+            character_choice=character_choice,
+            bond_traits_json=bond_traits_json,
             theme_gradient=theme_gradient,
             font_family=font_family,
             text_color=text_color,

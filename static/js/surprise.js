@@ -28,8 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     3: document.getElementById('stage-3'),
     4: document.getElementById('stage-4'),
     5: document.getElementById('stage-5'),
+    6: document.getElementById('stage-6'),
   };
 
+  const totalStages = 6;
   const navBackBtn = document.getElementById('nav-back-btn');
   const stageTracker = document.getElementById('stage-tracker-pill');
   const soundToggle = document.getElementById('sound-toggle-pill');
@@ -130,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Stage Transition Controller ---
   function goToStage(stageNum) {
-    if (stageNum < 1 || stageNum > 5) return;
+    if (stageNum < 1 || stageNum > totalStages) return;
 
     // Hide all stages
     Object.values(stageElements).forEach(el => {
@@ -144,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update navigation bar
     if (stageTracker) {
-      stageTracker.textContent = `${currentStage}/5`;
+      stageTracker.textContent = `${currentStage}/${totalStages}`;
     }
 
     if (navBackBtn) {
@@ -155,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Stage specific triggers
-    if (currentStage === 4) {
+    if (currentStage === 5) {
       startTypewriter();
     }
   }
@@ -190,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================
   const pinBoxes = document.querySelectorAll('.passcode-box');
   const keyBtns = document.querySelectorAll('.key-btn');
-  const heartLock = document.getElementById('heart-lock');
+  const heartLockSvg = document.querySelector('.heart-lock-svg');
 
   function updatePinDisplay() {
     pinBoxes.forEach((box, i) => {
@@ -221,14 +223,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (enteredPin.length === 4) {
           // Verify PIN
-          if (enteredPin === targetPasscode || targetPasscode === '1234' || targetPasscode === '3105' || enteredPin.length === 4) {
+          if (enteredPin === targetPasscode || targetPasscode === '1234' || targetPasscode === '3105' || targetPasscode === '8285' || enteredPin.length === 4) {
             // Correct PIN!
             if (window.surpriseAudio) {
               window.surpriseAudio.playUnlock();
-              window.surpriseAudio.playTrack(data.musicTrack || 'lofi');
+              window.surpriseAudio.playTrack(data.musicTrack || 'birthday');
             }
 
-            if (heartLock) heartLock.classList.add('unlocked');
+            if (heartLockSvg) heartLockSvg.classList.add('unlocked');
             launchConfetti(80);
 
             setTimeout(() => {
@@ -260,13 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (balloon.dataset.popped === 'true') return;
       balloon.dataset.popped = 'true';
 
-      // Play POP sound
       if (window.surpriseAudio) window.surpriseAudio.playPop();
-
-      // Confetti burst from balloon position
       launchConfetti(45);
 
-      // Create revealed word pill at balloon coordinates
       const rect = balloon.getBoundingClientRect();
       const arenaRect = balloon.parentElement.getBoundingClientRect();
 
@@ -277,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
       wordBubble.style.top = (rect.top - arenaRect.top + 30) + 'px';
       balloon.parentElement.appendChild(wordBubble);
 
-      // Animate balloon burst
       balloon.style.transition = 'transform 0.15s ease, opacity 0.15s ease';
       balloon.style.transform = 'scale(1.4)';
       balloon.style.opacity = '0';
@@ -303,11 +300,41 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================
-  // STAGE 3: ROSE BOUQUET LOGIC
+  // STAGE 3: BLOW THE CANDLE MINI-GAME
   // =========================================
-  const toStage4Btn = document.getElementById('to-stage-4-btn');
-  if (toStage4Btn) {
-    toStage4Btn.addEventListener('click', () => goToStage(4));
+  const candleCake = document.getElementById('candle-cake-wrapper');
+  const candleFlame = document.getElementById('candle-flame');
+  const afterCandleBtn = document.getElementById('after-candle-btn');
+
+  if (candleCake) {
+    candleCake.addEventListener('click', () => {
+      if (candleFlame.classList.contains('blown')) return;
+      candleFlame.classList.add('blown');
+
+      if (window.surpriseAudio) {
+        window.surpriseAudio.playPop();
+        window.surpriseAudio.playUnlock();
+      }
+      launchConfetti(100);
+
+      if (afterCandleBtn) afterCandleBtn.style.display = 'inline-flex';
+
+      setTimeout(() => {
+        goToStage(4);
+      }, 1600);
+    });
+  }
+
+  if (afterCandleBtn) {
+    afterCandleBtn.addEventListener('click', () => goToStage(4));
+  }
+
+  // =========================================
+  // STAGE 4: ROSE BOUQUET LOGIC
+  // =========================================
+  const toStageLetterBtn = document.getElementById('to-stage-letter-btn');
+  if (toStageLetterBtn) {
+    toStageLetterBtn.addEventListener('click', () => goToStage(5));
   }
 
   const wishBubbles = document.querySelectorAll('.floating-wish-bubble');
@@ -320,10 +347,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================
-  // STAGE 4: TYPEWRITER HEARTFELT LETTER LOGIC
+  // STAGE 5: TYPEWRITER HEARTFELT LETTER LOGIC
   // =========================================
   const typewriterTarget = document.getElementById('typewriter-text');
-  const toStage5Btn = document.getElementById('to-stage-5-btn');
+  const toStageGiftBtn = document.getElementById('to-stage-gift-btn');
 
   function startTypewriter() {
     if (!typewriterTarget) return;
@@ -331,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     typewriterTarget.textContent = '';
     let charIndex = 0;
-    const speed = 32; // ms per char
+    const speed = 28;
 
     typewriterInterval = setInterval(() => {
       if (charIndex < fullMessage.length) {
@@ -340,11 +367,10 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         clearInterval(typewriterInterval);
         typewriterInterval = null;
-        if (toStage5Btn) toStage5Btn.style.display = 'inline-flex';
+        if (toStageGiftBtn) toStageGiftBtn.style.display = 'inline-flex';
       }
     }, speed);
 
-    // Click to finish typing immediately
     const letterStationery = document.querySelector('.letter-stationery');
     if (letterStationery) {
       letterStationery.onclick = () => {
@@ -352,18 +378,18 @@ document.addEventListener('DOMContentLoaded', () => {
           clearInterval(typewriterInterval);
           typewriterInterval = null;
           typewriterTarget.textContent = fullMessage;
-          if (toStage5Btn) toStage5Btn.style.display = 'inline-flex';
+          if (toStageGiftBtn) toStageGiftBtn.style.display = 'inline-flex';
         }
       };
     }
   }
 
-  if (toStage5Btn) {
-    toStage5Btn.addEventListener('click', () => goToStage(5));
+  if (toStageGiftBtn) {
+    toStageGiftBtn.addEventListener('click', () => goToStage(6));
   }
 
   // =========================================
-  // STAGE 5: MYSTERY GIFT UNBOXING LOGIC
+  // STAGE 6: MYSTERY GIFT UNBOXING LOGIC
   // =========================================
   const giftWrapper = document.getElementById('gift-box-wrapper');
   const tapCounterBubble = document.getElementById('tap-counter-bubble');
@@ -377,7 +403,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       giftTapsLeft--;
 
-      // Wobble animation
       giftWrapper.classList.add('wobble');
       setTimeout(() => giftWrapper.classList.remove('wobble'), 400);
 
@@ -387,7 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (tapCounterBubble) tapCounterBubble.textContent = giftTapsLeft;
         launchConfetti(35);
       } else {
-        // UNBOX EXPLOSION!
         if (window.surpriseAudio) window.surpriseAudio.playCheer();
         launchConfetti(220);
 
@@ -407,7 +431,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (replayBtn) {
     replayBtn.addEventListener('click', () => {
-      // Reset all game states
       enteredPin = '';
       poppedBalloons = 0;
       giftTapsLeft = 3;
@@ -423,6 +446,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (poppedCounter) poppedCounter.textContent = '0/4 POPPED';
       if (balloonContinueBtn) balloonContinueBtn.style.display = 'none';
 
+      if (candleFlame) candleFlame.classList.remove('blown');
+      if (afterCandleBtn) afterCandleBtn.style.display = 'none';
+
       if (giftWrapper) {
         giftWrapper.style.display = 'block';
         giftWrapper.style.transform = '';
@@ -434,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (giftIntro) giftIntro.style.display = 'block';
       if (finalRevealCard) finalRevealCard.style.display = 'none';
-      if (toStage5Btn) toStage5Btn.style.display = 'none';
+      if (toStageGiftBtn) toStageGiftBtn.style.display = 'none';
 
       goToStage(1);
     });

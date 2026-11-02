@@ -50,31 +50,76 @@
         <!-- TAB 1: CONTENT -->
         <div class="tab-pane active" id="tab-content">
           <div class="form-group">
-            <label class="form-label" for="recipient_name">Recipient's Name <span class="req">*</span></label>
-            <input type="text" id="recipient_name" name="recipient_name" class="form-input" placeholder="e.g. My Dearest Priya, John, Bestie..." value="{{ surprise.recipient_name if surprise else '' }}" required>
-            <p class="form-hint">This name will appear proudly on the secret envelope badge.</p>
+            <label class="form-label" for="recipient_name">Whose Birthday / Celebration is it? <span class="req">*</span></label>
+            <input type="text" id="recipient_name" name="recipient_name" class="form-input" placeholder="e.g. Priya, Akka, Bestie, Rahul..." value="{{ surprise.recipient_name if surprise else '' }}" required>
           </div>
 
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="special_date_month">When is the special day? 🗓️</label>
+              <select id="special_date_month" name="special_date_month" class="form-select">
+                <option value="Nov" selected>November</option>
+                <option value="Jan">January</option>
+                <option value="Feb">February</option>
+                <option value="Mar">March</option>
+                <option value="Apr">April</option>
+                <option value="May">May</option>
+                <option value="Jun">June</option>
+                <option value="Jul">July</option>
+                <option value="Aug">August</option>
+                <option value="Sep">September</option>
+                <option value="Oct">October</option>
+                <option value="Dec">December</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="special_date_day">Day</label>
+              <select id="special_date_day" name="special_date_day" class="form-select">
+                {% for d in range(1, 32) %}
+                  <option value="{{ d }}" {% if d == 4 %}selected{% endif %}>{{ d }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <input type="hidden" name="special_date" id="special_date" value="Nov 4">
+
+          <!-- What describes your bond? (Choose any 3) -->
           <div class="form-group">
-            <label class="form-label" for="passcode">4-Digit Secret Unlock PIN 🔒</label>
-            <input type="text" id="passcode" name="passcode" class="form-input" maxlength="4" placeholder="e.g. 3105 or 1234 (Default: 3105)" value="{{ surprise.passcode if surprise else '3105' }}">
-            <p class="form-hint">The recipient must enter this 4-digit PIN on the heart padlock to unlock their surprise journey!</p>
+            <label class="form-label">What describes your bond? (Choose any 3) 💕</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;" id="bond-traits-container">
+              <button type="button" class="btn btn-outline bond-trait-btn active" data-trait="Sweet">💗 Sweet</button>
+              <button type="button" class="btn btn-outline bond-trait-btn active" data-trait="Loyal">🤝 Loyal</button>
+              <button type="button" class="btn btn-outline bond-trait-btn active" data-trait="My rock">🪨 My rock</button>
+              <button type="button" class="btn btn-outline bond-trait-btn" data-trait="Bestie">⭐ Bestie</button>
+              <button type="button" class="btn btn-outline bond-trait-btn" data-trait="Always there">🤍 Always there</button>
+              <button type="button" class="btn btn-outline bond-trait-btn" data-trait="Kind heart">🥰 Kind heart</button>
+            </div>
+            <input type="hidden" name="bond_traits" id="bond_traits" value='["Sweet", "Loyal", "My rock"]'>
+          </div>
+
+          <!-- Secret Passcode Box -->
+          <div class="form-group" style="background: #fff5f8; padding: 16px; border-radius: 14px; border: 1.5px dashed #f472b6;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <label class="form-label" for="passcode" style="margin-bottom: 0;">Set 4-Digit Passcode 🔒</label>
+              <span style="font-size: 0.75rem; background: #ffe4e6; color: #e11d48; padding: 2px 8px; border-radius: 999px; font-weight: 700;">Keeps Card Safe</span>
+            </div>
+            <input type="text" id="passcode" name="passcode" class="form-input" maxlength="4" placeholder="8285" value="{{ surprise.passcode if surprise else '8285' }}" style="font-size: 1.2rem; font-weight: 800; letter-spacing: 4px; text-align: center;">
+            <p class="form-hint">Recipient will type this PIN on the glossy heart padlock to unlock their surprise.</p>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="sender_name">Your Name / Signature</label>
-            <input type="text" id="sender_name" name="sender_name" class="form-input" placeholder="e.g. Your Secret Admirer, Rahul, Forever Yours..." value="{{ surprise.sender_name if surprise else '' }}">
+            <input type="text" id="sender_name" name="sender_name" class="form-input" placeholder="e.g. Aadhi, Rahul, Your Bestie..." value="{{ surprise.sender_name if surprise else '' }}">
           </div>
 
           <div class="form-group">
             <label class="form-label" for="headline">Occasion Headline <span class="req">*</span></label>
-            <input type="text" id="headline" name="headline" class="form-input" placeholder="e.g. Happy Birthday, My Love! ♡" value="{{ surprise.headline if surprise else 'Happy Birthday!' if category == 'birthday' else 'Happy Girlfriend\'s Day, My Love ♡' }}" required>
+            <input type="text" id="headline" name="headline" class="form-input" placeholder="Happy Birthday!" value="{{ surprise.headline if surprise else 'Happy Birthday!' }}" required>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="message">Heartfelt Message / Love Note <span class="req">*</span></label>
-            <textarea id="message" name="message" class="form-textarea" rows="5" placeholder="Write your heartfelt letter here..." required>{{ surprise.message if surprise else 'Today is all about celebrating you! Thank you for bringing so much warmth, laughter, and happiness into my life. May every dream of yours come true today and always! ✨' }}</textarea>
-            <p class="form-hint">Tip: Speak from the heart! You can include inside jokes, warm memories, and love notes.</p>
+            <label class="form-label" for="message">Heartfelt Message / Typewriter Letter <span class="req">*</span></label>
+            <textarea id="message" name="message" class="form-textarea" rows="6" placeholder="Write your heartfelt message here..." required>{{ surprise.message if surprise else 'Happy Birthday to my super special person 🫂\nBlood relation illa... aana heart-ku romba close aana relationships irukku.\n\nUnexpected-ah life-la vandhavanga, konjam konjama namma manasula oru idam pidichutanga... parennnn 🤔\n\nDistance irundhaalum, bond mattum konjam kooda change aagadhu. Sila bonds-ku explanation thevai illa... feel pannina podhum. Stay blessed always!' }}</textarea>
           </div>
         </div>
 
