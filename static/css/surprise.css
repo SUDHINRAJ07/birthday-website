@@ -222,24 +222,26 @@
 }
 
 /* =========================================
-   CANDLE BLOW MINI-GAME STYLES
+   CANDLE BLOW MINI-GAME STYLES (ENHANCED SVG CAKE)
    ========================================= */
 .candle-stage-box {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 28px;
-  padding: 36px 24px;
+  padding: 30px 20px 24px 20px;
   box-shadow: 0 20px 45px rgba(0,0,0,0.08);
   width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
 }
 
 .wish-prompt-text {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   color: #be123c;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
 .candle-cake-wrapper {
@@ -247,50 +249,134 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px 0 24px 0;
+  margin: 10px 0 18px 0;
   cursor: pointer;
-}
-
-.candle-flame {
-  font-size: 2.5rem;
-  filter: drop-shadow(0 0 14px rgba(245, 158, 11, 0.8));
-  animation: flameFlicker 0.6s ease-in-out infinite alternate;
   user-select: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.candle-flame.blown {
+.cake-svg-container {
+  width: 100%;
+  max-width: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(0 14px 28px rgba(225, 29, 72, 0.14));
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.candle-cake-wrapper:hover .cake-svg-container,
+.candle-cake-wrapper:active .cake-svg-container {
+  transform: scale(1.02);
+}
+
+.artistic-cake-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Organic Flame Flickering */
+.cake-flame-group {
+  transform-origin: center bottom;
+  transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.flame-1 {
+  animation: flameFlickerOrganic 0.75s ease-in-out infinite alternate;
+}
+
+.flame-2 {
+  animation: flameFlickerOrganic 0.65s ease-in-out infinite alternate 0.2s;
+}
+
+.flame-3 {
+  animation: flameFlickerOrganic 0.8s ease-in-out infinite alternate 0.35s;
+}
+
+@keyframes flameFlickerOrganic {
+  0% {
+    transform: scale(1) rotate(-2deg);
+    filter: drop-shadow(0 0 10px rgba(251, 133, 0, 0.75));
+  }
+  50% {
+    transform: scale(1.1) rotate(2.5deg);
+    filter: drop-shadow(0 0 18px rgba(255, 183, 3, 0.95));
+  }
+  100% {
+    transform: scale(0.96) rotate(-1deg);
+    filter: drop-shadow(0 0 8px rgba(251, 133, 0, 0.7));
+  }
+}
+
+/* Extinguished Flames */
+.cake-flame-group.blown {
   opacity: 0;
-  transform: scale(0.2) translateY(-20px);
+  transform: scale(0.15) translateY(-18px);
+  pointer-events: none;
 }
 
-.candle-stick {
-  width: 8px;
-  height: 28px;
-  background: repeating-linear-gradient(45deg, #f43f5e, #f43f5e 6px, #ffffff 6px, #ffffff 12px);
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  margin-top: -6px;
+/* Smoke Puffs */
+.cake-smoke-puff {
+  opacity: 0;
+  transform-origin: center bottom;
+  pointer-events: none;
 }
 
-.cake-illustration {
-  font-size: 7.5rem;
-  margin-top: -12px;
-  filter: drop-shadow(0 14px 24px rgba(0,0,0,0.1));
-  animation: float 4s ease-in-out infinite;
+.cake-smoke-puff.puff-active {
+  animation: smokeRise 1.8s ease-out forwards;
 }
 
-.candle-tap-hint {
-  font-size: 0.82rem;
+@keyframes smokeRise {
+  0% {
+    opacity: 0.9;
+    transform: translateY(0) scale(0.6);
+  }
+  40% {
+    opacity: 0.7;
+    transform: translateY(-16px) scale(1) translateX(3px);
+  }
+  75% {
+    opacity: 0.35;
+    transform: translateY(-32px) scale(1.25) translateX(-4px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-48px) scale(1.4) translateX(6px);
+  }
+}
+
+/* Interactive Tap Pill Hint */
+.candle-tap-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+  border: 1px solid #fecdd3;
+  color: #be123c;
+  font-size: 0.88rem;
   font-weight: 700;
-  color: #9ca3af;
-  margin-top: 10px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  margin-top: 14px;
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.12);
+  transition: all 0.3s ease;
+  animation: pulsePill 2s infinite ease-in-out;
 }
 
-@keyframes flameFlicker {
-  0% { transform: scale(1) rotate(-3deg); }
-  50% { transform: scale(1.12) rotate(2deg); filter: drop-shadow(0 0 18px rgba(245, 158, 11, 0.95)); }
-  100% { transform: scale(0.95) rotate(-2deg); }
+.candle-tap-pill.success {
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  border-color: #a7f3d0;
+  color: #065f46;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
+  animation: none;
+  transform: scale(1.04);
+}
+
+@keyframes pulsePill {
+  0%, 100% { transform: scale(1); box-shadow: 0 4px 14px rgba(225, 29, 72, 0.12); }
+  50% { transform: scale(1.03); box-shadow: 0 6px 18px rgba(225, 29, 72, 0.22); }
 }
 
 @keyframes floatLock {

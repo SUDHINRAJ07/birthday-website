@@ -306,25 +306,50 @@ document.addEventListener('DOMContentLoaded', () => {
   // STAGE 3: BLOW THE CANDLE MINI-GAME
   // =========================================
   const candleCake = document.getElementById('candle-cake-wrapper');
-  const candleFlame = document.getElementById('candle-flame');
+  const flameElements = document.querySelectorAll('.cake-flame-group');
+  const smokeElements = document.querySelectorAll('.cake-smoke-puff');
+  const candleTapPill = document.getElementById('candle-tap-pill');
+  const candleTapText = document.getElementById('candle-tap-text');
   const afterCandleBtn = document.getElementById('after-candle-btn');
+  let isCandleBlown = false;
 
   if (candleCake) {
     candleCake.addEventListener('click', () => {
-      if (candleFlame.classList.contains('blown')) return;
-      candleFlame.classList.add('blown');
+      if (isCandleBlown) return;
+      isCandleBlown = true;
 
-      if (window.surpriseAudio) {
-        window.surpriseAudio.playPop();
-        window.surpriseAudio.playUnlock();
+      // Extinguish all flames with graceful animation
+      flameElements.forEach(flame => flame.classList.add('blown'));
+
+      // Trigger realistic smoke wisps drifting from the wicks
+      smokeElements.forEach(smoke => smoke.classList.add('puff-active'));
+
+      // Update pill badge state
+      if (candleTapPill && candleTapText) {
+        candleTapPill.classList.add('success');
+        candleTapText.textContent = '🎉 Wish Made! Happy Birthday! 🎉';
       }
-      launchConfetti(100);
+
+      // Audio effects
+      if (window.surpriseAudio) {
+        if (typeof window.surpriseAudio.playBlowCandle === 'function') {
+          window.surpriseAudio.playBlowCandle();
+        } else if (typeof window.surpriseAudio.playPop === 'function') {
+          window.surpriseAudio.playPop();
+        }
+        setTimeout(() => {
+          if (window.surpriseAudio.playUnlock) window.surpriseAudio.playUnlock();
+        }, 220);
+      }
+
+      // Festive Confetti burst
+      launchConfetti(120);
 
       if (afterCandleBtn) afterCandleBtn.style.display = 'inline-flex';
 
       setTimeout(() => {
         goToStage(4);
-      }, 1600);
+      }, 1800);
     });
   }
 
@@ -449,7 +474,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (poppedCounter) poppedCounter.textContent = '0/4 POPPED';
       if (balloonContinueBtn) balloonContinueBtn.style.display = 'none';
 
-      if (candleFlame) candleFlame.classList.remove('blown');
+      isCandleBlown = false;
+      flameElements.forEach(flame => flame.classList.remove('blown'));
+      smokeElements.forEach(smoke => smoke.classList.remove('puff-active'));
+      if (candleTapPill && candleTapText) {
+        candleTapPill.classList.remove('success');
+        candleTapText.textContent = 'Tap the cake to blow out candles!';
+      }
       if (afterCandleBtn) afterCandleBtn.style.display = 'none';
 
       if (giftWrapper) {
