@@ -1,8 +1,10 @@
 import os
+import json
 from flask import Flask, render_template
 from config import Config
 from models.database import db
 from models.category import Category, Template
+from models.surprise import Surprise, SurpriseImage
 from routes import main_bp, auth_bp, surprise_bp, public_bp
 
 def create_app(config_class=Config):
@@ -34,6 +36,7 @@ def create_app(config_class=Config):
     with app.app_context():
         db.create_all()
         seed_categories_and_templates()
+        seed_permanent_surprises()
 
     return app
 
@@ -59,6 +62,130 @@ def seed_categories_and_templates():
         db.session.add(cat)
 
     db.session.commit()
+
+def seed_permanent_surprises():
+    vanitha_msg = (
+        "Happy Birthday to my super special person 🫂\n"
+        "Blood relation illa... aana heart-ku romba close aana relationships irukku.\n\n"
+        "Unexpected-ah life-la vandhavanga, konjam konjama namma manasula oru idam pidichutanga... parennnn 🤔\n\n"
+        "Distance irundhaalum, bond mattum konjam kooda change aagadhu. Sila bonds-ku explanation thevai illa... feel pannina podhum. Stay blessed always!"
+    )
+
+    couple_img = "/static/images/couple_portrait.png"
+
+    permanent_configs = [
+        {
+            'slug': 'vanitha',
+            'recipient_name': 'Vanitha',
+            'headline': 'Happy Birthday Vanitha!',
+            'passcode': '8285',
+            'template_slug': 'penguin-scrapbook',
+            'music_track': 'custom_song',
+            'message': vanitha_msg,
+            'special_date': 'Nov 4',
+            'bond_traits_json': json.dumps(['Sweet', 'Loyal', 'Bestie']),
+            'wishes_json': json.dumps([
+                "You make my world beautiful 🌸",
+                "Forever yours 🤍",
+                "You are my sunshine ☀️",
+                "I'm lucky to have you 🥺",
+                "You are my favorite person 💕",
+                "Happy Birthday! 💖"
+            ]),
+            'images': [couple_img]
+        },
+        {
+            'slug': 'cd69b3cd',
+            'recipient_name': 'Vanitha',
+            'headline': 'Happy Birthday!',
+            'passcode': '8285',
+            'template_slug': 'penguin-scrapbook',
+            'music_track': 'custom_song',
+            'message': vanitha_msg,
+            'special_date': 'Nov 4',
+            'bond_traits_json': json.dumps(['Sweet', 'Loyal', 'Bestie']),
+            'wishes_json': json.dumps([
+                "You make my world beautiful 🌸",
+                "Forever yours 🤍",
+                "You are my sunshine ☀️",
+                "I'm lucky to have you 🥺",
+                "You are my favorite person 💕",
+                "Happy Birthday! 💖"
+            ]),
+            'images': [couple_img]
+        },
+        {
+            'slug': '9ac53501',
+            'recipient_name': 'Vanitha',
+            'headline': 'Happy Birthday!',
+            'passcode': '8285',
+            'template_slug': 'classic-birthday',
+            'music_track': 'custom_song',
+            'message': vanitha_msg,
+            'special_date': 'Nov 4',
+            'bond_traits_json': json.dumps(['Sweet', 'Loyal', 'Bestie']),
+            'wishes_json': json.dumps([
+                "You make my world beautiful 🌸",
+                "Forever yours 🤍",
+                "You are my sunshine ☀️",
+                "I'm lucky to have you 🥺",
+                "You are my favorite person 💕",
+                "Happy Birthday! 💖"
+            ]),
+            'images': [couple_img]
+        },
+        {
+            'slug': 'penguin',
+            'recipient_name': 'Vanitha',
+            'headline': 'Happy Birthday Vanitha ♡',
+            'passcode': '8285',
+            'template_slug': 'penguin-scrapbook',
+            'music_track': 'custom_song',
+            'message': vanitha_msg,
+            'special_date': 'Nov 4',
+            'bond_traits_json': json.dumps(['Sweet', 'Loyal', 'Bestie']),
+            'wishes_json': json.dumps([
+                "You make my world beautiful 🌸",
+                "Forever yours 🤍",
+                "You are my sunshine ☀️",
+                "I'm lucky to have you 🥺",
+                "You are my favorite person 💕",
+                "Happy Birthday! 💖"
+            ]),
+            'images': [couple_img]
+        }
+    ]
+
+    for cfg in permanent_configs:
+        existing = Surprise.query.filter_by(slug=cfg['slug']).first()
+        if not existing:
+            surp = Surprise(
+                slug=cfg['slug'],
+                recipient_name=cfg['recipient_name'],
+                headline=cfg['headline'],
+                passcode=cfg['passcode'],
+                template_slug=cfg['template_slug'],
+                music_track=cfg['music_track'],
+                message=cfg['message'],
+                special_date=cfg['special_date'],
+                bond_traits_json=cfg['bond_traits_json'],
+                wishes_json=cfg['wishes_json'],
+                is_published=True
+            )
+            db.session.add(surp)
+            db.session.flush()
+
+            for img_url in cfg['images']:
+                s_img = SurpriseImage(surprise_id=surp.id, image_url=img_url)
+                db.session.add(s_img)
+            db.session.commit()
+        else:
+            # Ensure images are populated if missing
+            if not existing.images:
+                for img_url in cfg['images']:
+                    s_img = SurpriseImage(surprise_id=existing.id, image_url=img_url)
+                    db.session.add(s_img)
+                db.session.commit()
 
 app = create_app()
 

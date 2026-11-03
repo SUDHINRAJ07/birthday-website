@@ -75,7 +75,7 @@ class SurpriseImage(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     surprise_id = db.Column(db.Integer, db.ForeignKey('surprises.id'), nullable=False)
-    image_url = db.Column(db.String(500), nullable=False)
+    image_url = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=utc_now)
 
     def __repr__(self):

@@ -11,6 +11,8 @@ class Config:
     db_url = os.environ.get('DATABASE_URL') or os.environ.get('MYSQL_URL')
     if db_url and db_url.startswith('mysql://'):
         db_url = db_url.replace('mysql://', 'mysql+pymysql://', 1)
+    if db_url and db_url.startswith('postgres://'):
+        db_url = db_url.replace('postgres://', 'postgresql://', 1)
     
     SQLALCHEMY_DATABASE_URI = db_url or f"sqlite:///{os.path.join(BASE_DIR, 'surpriselink.db')}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False

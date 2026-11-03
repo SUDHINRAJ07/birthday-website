@@ -1,5 +1,6 @@
 import os
 import secrets
+import base64
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, current_app
 from werkzeug.utils import secure_filename
 from models.database import db
@@ -19,7 +20,7 @@ def generate_unique_slug():
             return slug
 
 def process_surprise_photos(surprise_id, req):
-    """Saves individual slot uploads (photo_slot_1..7) and multi-upload photos in order"""
+    """Saves individual slot uploads (photo_slot_1..7) and multi-upload photos in order as permanent Base64 Data URIs"""
     upload_folder = current_app.config['UPLOAD_FOLDER']
     os.makedirs(upload_folder, exist_ok=True)
 
@@ -30,8 +31,19 @@ def process_surprise_photos(surprise_id, req):
             fname = secure_filename(sfile.filename)
             unique_name = f"{secrets.token_hex(6)}_{fname}"
             filepath = os.path.join(upload_folder, unique_name)
-            sfile.save(filepath)
-            img_url = url_for('static', filename=f'uploads/{unique_name}')
+            file_bytes = sfile.read()
+            # Save local copy
+            try:
+                with open(filepath, 'wb') as f:
+                    f.write(file_bytes)
+            except Exception:
+                pass
+            
+            # Convert to permanent Data URI so images never vanish upon ephemeral container restart
+            ext = fname.rsplit('.', 1)[1].lower() if '.' in fname else 'jpeg'
+            mime = 'image/png' if ext == 'png' else 'image/webp' if ext == 'webp' else 'image/gif' if ext == 'gif' else 'image/jpeg'
+            b64_data = base64.b64encode(file_bytes).decode('utf-8')
+            img_url = f"data:{mime};base64,{b64_data}"
             slot_images[slot_num] = img_url
 
     multi_files = req.files.getlist('photos')
@@ -41,8 +53,17 @@ def process_surprise_photos(surprise_id, req):
             fname = secure_filename(file.filename)
             unique_name = f"{secrets.token_hex(6)}_{fname}"
             filepath = os.path.join(upload_folder, unique_name)
-            file.save(filepath)
-            img_url = url_for('static', filename=f'uploads/{unique_name}')
+            file_bytes = file.read()
+            try:
+                with open(filepath, 'wb') as f:
+                    f.write(file_bytes)
+            except Exception:
+                pass
+            
+            ext = fname.rsplit('.', 1)[1].lower() if '.' in fname else 'jpeg'
+            mime = 'image/png' if ext == 'png' else 'image/webp' if ext == 'webp' else 'image/gif' if ext == 'gif' else 'image/jpeg'
+            b64_data = base64.b64encode(file_bytes).decode('utf-8')
+            img_url = f"data:{mime};base64,{b64_data}"
             multi_urls.append(img_url)
 
     all_ordered_urls = []
