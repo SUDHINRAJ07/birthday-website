@@ -6,13 +6,17 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'surpriselink-super-secret-key-2026')
     
     # Database Configuration:
-    # Uses MySQL URL from environment (e.g. mysql+pymysql://user:pass@host/dbname on Render or local MySQL),
-    # with an automated fallback to sqlite:///surpriselink.db for effortless offline development.
+    # Uses PostgreSQL / MySQL URL from environment on Render,
+    # with an automated fallback to sqlite:///surpriselink.db for offline development.
     db_url = os.environ.get('DATABASE_URL') or os.environ.get('MYSQL_URL')
-    if db_url and db_url.startswith('mysql://'):
-        db_url = db_url.replace('mysql://', 'mysql+pymysql://', 1)
-    if db_url and db_url.startswith('postgres://'):
-        db_url = db_url.replace('postgres://', 'postgresql://', 1)
+    if db_url:
+        db_url = db_url.strip().strip('"').strip("'")
+        if db_url.startswith('mysql://'):
+            db_url = db_url.replace('mysql://', 'mysql+pymysql://', 1)
+        elif db_url.startswith('postgres://'):
+            db_url = db_url.replace('postgres://', 'postgresql+psycopg2://', 1)
+        elif db_url.startswith('postgresql://'):
+            db_url = db_url.replace('postgresql://', 'postgresql+psycopg2://', 1)
     
     SQLALCHEMY_DATABASE_URI = db_url or f"sqlite:///{os.path.join(BASE_DIR, 'surpriselink.db')}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False

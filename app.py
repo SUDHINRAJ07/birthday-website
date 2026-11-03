@@ -34,9 +34,12 @@ def create_app(config_class=Config):
 
     # Auto seed initial categories and database tables
     with app.app_context():
-        db.create_all()
-        seed_categories_and_templates()
-        seed_permanent_surprises()
+        try:
+            db.create_all()
+            seed_categories_and_templates()
+            seed_permanent_surprises()
+        except Exception as err:
+            app.logger.error(f"Database initialization notice: {err}")
 
     return app
 
